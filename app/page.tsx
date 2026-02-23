@@ -25,30 +25,29 @@ type Goal = "leads" | "sales" | "branding";
 type AuditResult = {
   overallScore: number; // 0-100
   goal: Goal;
-  categoryScores: {
-    clarity: number; // 0-20
-    audienceFit: number; // 0-20
-    trust: number; // 0-20
-    conversion: number; // 0-20
-    structure: number; // 0-20
+  categoryScores?: {
+    clarity?: number; // 0-20
+    audienceFit?: number; // 0-20
+    trust?: number; // 0-20
+    conversion?: number; // 0-20
+    structure?: number; // 0-20
   };
-  strengths: string[]; // 3
-  blockers: string[]; // 3
-  quickWins: { title: string; how: string }[]; // 2-3
-  detailedReport: {
-    clarity: string;
-    audienceFit: string;
-    trust: string;
-    conversion: string;
-    structure: string;
+  strengths?: string[]; // 3
+  blockers?: string[]; // 3
+  quickWins?: { title: string; how: string }[]; // 2-3
+  detailedReport?: {
+    clarity?: string;
+    audienceFit?: string;
+    trust?: string;
+    conversion?: string;
+    structure?: string;
   };
-  summary: string;
-  disclaimer: string;
+  summary?: string;
+  disclaimer?: string;
 };
 
 type AnalyzeSuccess = { reportId: string; result: AuditResult };
 type AnalyzeError = { error: string };
-type AnalyzeResponse = AnalyzeSuccess | AnalyzeError;
 
 function isAnalyzeSuccess(data: unknown): data is AnalyzeSuccess {
   if (typeof data !== "object" || data === null) return false;
@@ -75,6 +74,31 @@ function bandRowStyle(active: boolean): React.CSSProperties {
     fontWeight: active ? 700 : 500,
     color: "#0f172a",
   };
+}
+
+function safeNumber(n: unknown, fallback = 0): number {
+  return typeof n === "number" && Number.isFinite(n) ? n : fallback;
+}
+
+function safeString(s: unknown, fallback = ""): string {
+  return typeof s === "string" ? s : fallback;
+}
+
+function safeStringArray(a: unknown, fallback: string[] = []): string[] {
+  return Array.isArray(a) && a.every((x) => typeof x === "string") ? a : fallback;
+}
+
+function safeQuickWins(a: unknown): { title: string; how: string }[] {
+  if (!Array.isArray(a)) return [];
+  const out: { title: string; how: string }[] = [];
+  for (const item of a) {
+    if (typeof item !== "object" || item === null) continue;
+    const c = item as { title?: unknown; how?: unknown };
+    const title = safeString(c.title).trim();
+    const how = safeString(c.how).trim();
+    if (title && how) out.push({ title, how });
+  }
+  return out;
 }
 
 export default function Home() {
@@ -130,8 +154,11 @@ export default function Home() {
 
       if (!res.ok) {
         const msg =
-          typeof data === "object" && data !== null && "error" in data && typeof (data as { error?: unknown }).error === "string"
-            ? (data as { error: string }).error
+          typeof data === "object" &&
+          data !== null &&
+          "error" in data &&
+          typeof (data as AnalyzeError).error === "string"
+            ? (data as AnalyzeError).error
             : "Analyse fehlgeschlagen.";
         throw new Error(msg);
       }
@@ -152,6 +179,19 @@ export default function Home() {
       setLoading(false);
     }
   }
+
+  // ✅ Safe derived values (UI never crashes)
+  const overallScore = safeNumber(result?.overallScore, 0);
+  const activeBand = getScoreBand(overallScore);
+
+  const categoryScoresObj =
+    (result?.categoryScores && typeof result.categoryScores === "object" ? result.categoryScores : undefined) ?? {};
+
+  const strengths = safeStringArray(result?.strengths, []);
+  const blockers = safeStringArray(result?.blockers, []);
+  const quickWins = safeQuickWins(result?.quickWins);
+  const summary = safeString(result?.summary, "");
+  const disclaimer = safeString(result?.disclaimer, "");
 
   return (
     <main
@@ -182,9 +222,7 @@ export default function Home() {
           <span style={{ fontSize: 12, color: "#64748b" }}>Schnell. Direkt. Umsetzbar.</span>
         </div>
 
-        <h1 style={{ fontSize: 34, margin: 0, color: "#0f172a", letterSpacing: -0.6 }}>
-          AI Website Reality Check
-        </h1>
+        <h1 style={{ fontSize: 34, margin: 0, color: "#0f172a", letterSpacing: -0.6 }}>AI Website Reality Check</h1>
 
         <p style={{ color: "#475569", marginTop: 10, lineHeight: 1.6, marginBottom: 0 }}>
           <strong>Schnelle, ehrliche Analyse</strong> deiner Website aus Conversion- & Messaging-Sicht.
@@ -258,15 +296,7 @@ export default function Home() {
 
         {loading && (
           <div style={{ marginTop: 10 }}>
-            <div
-              style={{
-                height: 10,
-                width: "100%",
-                background: "#f6f8fc",
-                borderRadius: 999,
-                overflow: "hidden",
-              }}
-            >
+            <div style={{ height: 10, width: "100%", background: "#f6f8fc", borderRadius: 999, overflow: "hidden" }}>
               <div
                 style={{
                   height: "100%",
@@ -301,9 +331,7 @@ export default function Home() {
           </div>
         )}
 
-        {!canAnalyze && url.length > 0 && (
-          <p style={{ color: "#b00" }}>Bitte gib eine gültige URL ein (mit https://).</p>
-        )}
+        {!canAnalyze && url.length > 0 && <p style={{ color: "#b00" }}>Bitte gib eine gültige URL ein (mit https://).</p>}
 
         {error && (
           <div
@@ -336,12 +364,15 @@ export default function Home() {
               gap: 14,
             }}
           >
-            <h2 style={{ margin: 0 }}>Score: {result.overallScore}/100</h2>
-            <p style={{ margin: 0, color: "#475569", lineHeight: 1.5 }}>{result.summary}</p>
+            <h2 style={{ margin: 0 }}>Score: {overallScore}/100</h2>
+            {summary ? (
+              <p style={{ margin: 0, color: "#475569", lineHeight: 1.5 }}>{summary}</p>
+            ) : (
+              <p style={{ margin: 0, color: "#b00" }}>Hinweis: Summary fehlt im AI-Output. Bitte Analyse erneut starten.</p>
+            )}
 
             {/* Score Erklärung */}
             {(() => {
-              const activeBand = getScoreBand(result.overallScore);
               const rows = [
                 { key: "80-100", label: "80–100", text: "Sehr stark – Feinschliff & Skalierung." },
                 { key: "60-79", label: "60–79", text: "Gute Basis – klare Hebel für mehr Wirkung." },
@@ -374,21 +405,14 @@ export default function Home() {
                         fontSize: 14,
                       }}
                     >
-                      {result.overallScore}/100
+                      {overallScore}/100
                     </div>
                     <span style={{ fontSize: 12, color: "#666" }}>
                       Aktuell: <strong>{activeBand}</strong>
                     </span>
                   </div>
 
-                  <div
-                    style={{
-                      background: UI.bg,
-                      borderRadius: 24,
-                      padding: 20,
-                      minHeight: "auto",
-                    }}
-                  />
+                  <div style={{ background: UI.bg, borderRadius: 24, padding: 20, minHeight: "auto" }} />
 
                   <div style={{ marginTop: 10, display: "grid", gap: 8 }}>
                     {rows.map((r) => {
@@ -405,14 +429,20 @@ export default function Home() {
               );
             })()}
 
-            {/* Category Scores */}
+            {/* Category Scores (SAFE) */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 12 }}>
-              {Object.entries(result.categoryScores).map(([k, v]) => (
-                <div key={k} style={{ padding: 10, borderRadius: 12, border: "1px solid #f0f0f0" }}>
-                  <div style={{ fontSize: 12, color: "#666" }}>{k}</div>
-                  <div style={{ fontSize: 18, fontWeight: 700 }}>{v}/20</div>
+              {Object.entries(categoryScoresObj).length === 0 ? (
+                <div style={{ fontSize: 12, color: "#b00" }}>
+                  Hinweis: Kategorie-Scores fehlen im AI-Output. Bitte Analyse erneut starten.
                 </div>
-              ))}
+              ) : (
+                Object.entries(categoryScoresObj).map(([k, v]) => (
+                  <div key={k} style={{ padding: 10, borderRadius: 12, border: "1px solid #f0f0f0" }}>
+                    <div style={{ fontSize: 12, color: "#666" }}>{k}</div>
+                    <div style={{ fontSize: 18, fontWeight: 700 }}>{safeNumber(v)}/20</div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
@@ -427,7 +457,7 @@ export default function Home() {
               }}
             >
               <h3 style={{ marginTop: 0 }}>Was funktioniert</h3>
-              <ul>{result.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>
+              {strengths.length ? <ul>{strengths.map((s, i) => <li key={i}>{s}</li>)}</ul> : <p style={{ color: "#b00" }}>Keine Strengths im Output.</p>}
             </div>
 
             <div
@@ -440,7 +470,7 @@ export default function Home() {
               }}
             >
               <h3 style={{ marginTop: 0 }}>Was bremst</h3>
-              <ul>{result.blockers.map((b, i) => <li key={i}>{b}</li>)}</ul>
+              {blockers.length ? <ul>{blockers.map((b, i) => <li key={i}>{b}</li>)}</ul> : <p style={{ color: "#b00" }}>Keine Blocker im Output.</p>}
             </div>
           </div>
 
@@ -454,18 +484,24 @@ export default function Home() {
             }}
           >
             <h3 style={{ marginTop: 0 }}>Quick Wins (15 Min)</h3>
-            <ul>
-              {result.quickWins.map((q, i) => (
-                <li key={i}>
-                  <strong>{q.title}:</strong> {q.how}
-                </li>
-              ))}
-            </ul>
+            {quickWins.length ? (
+              <ul>
+                {quickWins.map((q, i) => (
+                  <li key={i}>
+                    <strong>{q.title}:</strong> {q.how}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p style={{ color: "#b00" }}>Keine Quick Wins im Output.</p>
+            )}
 
-            {/* ✅ WICHTIG: reportId wird jetzt übergeben */}
+            {/* ✅ reportId wird übergeben */}
             <EmailGateInline websiteUrl={url} reportId={reportId} />
 
-            <p style={{ fontSize: 12, color: "#666", marginTop: 12 }}>{result.disclaimer}</p>
+            <p style={{ fontSize: 12, color: "#666", marginTop: 12 }}>
+              {disclaimer || "Hinweis: AI-Ausgabe kann unvollständig sein. Bitte erneut testen, falls Felder fehlen."}
+            </p>
           </div>
         </section>
       )}
