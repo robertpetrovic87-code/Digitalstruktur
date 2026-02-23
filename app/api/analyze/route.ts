@@ -7,11 +7,55 @@ const BodySchema = z.object({
   goal: z.enum(["leads", "sales", "branding"]),
 });
 
+const AuditResultSchema = z.object({
+  overallScore: z.number(),
+  goal: z.enum(["leads", "sales", "branding"]),
+  categoryScores: z.object({
+    clarity: z.number(),
+    audienceFit: z.number(),
+    trust: z.number(),
+    conversion: z.number(),
+    structure: z.number(),
+  }),
+  strengths: z.array(z.string()).length(3),
+  blockers: z.array(z.string()).length(3),
+  quickWins: z.array(z.object({ title: z.string(), how: z.string() })).min(2).max(3),
+  copyPack: z.object({
+    headlines: z.array(z.string()).length(3),
+    subheadline: z.string(),
+    ctas: z.array(z.string()).length(3),
+  }),
+  seoQuickWins: z
+    .array(
+      z.object({
+        title: z.string(),
+        how: z.string(),
+        impact: z.enum(["high", "medium", "low"]),
+      })
+    )
+    .length(5),
+  snippet: z.object({
+    metaTitle: z.string(),
+    metaDescription: z.string(),
+    primaryKeyword: z.string(),
+    secondaryKeywords: z.array(z.string()).length(3),
+  }),
+  detailedReport: z.object({
+    clarity: z.string(),
+    audienceFit: z.string(),
+    trust: z.string(),
+    conversion: z.string(),
+    structure: z.string(),
+  }),
+  summary: z.string(),
+  disclaimer: z.string(),
+});
+
+type AuditResult = z.infer<typeof AuditResultSchema>;
+
 function mustEnv(name: string): string {
   const v = process.env[name];
-  if (!v || v.trim().length === 0) {
-    throw new Error(`${name} is missing`);
-  }
+  if (!v || v.trim().length === 0) throw new Error(`${name} is missing`);
   return v;
 }
 
@@ -67,13 +111,17 @@ async function fetchWebsiteData(url: string) {
   const res = await fetch(url, {
     redirect: "follow",
     headers: {
-      "User-Agent":
-        "Mozilla/5.0 (compatible; WebsiteAnalyzerBot/1.0)",
+      "User-Agent": "Mozilla/5.0 (compatible; WebsiteAnalyzerBot/1.0)",
       Accept: "text/html,application/xhtml+xml",
     },
   });
 
   if (!res.ok) {
+    if (res.status === 403) {
+      throw new Error(
+        "Diese Website blockiert automatische Analysen (403). Tipp: Manche Seiten haben Bot-Schutz. Versuch eine andere URL."
+      );
+    }
     throw new Error(`Website nicht erreichbar (${res.status})`);
   }
 
@@ -89,13 +137,91 @@ async function fetchWebsiteData(url: string) {
   return { pageText, title, metaDescription, h1, h2 };
 }
 
+function buildPrompt(args: {
+  url: string;
+  goal: "leads" | "sales" | "branding";
+  pageText: string;
+  title: string | null;
+  metaDescription: string | null;
+  h1: string | null;
+  h2: string[];
+}) {
+  return `
+You are an expert conversion + messaging + SEO auditor for small businesses. Evaluate the website content and output STRICT JSON.
+
+Context:
+- URL: ${args.url}
+- Goal: ${args.goal}
+- Meta Title: ${args.title ?? "—"}
+- Meta Description: ${args.metaDescription ?? "—"}
+- H1: ${args.h1 ?? "—"}
+- H2s: ${args.h2?.length ? args.h2.join(" | ") : "—"}
+
+Scoring framework (0-20 each, total 0-100):
+1) clarity
+2) audienceFit
+3) trust
+4) conversion
+5) structure
+
+SEO QUICK WINS:
+- Improve snippet (meta title/description) for clarity + CTR
+- Suggest 1 primary keyword focus + 3 secondary keyword variants
+- Suggest 5 quick SEO actions (<= 30 minutes each), ideally local SEO if relevant
+- Suggest heading improvements (H1/H2) if unclear
+
+Requirements:
+- Output valid JSON ONLY (no markdown).
+- Output language: German (de-DE). All strings must be in German.
+- Provide exactly 3 strengths (short punchy headlines).
+- Provide exactly 3 blockers (short punchy headlines).
+- Provide 2-3 quickWins with {title, how} that can be done in <=15 minutes.
+- Provide "copyPack" with 3 hero headlines, 1 subheadline, 3 CTAs (goal-aligned).
+- Provide "seoQuickWins" as 5 items with {title, how, impact}.
+- Provide "snippet" with improved metaTitle and metaDescription + keywords.
+- Provide detailedReport fields with concrete advice (each 3-7 sentences).
+- Keep text concise.
+- Do not hallucinate precise numbers (no fake traffic, no fake conversion rates).
+
+JSON schema:
+{
+  "overallScore": number,
+  "goal": "leads"|"sales"|"branding",
+  "categoryScores": {"clarity":number,"audienceFit":number,"trust":number,"conversion":number,"structure":number},
+  "strengths": string[3],
+  "blockers": string[3],
+  "quickWins": [{"title":string,"how":string}],
+  "copyPack": {"headlines": string[3], "subheadline": string, "ctas": string[3]},
+  "seoQuickWins": [{"title": string, "how": string, "impact": "high"|"medium"|"low"}],
+  "snippet": {"metaTitle": string, "metaDescription": string, "primaryKeyword": string, "secondaryKeywords": string[3]},
+  "detailedReport": {"clarity":string,"audienceFit":string,"trust":string,"conversion":string,"structure":string},
+  "summary": string,
+  "disclaimer": string
+}
+
+Website content (may be partial):
+${args.pageText}
+`.trim();
+}
+
+type OutputContentItem = { type?: string; text?: string };
+
 export async function POST(req: Request) {
   try {
     const body = BodySchema.parse(await req.json());
-    const { pageText, title, metaDescription, h1, h2 } =
-      await fetchWebsiteData(body.url);
+    const { pageText, title, metaDescription, h1, h2 } = await fetchWebsiteData(body.url);
 
     const apiKey = mustEnv("OPENAI_API_KEY");
+
+    const prompt = buildPrompt({
+      url: body.url,
+      goal: body.goal,
+      pageText,
+      title,
+      metaDescription,
+      h1,
+      h2,
+    });
 
     const llmRes = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
@@ -105,51 +231,60 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model: "gpt-4.1-mini",
-        input: `
-Analyse the following website and return STRICT JSON in German.
-
-URL: ${body.url}
-Goal: ${body.goal}
-
-CONTENT:
-${pageText}
-        `,
-        text: {
-          format: { type: "json_object" },
-        },
+        input: prompt,
+        text: { format: { type: "json_object" } },
       }),
     });
 
-    const llmJson = await llmRes.json();
+    const llmJson: unknown = await llmRes.json().catch(() => null);
 
     if (!llmRes.ok) {
-      return Response.json(
-        { error: llmJson?.error?.message || "LLM Fehler" },
-        { status: 500 }
-      );
+      const message =
+        typeof llmJson === "object" &&
+        llmJson !== null &&
+        "error" in llmJson &&
+        typeof (llmJson as { error?: { message?: unknown } }).error?.message === "string"
+          ? ((llmJson as { error: { message: string } }).error.message as string)
+          : "LLM Fehler";
+      return Response.json({ error: message }, { status: 500 });
     }
 
+    const content =
+      typeof llmJson === "object" && llmJson !== null
+        ? ((llmJson as { output?: Array<{ content?: OutputContentItem[] }> }).output?.[0]?.content ?? undefined)
+        : undefined;
+
     const textOut =
-      llmJson?.output_text ??
-      llmJson?.output?.[0]?.content?.[0]?.text ??
+      (typeof llmJson === "object" && llmJson !== null && "output_text" in llmJson
+        ? (llmJson as { output_text?: unknown }).output_text
+        : undefined) ??
+      content?.find((c) => c.type === "output_text")?.text ??
+      content?.[0]?.text ??
       null;
 
-    if (!textOut) {
+    if (typeof textOut !== "string" || textOut.trim().length === 0) {
       return Response.json({ error: "Kein LLM Output" }, { status: 500 });
     }
 
-    let result: unknown;
-
+    let parsedJson: unknown;
     try {
-      result = JSON.parse(textOut);
+      parsedJson = JSON.parse(textOut);
     } catch {
+      return Response.json({ error: "LLM Output ist kein gültiges JSON" }, { status: 500 });
+    }
+
+    const parsed = AuditResultSchema.safeParse(parsedJson);
+    if (!parsed.success) {
+      // Kein kaputter Output in DB speichern → lieber sauberer Fehler
       return Response.json(
-        { error: "LLM Output ist kein gültiges JSON" },
-        { status: 500 }
+        { error: "AI Output unvollständig/ungültig. Bitte erneut versuchen." },
+        { status: 502 }
       );
     }
 
-    // ✅ HIER PASSIERT DIE EINZIGE SPEICHERUNG
+    const result: AuditResult = parsed.data;
+
+    // ✅ Einzige Speicherung: Analyzer schreibt Report ohne Email
     const { data, error } = await supabase
       .from("reports")
       .insert([
@@ -165,10 +300,7 @@ ${pageText}
       .single();
 
     if (error || !data) {
-      return Response.json(
-        { error: error?.message ?? "Supabase insert failed" },
-        { status: 500 }
-      );
+      return Response.json({ error: error?.message ?? "Supabase insert failed" }, { status: 500 });
     }
 
     return Response.json({
