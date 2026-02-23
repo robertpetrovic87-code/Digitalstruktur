@@ -3,29 +3,35 @@
 import { useMemo, useState } from "react";
 
 type Props = {
-  websiteUrl: string;
-  // Optional – falls du es später übergibst:
-  // goal?: string;
-  // score?: number;
+  websiteUrl: string; // nur für UI/Info, optional
+  reportId: string | null; // ✅ wichtig
 };
 
-type ApiOk = { ok: true };
-type ApiErr = { error: string; details?: unknown };
+type ApiOk = { ok: true; reportId?: string };
+type ApiErr = { error: string; need?: string[] };
 
 function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export default function EmailGateInline({ websiteUrl }: Props) {
+function isApiErr(data: unknown): data is ApiErr {
+  if (typeof data !== "object" || data === null) return false;
+  const c = data as { error?: unknown; need?: unknown };
+  const needOk =
+    c.need === undefined ||
+    (Array.isArray(c.need) && c.need.every((x) => typeof x === "string"));
+  return typeof c.error === "string" && c.error.trim().length > 0 && needOk;
+}
+
+export default function EmailGateInline({ websiteUrl, reportId }: Props) {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const canSubmit = useMemo(
-    () => isValidEmail(email) && status !== "loading",
-    [email, status]
-  );
+  const canSubmit = useMemo(() => {
+    return isValidEmail(email) && status !== "loading" && !!reportId;
+  }, [email, status, reportId]);
 
   async function onSubmit() {
     if (!canSubmit) return;
@@ -34,26 +40,22 @@ export default function EmailGateInline({ websiteUrl }: Props) {
     setErrorMsg("");
 
     try {
-      // ✅ WICHTIG: Statt /api/subscribe (MailerLite) jetzt /api/request-report (Resend)
       const res = await fetch("/api/request-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // ✅ request-report erwartet: email + website
-        body: JSON.stringify({ email, website: websiteUrl }),
-        // Wenn du später goal/score übergibst:
-        // body: JSON.stringify({ email, website: websiteUrl, goal, score }),
+        // ✅ request-report erwartet: email + reportId
+        body: JSON.stringify({ email, reportId }),
       });
 
-      const data = (await res.json()) as ApiOk | ApiErr;
+      const data: unknown = await res.json().catch(() => null);
 
       if (!res.ok) {
-        const msg = "error" in data ? data.error : "Request failed";
+        const msg = isApiErr(data) ? data.error : "Request failed";
         setErrorMsg(msg);
         setStatus("error");
         return;
       }
 
-      // ✅ Erfolg heißt: Confirm-Mail wurde gesendet → User muss bestätigen
       setStatus("success");
     } catch (e: unknown) {
       setErrorMsg(e instanceof Error ? e.message : "Unknown error");
@@ -70,7 +72,7 @@ export default function EmailGateInline({ websiteUrl }: Props) {
           onClick={() => setOpen(true)}
           style={{
             width: "100%",
-            background: "#2563eb", // blau
+            background: "#2563eb",
             color: "white",
             padding: "24px",
             borderRadius: "16px",
@@ -85,16 +87,21 @@ export default function EmailGateInline({ websiteUrl }: Props) {
           </div>
         </button>
       ) : (
-        /* OPEN STATE: white card with form */
+        /* OPEN STATE */
         <div className="w-full text-base rounded-2xl border border-blue-100 bg-gradient-to-b from-blue-50 to-white p-6 shadow-md">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <div className="text-lg font-semibold text-zinc-900">
-                Dein persönlicher Detailreport
-              </div>
+              <div className="text-lg font-semibold text-zinc-900">Dein persönlicher Detailreport</div>
               <div className="mt-1 text-base text-zinc-600">
                 Konkrete Verbesserungen & Textvorschläge per E-Mail. Double Opt-in erforderlich.
               </div>
+
+              {/* ✅ Safety-Hinweis, falls reportId fehlt */}
+              {!reportId && (
+                <div className="mt-3 text-sm text-blue-900/80">
+                  Hinweis: Bitte starte zuerst eine Analyse, damit wir deinen Report zuordnen können.
+                </div>
+              )}
             </div>
 
             <button
@@ -141,6 +148,13 @@ export default function EmailGateInline({ websiteUrl }: Props) {
               <div className="mt-4 text-xs text-zinc-500">
                 ✅ Kein Spam · 🔒 DSGVO-konform · ↩️ Abmeldung jederzeit
               </div>
+
+              {/* optional: kleine Debug-Info, kannst du später entfernen */}
+              {reportId && (
+                <div className="mt-2 text-[11px] text-zinc-400">
+                  Report-ID verknüpft: <span className="font-mono">{reportId}</span>
+                </div>
+              )}
             </>
           ) : (
             <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
