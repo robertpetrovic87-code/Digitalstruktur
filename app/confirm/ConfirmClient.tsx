@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 type ConfirmSuccess = { ok: true; reportId?: string };
 type ConfirmError = { ok: false; error: string };
@@ -17,14 +18,82 @@ function isConfirmError(data: unknown): data is ConfirmError {
   return c.ok === false && typeof c.error === "string" && c.error.trim().length > 0;
 }
 
-export default function ConfirmClient({ token }: { token: string | null }) {
+export default function ConfirmClient() {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
   const [reportId, setReportId] = useState<string | null>(null);
 
-  const runConfirm = useCallback(async () => {
-    setMessage(null);
+  // ✅ Auto-run when token changes
+  useEffect(() => {
+    let cancelled = false;
 
+    async function confirm() {
+      setMessage(null);
+
+      if (!token) {
+        setStatus("error");
+        setMessage("Token fehlt. Bitte öffne den Bestätigungslink aus deiner E-Mail erneut.");
+        return;
+      }
+
+      setStatus("loading");
+
+      try {
+        const res = await fetch("/api/confirm", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token }),
+        });
+
+        const data: unknown = await res.json().catch(() => null);
+
+        if (cancelled) return;
+
+        if (!res.ok) {
+          setStatus("error");
+          setMessage(isConfirmError(data) ? data.error : "Bestätigung fehlgeschlagen. Bitte versuche es erneut.");
+          return;
+        }
+
+        if (isConfirmSuccess(data)) {
+          setStatus("success");
+          setReportId(data.reportId ?? null);
+          return;
+        }
+
+        setStatus("error");
+        setMessage("Unerwartete Antwort. Bitte versuche es erneut.");
+      } catch {
+        if (cancelled) return;
+        setStatus("error");
+        setMessage("Netzwerkfehler. Bitte versuche es erneut.");
+      }
+    }
+
+    void confirm();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
+
+  // ✅ Manual retry (button)
+  async function handleRetry() {
+    // simplest: reload same URL state; effect will re-run if token exists
+    // but we can just re-run the same logic by forcing a refresh:
+    setStatus("idle");
+    setMessage(null);
+    setReportId(null);
+
+    // trigger effect again without needing a separate dependency:
+    // easiest: call location.reload(), but nicer is to inline confirm logic again.
+    // For now: call location.reload() only if you want:
+    // window.location.reload();
+    // Better: copy/paste confirm logic into handleRetry. If you want, I'll do that too.
+    // Minimal: just run the same fetch again here:
     if (!token) {
       setStatus("error");
       setMessage("Token fehlt. Bitte öffne den Bestätigungslink aus deiner E-Mail erneut.");
@@ -32,14 +101,12 @@ export default function ConfirmClient({ token }: { token: string | null }) {
     }
 
     setStatus("loading");
-
     try {
       const res = await fetch("/api/confirm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
       });
-
       const data: unknown = await res.json().catch(() => null);
 
       if (!res.ok) {
@@ -60,11 +127,7 @@ export default function ConfirmClient({ token }: { token: string | null }) {
       setStatus("error");
       setMessage("Netzwerkfehler. Bitte versuche es erneut.");
     }
-  }, [token]);
-
-  useEffect(() => {
-    void runConfirm();
-  }, [runConfirm]);
+  }
 
   return (
     <div className="max-w-2xl mx-auto p-8 font-sans">
@@ -75,9 +138,7 @@ export default function ConfirmClient({ token }: { token: string | null }) {
       {status === "success" && (
         <div className="mt-4 rounded-xl border border-green-200 bg-green-50 p-4">
           <div className="font-semibold text-green-900">Bestätigung erfolgreich ✅</div>
-          <p className="mt-1 text-green-900/90">
-            Du bekommst gleich deinen Detailreport per E-Mail.
-          </p>
+          <p className="mt-1 text-green-900/90">Du bekommst gleich deinen Detailreport per E-Mail.</p>
 
           {reportId && (
             <a
@@ -96,7 +157,7 @@ export default function ConfirmClient({ token }: { token: string | null }) {
           <p className="mt-1 text-red-900/90">{message ?? "Bitte versuche es erneut."}</p>
 
           <button
-            onClick={runConfirm}
+            onClick={handleRetry}
             className="inline-block mt-4 rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
           >
             Erneut versuchen
