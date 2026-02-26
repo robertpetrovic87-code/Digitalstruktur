@@ -59,10 +59,16 @@ function mustEnv(name: string): string {
   return v;
 }
 
-const supabase = createClient(
-  mustEnv("SUPABASE_URL"),
-  mustEnv("SUPABASE_SERVICE_ROLE_KEY") // server only
-);
+/**
+ * ✅ Lazy init: creates supabase client only at request-time.
+ * This prevents `next build` from crashing when env vars aren't present locally.
+ */
+function getSupabase() {
+  return createClient(
+    mustEnv("SUPABASE_URL"),
+    mustEnv("SUPABASE_SERVICE_ROLE_KEY") // server only
+  );
+}
 
 function stripHtml(html: string) {
   return html
@@ -208,6 +214,9 @@ type OutputContentItem = { type?: string; text?: string };
 
 export async function POST(req: Request) {
   try {
+    // ✅ supabase created at runtime (env checked here, not at build time)
+    const supabase = getSupabase();
+
     const body = BodySchema.parse(await req.json());
     const { pageText, title, metaDescription, h1, h2 } = await fetchWebsiteData(body.url);
 
@@ -275,7 +284,6 @@ export async function POST(req: Request) {
 
     const parsed = AuditResultSchema.safeParse(parsedJson);
     if (!parsed.success) {
-      // Kein kaputter Output in DB speichern → lieber sauberer Fehler
       return Response.json(
         { error: "AI Output unvollständig/ungültig. Bitte erneut versuchen." },
         { status: 502 }
@@ -284,7 +292,6 @@ export async function POST(req: Request) {
 
     const result: AuditResult = parsed.data;
 
-    // ✅ Einzige Speicherung: Analyzer schreibt Report ohne Email
     const { data, error } = await supabase
       .from("reports")
       .insert([
