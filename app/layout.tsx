@@ -29,8 +29,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col`}
       >
-        <main className="flex-1">
-          {children}
+        <main className="flex-1 flex justify-center px-4">
+            <div className="w-full max-w-5xl">
+           {children}
+            </div>
         </main>
         
         <CookieBanner />
