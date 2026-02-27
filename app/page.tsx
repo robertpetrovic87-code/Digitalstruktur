@@ -2,9 +2,6 @@
 
 import React, { useMemo, useState } from "react";
 import EmailGateInline from "./components/EmailGateInline";
-<div style={{ position: "fixed", top: 10, right: 10, background: "red", color: "white", padding: 8, zIndex: 9999 }}>
-  VERSION: LOCAL TEST
-</div>
 
 const UI = {
   bg: "#f6f8fc",
@@ -233,6 +230,9 @@ export default function Home() {
           Kein SEO-Tool. Kein Design-Check. Fokus auf <strong>Klarheit, Vertrauen und Handlungsstärke</strong>.
         </p>
       </div>
+      <div style={{ position: "fixed", top: 10, right: 10, background: "red", color: "white", padding: 8, zIndex: 9999 }}>
+  VERSION: LOCAL TEST
+</div>
 
       {/* Input Card */}
       <div style={{ display: "grid", gap: 12, padding: 16, border: "1px solid #eee", borderRadius: 14 }}>
