@@ -2,6 +2,9 @@
 
 import React, { useMemo, useState } from "react";
 import EmailGateInline from "./components/EmailGateInline";
+<div style={{ position: "fixed", top: 10, right: 10, background: "red", color: "white", padding: 8, zIndex: 9999 }}>
+  VERSION: LOCAL TEST
+</div>
 
 const UI = {
   bg: "#f6f8fc",
