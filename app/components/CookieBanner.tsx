@@ -24,10 +24,18 @@ export default function CookieBanner() {
   if (consent !== null) return null;
 
   return (
-    <div className="fixed bottom-6 left-0 right-0 flex justify-center z-50 px-4">
-      <div className="w-full max-w-4xl bg-white border shadow-xl rounded-2xl p-6">
+    <div
+      style={{
+        position: "fixed",
+        left: "50%",
+        transform: "translateX(-50%)",
+        bottom: 24,
+        width: "min(1024px, calc(100% - 32px))",
+        zIndex: 50,
+      }}
+    >
+      <div className="bg-white border shadow-xl rounded-2xl p-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          
           <div className="text-sm text-gray-700">
             Wir verwenden Cookies, um unsere Website bereitzustellen und zu verbessern.
             Details findest du in unserer{" "}
@@ -51,7 +59,6 @@ export default function CookieBanner() {
               Alle akzeptieren
             </button>
           </div>
-
         </div>
       </div>
     </div>
