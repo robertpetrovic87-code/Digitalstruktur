@@ -194,13 +194,13 @@ export default function Home() {
   const disclaimer = safeString(result?.disclaimer, "");
 
   return (
-    <main
+    <div
       style={{
         maxWidth: 980,
         margin: "32px auto",
         padding: 18,
         fontFamily: "system-ui",
-        background: "f6f8fc",
+        background: "#f6f8fc",
         borderRadius: 24,
       }}
     >
@@ -505,6 +505,6 @@ export default function Home() {
           </div>
         </section>
       )}
-    </main>
+    </div>
   );
 }
