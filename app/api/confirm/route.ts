@@ -279,7 +279,7 @@ export async function POST(req: Request) {
           <div style="color:#111;margin-bottom:10px">
             Wenn du willst, erstelle ich dir einen personalisierten 30-Tage Umsetzungsplan (Struktur, Texte, CTA-Architektur, SEO-Seitenplan) – basierend auf deinem Score.
           </div>
-          <a href="${process.env.APP_URL}/blueprint" style="display:inline-block;padding:12px 16px;background:#2563eb;color:#fff;text-decoration:none;border-radius:10px;font-weight:700">
+          <a href="${process.env.APP_URL}/blueprint?rid=${encodeURIComponent(reportId)}/blueprint" style="display:inline-block;padding:12px 16px;background:#2563eb;color:#fff;text-decoration:none;border-radius:10px;font-weight:700">
             Blueprint freischalten →
           </a>
         </div>

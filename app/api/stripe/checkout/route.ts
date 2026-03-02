@@ -14,8 +14,7 @@ export async function POST(req: Request) {
     const appUrl = process.env.APP_URL!;
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      metadata: { reportId }, // ✅ KEY PART
-      line_items: [
+       line_items: [
         {
           price_data: {
             currency: "eur",
@@ -31,7 +30,8 @@ export async function POST(req: Request) {
       ],
       success_url: `${appUrl}/blueprint/success?session_id={CHECKOUT_SESSION_ID}&rid=${encodeURIComponent(reportId)}`,
       cancel_url: `${appUrl}/blueprint?rid=${encodeURIComponent(reportId)}&canceled=1`,
-    });
+      metadata: { reportId },
+       });
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
