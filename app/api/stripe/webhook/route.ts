@@ -42,14 +42,13 @@ export async function POST(req: Request) {
   const supabase = supabaseAdmin();
 
   const { error } = await supabase
-    .from("reports")
-    .update({
-      purchased_blueprint: true,
-      stripe_session_id: session.id,
-      stripe_customer_email: session.customer_details?.email ?? null,
-      paid_at: new Date().toISOString(),
-    })
-    .eq("id", reportId);
+  .from("reports")
+  .update({
+    purchased_blueprint: true,
+    stripe_session_id: session.id,
+    paid_at: new Date().toISOString(),
+  })
+  .eq("id", reportId);
 
   if (error) {
     return new NextResponse(`Supabase update failed: ${error.message}`, { status: 500 });
