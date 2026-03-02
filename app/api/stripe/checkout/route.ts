@@ -29,8 +29,8 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
-      success_url: `${appUrl}/blueprint/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${appUrl}/blueprint?canceled=1`,
+      success_url: `${appUrl}/blueprint/success?session_id={CHECKOUT_SESSION_ID}&rid=${encodeURIComponent(reportId)}`,
+      cancel_url: `${appUrl}/blueprint?rid=${encodeURIComponent(reportId)}&canceled=1`,
     });
 
     return NextResponse.json({ url: session.url });
