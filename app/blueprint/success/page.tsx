@@ -1,3 +1,6 @@
+// app/blueprint/success/page.tsx
+import SuccessClient from "./SuccessClient";
+
 export default function BlueprintSuccessPage({
   searchParams,
 }: {
@@ -16,10 +19,20 @@ export default function BlueprintSuccessPage({
       </div>
 
       {rid ? (
-        <a className="inline-block mt-6 underline" href={`/blueprint?rid=${encodeURIComponent(rid)}`}>
-          Zurück zum Blueprint →
-        </a>
-      ) : null}
+        <>
+          <SuccessClient rid={rid} />
+          <a className="inline-block mt-6 underline" href={`/blueprint?rid=${encodeURIComponent(rid)}`}>
+            Zurück zum Blueprint →
+          </a>
+        </>
+      ) : (
+        <div className="mt-6 rounded-2xl border p-5 bg-white">
+          <div className="font-semibold">⚠️ Report ID fehlt</div>
+          <p className="text-sm text-zinc-600 mt-2">
+            Bitte öffne den Blueprint-Link erneut aus der E-Mail / Checkout-URL.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
