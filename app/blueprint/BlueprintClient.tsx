@@ -1,103 +1,58 @@
 "use client";
 
-import React, { useCallback, useMemo, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-
-type CheckoutSuccess = { url: string };
-type CheckoutError = { error: string };
-
-function isCheckoutSuccess(data: unknown): data is CheckoutSuccess {
-  if (typeof data !== "object" || data === null) return false;
-  const candidate = data as { url?: unknown };
-  return typeof candidate.url === "string" && candidate.url.trim().length > 0;
-}
-
-function isCheckoutError(data: unknown): data is CheckoutError {
-  if (typeof data !== "object" || data === null) return false;
-  const candidate = data as { error?: unknown };
-  return typeof candidate.error === "string" && candidate.error.trim().length > 0;
-}
 
 export default function BlueprintClient() {
   const sp = useSearchParams();
-  const reportId = useMemo(() => {
-    const rid = sp.get("rid");
-    const cleaned = (rid ?? "").split("/")[0].trim();
-    return cleaned.length > 0 ? cleaned : null;
-  }, [sp]);
-
+  const rid = sp.get("rid");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
 
-  const startCheckout = useCallback(async () => {
-    setMessage(null);
-
-    if (!reportId) {
-      setMessage("Report-ID fehlt. Bitte öffne den Blueprint-Link aus deiner Bestätigungsseite oder E-Mail erneut.");
-      return;
-    }
-
+  async function onDownload() {
+    if (!rid) return;
+    setErr(null);
     setLoading(true);
     try {
-      const res = await fetch("/api/stripe/checkout", {
+      const res = await fetch("/api/blueprint/pdf", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reportId }),
+        body: JSON.stringify({ rid }),
       });
 
-      const data: unknown = await res.json().catch(() => null);
-
+      if (res.status === 202) {
+        throw new Error("Blueprint ist noch nicht bereit. Bitte in ein paar Sekunden erneut versuchen.");
+      }
       if (!res.ok) {
-        setMessage(isCheckoutError(data) ? data.error : "Stripe Checkout fehlgeschlagen. Bitte versuche es erneut.");
-        return;
+        const text = await res.text();
+        throw new Error(text || `HTTP ${res.status}`);
       }
 
-      if (isCheckoutSuccess(data)) {
-        window.location.assign(data.url);
-        return;
-      }
-
-      setMessage("Keine Checkout-URL erhalten. Bitte versuche es erneut.");
-    } catch {
-      setMessage("Netzwerkfehler. Bitte prüfe deine Verbindung und versuche es erneut.");
+      const json = (await res.json()) as { url: string };
+      window.open(json.url, "_blank", "noopener,noreferrer");
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
+      setErr(msg);
     } finally {
       setLoading(false);
     }
-  }, [reportId]);
+  }
 
   return (
-    <div className="max-w-3xl mx-auto p-8 font-sans">
-      {/* Debug kannst du später rauswerfen */}
-      <div className="text-xs text-zinc-500 mb-3">
-        Debug reportId: <span className="font-mono">{reportId ?? "NULL"}</span>
-      </div>
+    <div className="max-w-3xl mx-auto p-6">
+      {/* ...dein bestehendes Blueprint UI... */}
 
-      <h1 className="text-3xl font-bold">AI Website Blueprint – 30 Tage Umsetzungsplan</h1>
-
-      {/* ...dein restliches UI bleibt gleich... */}
-
-      <div className="mt-8 rounded-2xl border border-blue-200 bg-blue-50 p-6">
-        <div className="text-2xl font-bold text-blue-900">199€ einmalig</div>
-        <p className="mt-2 text-blue-900/90">Kein Abo. Sofortiger Zugriff nach Zahlung.</p>
-
+      <div className="mt-6 flex items-center gap-3">
         <button
-          onClick={startCheckout}
-          disabled={loading}
-          className="inline-block mt-6 rounded-xl bg-blue-600 px-6 py-4 text-lg font-semibold text-white hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
+          onClick={onDownload}
+          disabled={!rid || loading}
+          className="px-4 py-2 rounded-xl border bg-white hover:bg-zinc-50 disabled:opacity-50"
         >
-          {loading ? "Weiterleitung zu Stripe…" : "Blueprint jetzt freischalten →"}
+          {loading ? "PDF wird erstellt…" : "PDF herunterladen"}
         </button>
 
-        {!reportId && (
-          <div className="mt-3 text-sm text-blue-900/80">
-            Hinweis: Report-ID fehlt. Bitte öffne den Blueprint-Link aus der Bestätigungsseite/E-Mail.
-          </div>
-        )}
-
-        {message && <div className="mt-3 text-sm text-blue-900/90">{message}</div>}
+        {err ? <div className="text-sm text-red-600">{err}</div> : null}
       </div>
-
-      <div className="mt-8 text-sm text-zinc-500">Hinweis: Der Blueprint wird nach Zahlung automatisch generiert.</div>
     </div>
   );
 }
