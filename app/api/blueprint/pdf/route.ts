@@ -72,6 +72,11 @@ const buffer = await pdf(docElement).toBuffer();
       status: 500,
     });
   }
-
-  return NextResponse.json({ ok: true, url: signed.signedUrl });
+  return NextResponse.json({
+  ok: true,
+  bucket: "blueprints",
+  path: `${rid}.pdf`,
+  url: signed.signedUrl,
+  });
+  
 }
