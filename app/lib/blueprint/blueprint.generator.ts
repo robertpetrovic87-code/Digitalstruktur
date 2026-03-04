@@ -29,15 +29,22 @@ function extractJsonObject(text: string): string {
 }
 
 async function callModel(prompt: { system: string; developer: string; user: string }) {
-  const resp = await openai.responses.create({
+  const body = {
     model: "gpt-4.1-mini",
     max_output_tokens: 2500,
+    temperature: 0.2,
     input: [
       { role: "system", content: prompt.system },
       { role: "developer", content: prompt.developer },
       { role: "user", content: prompt.user },
     ],
-  });
+  } as Record<string, unknown>;
+
+  // 🔥 JSON-Mode hinzufügen, ohne dass TS meckert (dein SDK-Typ kennt das Feld nicht)
+  body["response_format"] = { type: "json_object" };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const resp = await openai.responses.create(body as any);
 
   const out = resp.output_text ?? "";
   if (out.trim().length === 0) {
