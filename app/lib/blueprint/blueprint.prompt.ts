@@ -16,6 +16,7 @@ export function buildBlueprintPrompt(params: {
       "You produce practical, non-overwhelming, high-clarity implementation plans.",
       "Return ONLY valid JSON. No prose. No markdown. No backticks.",
       "The JSON must match the provided schema exactly.",
+      
     ].join("\n"),
 
     developer: [
@@ -28,6 +29,12 @@ export function buildBlueprintPrompt(params: {
       `- Use the analysis_result_json as the main source of truth.`,
       `- If data is missing, make minimal assumptions and list them in assumptions_and_notes.`,
       `- Never include personal data. Never invent testimonials with names.`,
+      "",
+        "SCHEMA MUST-HAVES:",
+        "- usage_guide is REQUIRED.",
+        "- usage_guide.how_to_start must be an array of 3–8 short bullet strings.",
+        "- usage_guide.overwhelm_guardrails must be an array of 3–8 short bullet strings.",
+      "",
       "",
       "QUALITY BAR:",
       "- Be concrete: give specific headlines, bullets, section titles, and task deliverables.",
@@ -61,6 +68,7 @@ export function buildBlueprintPrompt(params: {
       "- Prompts should help the user finish tasks faster (hero, CTA, proof, landingpage outline, meta tags, FAQ).",
       "",
       `LANGUAGE: ${langLabel}.`,
+      
     ].join("\n"),
 
     user: JSON.stringify(

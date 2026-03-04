@@ -58,10 +58,30 @@ export const BlueprintSchema = z.object({
 
   // Short “how to use this” so users don’t feel overwhelmed.
   usage_guide: z.object({
-    read_time_minutes: z.number().int().min(5).max(20).default(10),
-    how_to_start: z.array(z.string().min(5)).min(3).max(6),
-    overwhelm_guardrails: z.array(z.string().min(5)).min(2).max(5),
-  }),
+  read_time_minutes: z.number().int().min(1).max(30).default(8),
+  how_to_start: z.array(z.string()).min(3).max(8).default([
+    "Lies zuerst die Executive Summary.",
+    "Setze Woche 1 um, bevor du weitergehst.",
+    "Nutze die Checklisten für jeden Task.",
+  ]),
+  overwhelm_guardrails: z.array(z.string()).min(3).max(8).default([
+    "Maximal 1 großes Thema pro Tag.",
+    "Wenn etwas unklar ist: erst Hero + CTA klären.",
+    "Lieber 80% live als 100% perfekt.",
+  ]),
+}).default({
+  read_time_minutes: 8,
+  how_to_start: [
+    "Lies zuerst die Executive Summary.",
+    "Setze Woche 1 um, bevor du weitergehst.",
+    "Nutze die Checklisten für jeden Task.",
+  ],
+  overwhelm_guardrails: [
+    "Maximal 1 großes Thema pro Tag.",
+    "Wenn etwas unklar ist: erst Hero + CTA klären.",
+    "Lieber 80% live als 100% perfekt.",
+  ],
+}),
 
   executive_summary: z.object({
     one_liner: z.string().min(10),
