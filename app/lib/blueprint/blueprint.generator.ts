@@ -27,9 +27,41 @@ function extractJsonObject(text: string): string {
   }
   return cleaned.slice(start, end + 1);
 }
+function getOutputText(resp: unknown): string {
+  if (!resp || typeof resp !== "object") return "";
+
+  // 1) Wenn output_text vorhanden ist (manche SDKs)
+  const r1 = resp as { output_text?: unknown };
+  if (typeof r1.output_text === "string" && r1.output_text.trim().length > 0) {
+    return r1.output_text;
+  }
+
+  // 2) Fallback: output array durchsuchen (Responses API üblich)
+  const r2 = resp as { output?: unknown };
+  const outArr = Array.isArray(r2.output) ? r2.output : [];
+  for (const item of outArr) {
+    if (!item || typeof item !== "object") continue;
+
+    // message.content[] durchsuchen
+    const msg = item as { content?: unknown };
+    const contentArr = Array.isArray(msg.content) ? msg.content : [];
+    for (const c of contentArr) {
+      if (!c || typeof c !== "object") continue;
+
+      // oft: { type: "output_text", text: "..." } oder { type:"text", text:"..." }
+      const part = c as { type?: unknown; text?: unknown };
+      if (typeof part.text === "string" && part.text.trim().length > 0) {
+        return part.text;
+      }
+    }
+  }
+
+  return "";
+}
+
 
 async function callModel(prompt: { system: string; developer: string; user: string }) {
-  const body = {
+  const body: Record<string, unknown> = {
     model: "gpt-4.1-mini",
     max_output_tokens: 2500,
     temperature: 0.2,
@@ -38,17 +70,18 @@ async function callModel(prompt: { system: string; developer: string; user: stri
       { role: "developer", content: prompt.developer },
       { role: "user", content: prompt.user },
     ],
-  } as Record<string, unknown>;
+    text: {
+      format: { type: "json_object" },
+    },
+  };
 
-  // 🔥 JSON-Mode hinzufügen, ohne dass TS meckert (dein SDK-Typ kennt das Feld nicht)
-  body["response_format"] = { type: "json_object" };
+  const resp = await openai.responses.create(
+    body as unknown as Parameters<typeof openai.responses.create>[0]
+  );
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const resp = await openai.responses.create(body as any);
-
-  const out = resp.output_text ?? "";
+  const out = getOutputText(resp);
   if (out.trim().length === 0) {
-    throw new Error("OpenAI returned empty output_text");
+    throw new Error("OpenAI returned empty output text");
   }
   return out;
 }
