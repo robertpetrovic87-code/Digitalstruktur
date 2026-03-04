@@ -10,8 +10,11 @@ export async function POST(req: Request) {
     if (!reportId || typeof reportId !== "string") {
       return NextResponse.json({ error: "Missing reportId" }, { status: 400 });
     }
-
-    const appUrl = process.env.APP_URL!;
+    const appUrl = (process.env.APP_URL ?? "").replace(/\/$/, "");
+    if (!appUrl) {
+    return NextResponse.json({ error: "APP_URL is missing" }, { status: 500 });
+    }
+    
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
        line_items: [

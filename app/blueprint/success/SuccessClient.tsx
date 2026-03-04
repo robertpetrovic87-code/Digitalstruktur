@@ -1,20 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
-type State =
-  | { status: "idle" | "creating" | "created"; message?: string }
-  | { status: "error"; message: string };
+type State = "creating" | "created" | "error";
 
-export default function SuccessClient({ rid }: { rid: string }) {
-  const [state, setState] = useState<State>({ status: "idle" });
+export default function SuccessClient() {
+  const sp = useSearchParams();
+  const rid = sp.get("rid");
+  const sessionId = sp.get("session_id");
+
+  const [state, setState] = useState<State>("creating");
+  const [msg, setMsg] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!rid) return;
+
     let cancelled = false;
 
     async function run() {
-      setState({ status: "creating" });
-
       try {
         const res = await fetch("/api/blueprint/generate", {
           method: "POST",
@@ -22,73 +26,73 @@ export default function SuccessClient({ rid }: { rid: string }) {
           body: JSON.stringify({ rid }),
         });
 
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(text || `HTTP ${res.status}`);
-        }
-
-        const json = (await res.json()) as { status?: string };
+        if (!res.ok) throw new Error(await res.text());
 
         if (cancelled) return;
+        setState("created");
 
-        if (json.status === "created" || json.status === "already_created") {
-          setState({ status: "created" });
-
-          // Optional: Auto redirect after 800ms
-          setTimeout(() => {
-            window.location.href = `/blueprint?rid=${encodeURIComponent(rid)}`;
-          }, 800);
-        } else {
-          setState({ status: "created" }); // fallback
-        }
+        // kurzer Moment UX, dann redirect
+        setTimeout(() => {
+        if (!rid) return;
+        const ridStr = rid; // jetzt string
+        window.location.href = `/blueprint?rid=${encodeURIComponent(ridStr)}`;
+        }, 800);
       } catch (e: unknown) {
-  const msg =
-    e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
-
-  if (cancelled) return;
-  setState({ status: "error", message: msg });
+        const m = e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
+        if (cancelled) return;
+        setState("error");
+        setMsg(m);
       }
     }
 
     run();
-
     return () => {
       cancelled = true;
     };
   }, [rid]);
 
   return (
-    <div className="mt-6 rounded-2xl border p-5 bg-white">
-      {state.status === "creating" ? (
-        <>
-          <div className="font-semibold">Blueprint wird erstellt…</div>
+    <div className="max-w-2xl mx-auto p-8 font-sans">
+      <h1 className="text-3xl font-bold">✅ Zahlung erfolgreich</h1>
+      <p className="mt-3 text-zinc-700">Danke! Dein Blueprint wird jetzt erstellt.</p>
+
+      <div className="mt-6 rounded-2xl border p-5 bg-white">
+        <div className="text-sm text-zinc-500">Session ID</div>
+        <div className="font-mono text-sm break-all">{sessionId ?? "—"}</div>
+      </div>
+
+      {!rid ? (
+        <div className="mt-6 rounded-2xl border p-5 bg-white">
+          <div className="font-semibold">⚠️ Report ID fehlt</div>
           <p className="text-sm text-zinc-600 mt-2">
-            Das dauert meist nur wenige Sekunden. Du wirst gleich automatisch weitergeleitet.
+            Bitte öffne den Link erneut aus der Checkout-URL (sie enthält rid=...).
           </p>
-        </>
-      ) : state.status === "created" ? (
-        <>
-          <div className="font-semibold">✅ Blueprint ist bereit</div>
-          <a className="inline-block mt-3 underline" href={`/blueprint?rid=${encodeURIComponent(rid)}`}>
-            Zum Blueprint →
-          </a>
-        </>
-      ) : (
-        <>
-          <div className="font-semibold text-red-600">⚠️ Erstellung fehlgeschlagen</div>
-          <p className="text-sm text-zinc-600 mt-2 break-words">{state.message}</p>
-          <div className="flex gap-3 mt-4">
-            <button
-              className="px-4 py-2 rounded-xl border"
-              onClick={() => window.location.reload()}
-            >
-              Nochmal versuchen
-            </button>
-            <a className="px-4 py-2 rounded-xl border" href={`/blueprint?rid=${encodeURIComponent(rid)}`}>
-              Blueprint Seite öffnen
+        </div>
+      ) : state === "creating" ? (
+        <div className="mt-6 rounded-2xl border p-5 bg-white">
+          <div className="font-semibold">Blueprint wird erstellt…</div>
+          <p className="text-sm text-zinc-600 mt-2">Du wirst gleich weitergeleitet.</p>
+          <div className="mt-4">
+            <a className="underline" href={`/blueprint?rid=${encodeURIComponent(rid)}`}>
+              Falls es hängt: zum Blueprint →
             </a>
           </div>
-        </>
+        </div>
+      ) : state === "error" ? (
+        <div className="mt-6 rounded-2xl border p-5 bg-white">
+          <div className="font-semibold text-red-600">⚠️ Erstellung fehlgeschlagen</div>
+          <p className="text-sm text-zinc-600 mt-2 break-words">{msg}</p>
+          <div className="mt-4">
+            <a className="underline" href={`/blueprint?rid=${encodeURIComponent(rid)}`}>
+              Zurück zum Blueprint →
+            </a>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-6 rounded-2xl border p-5 bg-white">
+          <div className="font-semibold">✅ Blueprint ist bereit</div>
+          <p className="text-sm text-zinc-600 mt-2">Weiterleitung…</p>
+        </div>
       )}
     </div>
   );
