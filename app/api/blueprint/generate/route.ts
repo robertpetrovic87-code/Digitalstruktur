@@ -1,6 +1,7 @@
 // app/api/blueprint/generate/route.ts
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
@@ -12,7 +13,21 @@ function mustEnv(name: string): string {
   return v;
 }
 
-const supabaseAdmin = createClient(mustEnv("SUPABASE_URL"), mustEnv("SUPABASE_SERVICE_ROLE_KEY"));
+const supabaseAdmin = createClient(
+  mustEnv("SUPABASE_URL"),
+  mustEnv("SUPABASE_SERVICE_ROLE_KEY")
+);
+
+type ReportRow = {
+  id: string;
+  url: string | null;
+  goal: string | null;
+  result_json: unknown | null;
+  purchased_blueprint: boolean;
+  blueprint_created_at: string | null;
+  blueprint_json: unknown | null;
+  status: string | null;
+};
 
 function errMsg(e: unknown) {
   return e instanceof Error ? e.message : typeof e === "string" ? e : JSON.stringify(e);
@@ -30,29 +45,41 @@ export async function POST(req: NextRequest) {
 
   if (!rid) return new NextResponse("Missing rid", { status: 400 });
 
-  const { data: report, error } = await supabaseAdmin
+  // 1) Report laden
+  const { data, error: fetchErr } = await supabaseAdmin
     .from("reports")
-    .select("id, url, goal, result_json, purchased_blueprint, blueprint_created_at")
+    .select("id, url, goal, result_json, purchased_blueprint, blueprint_created_at, blueprint_json, status")
     .eq("id", rid)
     .single();
 
-  if (error || !report) return new NextResponse("Not found", { status: 404 });
+  const report = data as ReportRow | null;
+
+  if (fetchErr || !report) return new NextResponse("Not found", { status: 404 });
   if (!report.purchased_blueprint) return new NextResponse("Not purchased", { status: 403 });
 
-  // Idempotent: wenn schon existiert, fertig
-  if (report.blueprint_created_at) {
+  // Idempotent
+  if (report.blueprint_created_at && report.blueprint_json) {
     return NextResponse.json({ ok: true, status: "already_created" });
   }
 
   if (report.result_json == null) {
-    await supabaseAdmin.from("reports").update({ status: "blueprint_failed_missing_result_json" }).eq("id", rid);
-    return new NextResponse("Missing result_json", { status: 400 });
+    await supabaseAdmin
+      .from("reports")
+      .update({ status: "blueprint_failed_missing_result_json" })
+      .eq("id", rid);
+
+    // 202 = "noch nicht bereit"
+    return new NextResponse("Missing result_json", { status: 202 });
   }
 
-  // Optional status
-  await supabaseAdmin.from("reports").update({ status: "blueprint_creating" }).eq("id", rid);
+  // 2) Status setzen (nur Status)
+  await supabaseAdmin
+    .from("reports")
+    .update({ status: `blueprint_creating_${Date.now()}` })
+    .eq("id", rid);
 
   try {
+    // 3) Generieren
     const blueprint = await generateBlueprintFromResult({
       reportId: rid,
       language: "de",
@@ -61,6 +88,7 @@ export async function POST(req: NextRequest) {
       goal: report.goal ?? undefined,
     });
 
+    // 4) Speichern
     const { error: saveErr } = await supabaseAdmin
       .from("reports")
       .update({
@@ -75,6 +103,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, status: "created" });
   } catch (e: unknown) {
     const msg = errMsg(e);
+
     await supabaseAdmin
       .from("reports")
       .update({ status: `blueprint_failed: ${msg}`.slice(0, 240) })
