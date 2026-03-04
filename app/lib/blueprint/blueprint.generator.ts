@@ -34,7 +34,7 @@ async function callModel(prompt: { system: string; developer: string; user: stri
   const resp = await openai.responses.create({
     model: "gpt-4.1-mini",
     // Higher to avoid truncated JSON -> "Unexpected end of JSON input"
-    max_output_tokens: 3500,
+    max_output_tokens: 2500,
     input: [
       { role: "system", content: prompt.system },
       { role: "developer", content: prompt.developer },
