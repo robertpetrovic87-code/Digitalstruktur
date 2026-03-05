@@ -31,27 +31,32 @@ export async function POST(req: Request) {
     return new NextResponse("Invalid signature", { status: 400 });
   }
 
+  // Wir ack'en alles, interessieren uns aber nur für completed
   if (event.type !== "checkout.session.completed") {
     return NextResponse.json({ ok: true });
   }
 
   const session = event.data.object as Stripe.Checkout.Session;
   const reportId = session.metadata?.reportId;
+
   if (!reportId) {
     return new NextResponse("Missing reportId in session metadata", { status: 400 });
   }
 
   const supabase = supabaseAdmin();
 
-  // ✅ Payment markieren (schnell, stabil)
+  // Optional: Email aus Stripe (falls reports.email leer ist oder du überschreiben willst)
+  const stripeEmail = session.customer_details?.email ?? null;
+
+  // ✅ Payment markieren (schnell, stabil, idempotent)
   const { error } = await supabase
     .from("reports")
     .update({
       purchased_blueprint: true,
       stripe_session_id: session.id,
       paid_at: new Date().toISOString(),
-      // optional: status hilft beim Debugging
-      status: "blueprint_queued",
+      status: "blueprint_purchased", // <— einheitlich
+      ...(stripeEmail ? { email: stripeEmail } : {}), // nur setzen wenn vorhanden
     })
     .eq("id", reportId);
 
@@ -59,6 +64,5 @@ export async function POST(req: Request) {
     return new NextResponse(`Supabase update failed: ${error.message}`, { status: 500 });
   }
 
-  // ✅ Wichtig: sofort antworten (keine AI, kein fetch, kein warten)
   return NextResponse.json({ ok: true });
 }
