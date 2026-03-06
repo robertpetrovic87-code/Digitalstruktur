@@ -3,11 +3,10 @@
 import { useMemo, useState } from "react";
 
 type Props = {
-  websiteUrl: string; // nur für UI/Info, optional
-  reportId: string | null; // ✅ wichtig
+  websiteUrl: string;
+  reportId: string | null;
 };
 
-type ApiOk = { ok: true; reportId?: string };
 type ApiErr = { error: string; need?: string[] };
 
 function isValidEmail(email: string): boolean {
@@ -43,7 +42,6 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
       const res = await fetch("/api/request-report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // ✅ request-report erwartet: email + reportId
         body: JSON.stringify({ email, reportId }),
       });
 
@@ -65,41 +63,39 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
 
   return (
     <section className="mt-8 w-full">
-      {/* CLOSED STATE: big blue CTA */}
       {!open ? (
         <button
           type="button"
           onClick={() => setOpen(true)}
-          style={{
-            width: "100%",
-            background: "#2563eb",
-            color: "white",
-            padding: "24px",
-            borderRadius: "16px",
-            fontSize: "18px",
-            fontWeight: 700,
-            textAlign: "left",
-          }}
+          className="w-full rounded-3xl bg-blue-600 px-6 py-6 text-left text-white shadow-[0_16px_40px_rgba(37,99,235,0.25)] transition hover:bg-blue-700"
         >
-          <div>Detailreport + Textvorschläge per E-Mail erhalten →</div>
-          <div style={{ marginTop: 8, fontSize: 14, fontWeight: 400, opacity: 0.9 }}>
+          <div className="text-xl font-bold tracking-tight">
+            Detailreport + Textvorschläge per E-Mail erhalten →
+          </div>
+          <div className="mt-2 text-sm text-blue-100">
             Kostenloser Deep-Dive · ca. 2 Minuten · Double Opt-in
           </div>
         </button>
       ) : (
-        /* OPEN STATE */
-        <div className="w-full text-base rounded-2xl border border-blue-100 bg-gradient-to-b from-blue-50 to-white p-6 shadow-md">
+        <div className="w-full rounded-3xl border border-blue-100 bg-gradient-to-b from-blue-50 via-white to-white p-6 shadow-[0_16px_40px_rgba(0,0,0,0.08)]">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <div className="text-lg font-semibold text-zinc-900">Dein persönlicher Detailreport</div>
-              <div className="mt-1 text-base text-zinc-600">
-                Konkrete Verbesserungen & Textvorschläge per E-Mail. Double Opt-in erforderlich.
+              <div className="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-semibold text-blue-700 shadow-sm">
+                Kostenloser Detailreport
               </div>
 
-              {/* ✅ Safety-Hinweis, falls reportId fehlt */}
+              <div className="mt-3 text-2xl font-bold tracking-tight text-zinc-900">
+                Erhalte konkrete Verbesserungen für deine Website
+              </div>
+
+              <div className="mt-2 text-base leading-7 text-zinc-600">
+                Wir senden dir deinen persönlichen Detailreport mit konkreten Optimierungen
+                und Textvorschlägen direkt per E-Mail.
+              </div>
+
               {!reportId && (
                 <div className="mt-3 text-sm text-blue-900/80">
-                  Hinweis: Bitte starte zuerst eine Analyse, damit wir deinen Report zuordnen können.
+                  Bitte starte zuerst eine Analyse, damit wir deinen Report korrekt zuordnen können.
                 </div>
               )}
             </div>
@@ -111,7 +107,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
                 setStatus("idle");
                 setErrorMsg("");
               }}
-              className="shrink-0 rounded-xl bg-white/70 px-3 py-2 text-sm font-semibold text-zinc-600 shadow-sm hover:bg-white"
+              className="shrink-0 rounded-xl bg-white px-3 py-2 text-sm font-semibold text-zinc-600 shadow-sm hover:bg-zinc-50"
               aria-label="Schließen"
               title="Schließen"
             >
@@ -121,14 +117,15 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
 
           {status !== "success" ? (
             <>
-              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="mt-6 flex flex-col gap-3">
                 <input
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="deine@email.de"
                   inputMode="email"
                   autoComplete="email"
-                  className="w-full rounded-2xl border border-zinc-300 !px-5 !py-5 !text-lg outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 placeholder:text-zinc-400"
+                  className="w-full rounded-2xl border border-zinc-300 bg-white px-5 py-4 text-lg text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                 />
 
                 <button
@@ -137,36 +134,37 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
                   disabled={!canSubmit}
                   className={
                     canSubmit
-                      ? "w-full sm:w-auto rounded-2xl bg-blue-600 !px-7 !py-5 !text-lg font-semibold text-white shadow-sm transition hover:bg-blue-700 active:bg-blue-800"
-                      : "w-full sm:w-auto rounded-2xl bg-zinc-300 !px-7 !py-5 !text-lg font-semibold text-white cursor-not-allowed"
+                      ? "w-full rounded-2xl bg-blue-600 px-6 py-4 text-lg font-semibold text-white shadow-sm transition hover:bg-blue-700 active:bg-blue-800"
+                      : "w-full rounded-2xl bg-zinc-300 px-6 py-4 text-lg font-semibold text-white cursor-not-allowed"
                   }
                 >
-                  {status === "loading" ? "Sende…" : "Report senden"}
+                  {status === "loading" ? "Sende…" : "Detailreport per E-Mail erhalten"}
                 </button>
               </div>
 
-              <div className="mt-4 text-xs text-zinc-500">
-                ✅ Kein Spam · 🔒 DSGVO-konform · ↩️ Abmeldung jederzeit
+              <div className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-500">
+                <span className="rounded-full bg-white px-3 py-1 shadow-sm">Kein Spam</span>
+                <span className="rounded-full bg-white px-3 py-1 shadow-sm">DSGVO-konform</span>
+                <span className="rounded-full bg-white px-3 py-1 shadow-sm">Abmeldung jederzeit</span>
               </div>
 
-              {/* optional: kleine Debug-Info, kannst du später entfernen */}
               {reportId && (
-                <div className="mt-2 text-[11px] text-zinc-400">
+                <div className="mt-3 text-[11px] text-zinc-400">
                   Report-ID verknüpft: <span className="font-mono">{reportId}</span>
                 </div>
               )}
             </>
           ) : (
-            <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+            <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
               <div className="text-sm font-semibold text-emerald-900">✅ Fast fertig!</div>
               <div className="mt-1 text-sm text-emerald-800">
-                Bitte bestätige jetzt deine E-Mail (Double Opt-in). Danach bekommst du den Detailreport.
+                Bitte bestätige jetzt deine E-Mail. Danach bekommst du deinen Detailreport direkt zugeschickt.
               </div>
             </div>
           )}
 
           {status === "error" && (
-            <div className="mt-3 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">
               {errorMsg || "Etwas ist schiefgelaufen."}
             </div>
           )}

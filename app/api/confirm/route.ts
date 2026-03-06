@@ -38,7 +38,7 @@ function badgeColor(impact: string) {
   return "#16a34a";
 }
 
-// ---------- Type helpers (no any) ----------
+// ---------- Type helpers ----------
 type JsonObject = Record<string, unknown>;
 
 function isObject(v: unknown): v is JsonObject {
@@ -71,14 +71,24 @@ function toSeoQuickWin(v: unknown): SeoQuickWin | null {
 type CopyPack = { headlines: string[]; subheadline: string; ctas: string[] };
 function toCopyPack(v: unknown): CopyPack | null {
   if (!isObject(v)) return null;
-  const headlines = Array.isArray(v.headlines) ? v.headlines.filter((x) => typeof x === "string") as string[] : [];
-  const ctas = Array.isArray(v.ctas) ? v.ctas.filter((x) => typeof x === "string") as string[] : [];
+  const headlines = Array.isArray(v.headlines)
+    ? (v.headlines.filter((x) => typeof x === "string") as string[])
+    : [];
+  const ctas = Array.isArray(v.ctas)
+    ? (v.ctas.filter((x) => typeof x === "string") as string[])
+    : [];
   const subheadline = asString(v.subheadline);
   if (!headlines.length && !subheadline && !ctas.length) return null;
   return { headlines, subheadline, ctas };
 }
 
-type Snippet = { metaTitle: string; metaDescription: string; primaryKeyword: string; secondaryKeywords: string[] };
+type Snippet = {
+  metaTitle: string;
+  metaDescription: string;
+  primaryKeyword: string;
+  secondaryKeywords: string[];
+};
+
 function toSnippet(v: unknown): Snippet | null {
   if (!isObject(v)) return null;
   const metaTitle = asString(v.metaTitle);
@@ -118,7 +128,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid token format" }, { status: 400 });
     }
 
-    // verify signature
     const expected = sign(payload);
     const a = Buffer.from(sig);
     const b = Buffer.from(expected);
@@ -126,7 +135,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
     }
 
-    // parse payload
     let payloadObjUnknown: unknown;
     try {
       payloadObjUnknown = JSON.parse(base64urlToString(payload));
@@ -149,11 +157,11 @@ export async function POST(req: Request) {
     if (!expNum) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
+
     if (Date.now() > expNum) {
       return NextResponse.json({ error: "Token expired" }, { status: 400 });
     }
 
-    // 1) load report from Supabase
     const { data: report, error: loadErr } = await supabase
       .from("reports")
       .select("id,email,url,goal,result_json,status,created_at")
@@ -164,7 +172,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Report not found" }, { status: 404 });
     }
 
-    // 2) update status to confirmed
     await supabase.from("reports").update({ status: "confirmed" }).eq("id", reportId);
 
     const email = asString(report.email);
@@ -172,13 +179,15 @@ export async function POST(req: Request) {
     const goal = asString(report.goal);
 
     const rUnknown: unknown = report.result_json;
-
-    // result_json should be an object
     const r: JsonObject = isObject(rUnknown) ? rUnknown : {};
 
     const score = r.overallScore ?? "—";
-    const strengths = Array.isArray(r.strengths) ? (r.strengths.filter((x) => typeof x === "string") as string[]) : [];
-    const blockers = Array.isArray(r.blockers) ? (r.blockers.filter((x) => typeof x === "string") as string[]) : [];
+    const strengths = Array.isArray(r.strengths)
+      ? (r.strengths.filter((x) => typeof x === "string") as string[])
+      : [];
+    const blockers = Array.isArray(r.blockers)
+      ? (r.blockers.filter((x) => typeof x === "string") as string[])
+      : [];
     const quickWins = Array.isArray(r.quickWins)
       ? (r.quickWins.map(toQuickWin).filter(Boolean) as QuickWin[])
       : [];
@@ -193,54 +202,71 @@ export async function POST(req: Request) {
     const summary = asString(r.summary);
     const disclaimer = asString(r.disclaimer);
 
+    const blueprintUrl = `${process.env.APP_URL}/blueprint?rid=${encodeURIComponent(reportId)}`;
+
     const html = `
-      <div style="font-family:Arial,sans-serif;line-height:1.55;max-width:720px;margin:0 auto;padding:18px">
-        <h2 style="margin:0 0 10px 0">Dein Detailreport</h2>
-        <div style="color:#444;margin-bottom:14px">
-          <div><b>Website:</b> ${escapeHtml(website)}</div>
-          <div><b>Ziel:</b> ${escapeHtml(goal)}</div>
-          <div><b>Score:</b> ${escapeHtml(String(score))}/100</div>
-        </div>
-
-        <div style="background:#f3f4f6;border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:14px 0">
-          <div style="font-weight:700;margin-bottom:6px">Kurzfazit</div>
-          <div style="color:#111">${escapeHtml(summary)}</div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0">
-          <div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px">
-            <div style="font-weight:700;margin-bottom:8px">Was funktioniert</div>
-            <ul style="margin:0;padding-left:18px;color:#111">
-              ${strengths.slice(0, 3).map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
-            </ul>
+      <div style="font-family:Arial,sans-serif;line-height:1.6;max-width:720px;margin:0 auto;padding:24px;background:#ffffff;color:#111827">
+        <div style="margin-bottom:20px">
+          <div style="display:inline-block;padding:6px 12px;border-radius:999px;background:#f4f4f5;color:#3f3f46;font-size:12px;font-weight:700">
+            AI Website Analyse
           </div>
+          <h1 style="margin:16px 0 8px 0;font-size:30px;line-height:1.2;color:#111827">
+            Dein Website Detailreport ist da
+          </h1>
+          <p style="margin:0;color:#52525b;font-size:16px;line-height:1.7">
+            Hier ist deine Analyse mit den wichtigsten Hebeln für mehr Klarheit, bessere Nutzerführung und mehr Anfragen über deine Website.
+          </p>
+        </div>
 
-          <div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px">
-            <div style="font-weight:700;margin-bottom:8px">Was bremst</div>
-            <ul style="margin:0;padding-left:18px;color:#111">
-              ${blockers.slice(0, 3).map((s) => `<li>${escapeHtml(s)}</li>`).join("")}
-            </ul>
+        <div style="border:1px solid #e5e7eb;border-radius:18px;padding:18px;background:#fafafa;margin:18px 0">
+          <div style="font-size:14px;color:#52525b;margin-bottom:8px"><b>Website:</b> ${escapeHtml(website)}</div>
+          <div style="font-size:14px;color:#52525b;margin-bottom:8px"><b>Ziel:</b> ${escapeHtml(goal)}</div>
+          <div style="font-size:14px;color:#52525b"><b>Gesamtscore:</b> ${escapeHtml(String(score))}/100</div>
+        </div>
+
+        <div style="background:#111827;border-radius:20px;padding:20px;color:#ffffff;margin:22px 0">
+          <div style="font-size:13px;color:#cbd5e1;font-weight:700;letter-spacing:.02em">Kurzfazit</div>
+          <div style="margin-top:10px;font-size:16px;line-height:1.7;color:#f8fafc">
+            ${escapeHtml(summary || "Deine Website hat Potenzial, durch klarere Struktur, stärkere CTAs und bessere Nutzerführung deutlich mehr Wirkung zu erzielen.")}
           </div>
         </div>
 
-        <div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:16px 0">
-          <div style="font-weight:700;margin-bottom:8px">Quick Wins (15 Min)</div>
-          <ul style="margin:0;padding-left:18px;color:#111">
-            ${quickWins.slice(0, 3).map((q) => `<li><b>${escapeHtml(q.title)}:</b> ${escapeHtml(q.how)}</li>`).join("")}
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0">
+          <div style="border:1px solid #e5e7eb;border-radius:18px;padding:16px;background:#ffffff">
+            <div style="font-weight:800;margin-bottom:10px;color:#111827">Was bereits funktioniert</div>
+            <ul style="margin:0;padding-left:18px;color:#374151;line-height:1.7">
+              ${strengths.slice(0, 3).map((s) => `<li>${escapeHtml(s)}</li>`).join("") || "<li>Es wurden erste positive Ansätze erkannt.</li>"}
+            </ul>
+          </div>
+
+          <div style="border:1px solid #e5e7eb;border-radius:18px;padding:16px;background:#ffffff">
+            <div style="font-weight:800;margin-bottom:10px;color:#111827">Was dich aktuell bremst</div>
+            <ul style="margin:0;padding-left:18px;color:#374151;line-height:1.7">
+              ${blockers.slice(0, 3).map((s) => `<li>${escapeHtml(s)}</li>`).join("") || "<li>Einige Reibungspunkte verhindern aktuell mehr Wirkung.</li>"}
+            </ul>
+          </div>
+        </div>
+
+        <div style="border:1px solid #e5e7eb;border-radius:18px;padding:16px;background:#ffffff;margin:20px 0">
+          <div style="font-weight:800;margin-bottom:10px;color:#111827">Quick Wins für schnelle Verbesserungen</div>
+          <ul style="margin:0;padding-left:18px;color:#374151;line-height:1.8">
+            ${quickWins.slice(0, 3).map((q) => `<li><b>${escapeHtml(q.title)}:</b> ${escapeHtml(q.how)}</li>`).join("") || "<li>Deine Analyse enthält mehrere schnell umsetzbare Verbesserungen.</li>"}
           </ul>
         </div>
 
         ${copyPack ? `
-          <div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:16px 0">
-            <div style="font-weight:700;margin-bottom:8px">Textvorschläge (Copy Pack)</div>
-            <div style="margin-bottom:10px"><b>Hero Headlines:</b>
-              <ul style="margin:6px 0 0 0;padding-left:18px">
+          <div style="border:1px solid #e5e7eb;border-radius:18px;padding:16px;background:#ffffff;margin:20px 0">
+            <div style="font-weight:800;margin-bottom:10px;color:#111827">Copy Ideen für deine Website</div>
+            <div style="margin-bottom:10px;color:#374151">
+              <b>Hero Headlines:</b>
+              <ul style="margin:6px 0 0 0;padding-left:18px;line-height:1.7">
                 ${copyPack.headlines.slice(0, 3).map((h) => `<li>${escapeHtml(h)}</li>`).join("")}
               </ul>
             </div>
-            <div style="margin-bottom:10px"><b>Subheadline:</b> ${escapeHtml(copyPack.subheadline)}</div>
-            <div><b>CTA Ideen:</b>
-              <ul style="margin:6px 0 0 0;padding-left:18px">
+            <div style="margin-bottom:10px;color:#374151"><b>Subheadline:</b> ${escapeHtml(copyPack.subheadline)}</div>
+            <div style="color:#374151">
+              <b>CTA Ideen:</b>
+              <ul style="margin:6px 0 0 0;padding-left:18px;line-height:1.7">
                 ${copyPack.ctas.slice(0, 3).map((c) => `<li>${escapeHtml(c)}</li>`).join("")}
               </ul>
             </div>
@@ -248,49 +274,106 @@ export async function POST(req: Request) {
         ` : ""}
 
         ${snippet ? `
-          <div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:16px 0">
-            <div style="font-weight:700;margin-bottom:8px">SEO Snippet Vorschlag (Google)</div>
-            <div style="margin-bottom:6px"><b>Meta Title:</b> ${escapeHtml(snippet.metaTitle)}</div>
-            <div style="margin-bottom:10px"><b>Meta Description:</b> ${escapeHtml(snippet.metaDescription)}</div>
-            <div style="margin-bottom:6px"><b>Fokus Keyword:</b> ${escapeHtml(snippet.primaryKeyword)}</div>
-            <div><b>Varianten:</b> ${snippet.secondaryKeywords.map((k) => escapeHtml(k)).join(" · ")}</div>
+          <div style="border:1px solid #e5e7eb;border-radius:18px;padding:16px;background:#ffffff;margin:20px 0">
+            <div style="font-weight:800;margin-bottom:10px;color:#111827">SEO Snippet Vorschlag</div>
+            <div style="margin-bottom:8px;color:#374151"><b>Meta Title:</b> ${escapeHtml(snippet.metaTitle)}</div>
+            <div style="margin-bottom:10px;color:#374151"><b>Meta Description:</b> ${escapeHtml(snippet.metaDescription)}</div>
+            <div style="margin-bottom:8px;color:#374151"><b>Fokus Keyword:</b> ${escapeHtml(snippet.primaryKeyword)}</div>
+            <div style="color:#374151"><b>Varianten:</b> ${snippet.secondaryKeywords.map((k) => escapeHtml(k)).join(" · ")}</div>
           </div>
         ` : ""}
 
         ${seoQuickWins.length ? `
-          <div style="border:1px solid #e5e7eb;border-radius:12px;padding:14px;margin:16px 0">
-            <div style="font-weight:700;margin-bottom:8px">SEO Quick Wins (schnell & wirksam)</div>
-            <ol style="margin:0;padding-left:18px;color:#111">
+          <div style="border:1px solid #e5e7eb;border-radius:18px;padding:16px;background:#ffffff;margin:20px 0">
+            <div style="font-weight:800;margin-bottom:10px;color:#111827">SEO Quick Wins</div>
+            <ol style="margin:0;padding-left:18px;color:#374151;line-height:1.8">
               ${seoQuickWins.slice(0, 5).map((x) => `
-                <li style="margin-bottom:10px">
+                <li style="margin-bottom:12px">
                   <span style="display:inline-block;padding:2px 8px;border-radius:999px;background:${badgeColor(x.impact)};color:#fff;font-size:12px;margin-right:8px;vertical-align:middle">
                     ${escapeHtml(x.impact.toUpperCase())}
                   </span>
                   <b>${escapeHtml(x.title)}</b><br/>
-                  <span style="color:#333">${escapeHtml(x.how)}</span>
+                  <span>${escapeHtml(x.how)}</span>
                 </li>
               `).join("")}
             </ol>
           </div>
         ` : ""}
 
-        <div style="border:1px dashed #d1d5db;border-radius:12px;padding:14px;margin:18px 0;background:#fafafa">
-          <div style="font-weight:800;margin-bottom:6px">Nächster Schritt: 30-Tage AI Blueprint (199€)</div>
-          <div style="color:#111;margin-bottom:10px">
-            Wenn du willst, erstelle ich dir einen personalisierten 30-Tage Umsetzungsplan (Struktur, Texte, CTA-Architektur, SEO-Seitenplan) – basierend auf deinem Score.
-          <a href="${process.env.APP_URL}/blueprint?rid=${encodeURIComponent(reportId)}" style="display:inline-block;padding:12px 16px;background:#2563eb;color:#fff;text-decoration:none;border-radius:10px;font-weight:700">
-            Blueprint freischalten →
+        <div style="margin:28px 0;border:1px solid #d4d4d8;border-radius:22px;padding:22px;background:linear-gradient(180deg,#fafafa 0%, #ffffff 100%)">
+          <div style="font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#71717a;margin-bottom:8px">
+            Nächster Schritt
+          </div>
+          <div style="font-size:24px;line-height:1.3;font-weight:800;color:#111827;margin-bottom:10px">
+            Dein individueller 30-Tage Website Blueprint
+          </div>
+          <p style="margin:0 0 14px 0;color:#3f3f46;line-height:1.7">
+            Du hast jetzt die Analyse gesehen. Der Blueprint zeigt dir Schritt für Schritt,
+            <b> welche Änderungen auf deiner Website die größte Wirkung haben</b> und
+            <b> in welcher Reihenfolge du sie umsetzen solltest</b>.
+          </p>
+
+          <div style="border:1px solid #e5e7eb;border-radius:16px;padding:16px;background:#ffffff;margin:16px 0">
+            <div style="font-weight:800;color:#111827;margin-bottom:10px">Beispiel: So kann dein Blueprint aufgebaut sein</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+              <div style="border:1px solid #e5e7eb;border-radius:14px;padding:12px;background:#fafafa">
+                <div style="font-size:12px;font-weight:700;color:#71717a;text-transform:uppercase">Woche 1</div>
+                <div style="margin-top:6px;font-weight:700;color:#111827">Struktur verbessern</div>
+                <div style="margin-top:8px;font-size:14px;color:#52525b;line-height:1.6">
+                  Hero schärfen, CTA sichtbarer machen, Navigation vereinfachen
+                </div>
+              </div>
+
+              <div style="border:1px solid #e5e7eb;border-radius:14px;padding:12px;background:#fafafa">
+                <div style="font-size:12px;font-weight:700;color:#71717a;text-transform:uppercase">Woche 2</div>
+                <div style="margin-top:6px;font-weight:700;color:#111827">Conversion erhöhen</div>
+                <div style="margin-top:8px;font-size:14px;color:#52525b;line-height:1.6">
+                  Vertrauen stärken, Angebot klarer machen, Formular vereinfachen
+                </div>
+              </div>
+
+              <div style="border:1px solid #e5e7eb;border-radius:14px;padding:12px;background:#fafafa">
+                <div style="font-size:12px;font-weight:700;color:#71717a;text-transform:uppercase">Woche 3</div>
+                <div style="margin-top:6px;font-weight:700;color:#111827">Sichtbarkeit aufbauen</div>
+                <div style="margin-top:8px;font-size:14px;color:#52525b;line-height:1.6">
+                  Content-Ideen priorisieren, Seitenstruktur verbessern, SEO gezielt ausbauen
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1px solid #e5e7eb;border-radius:16px;padding:16px;background:#ffffff;margin:16px 0">
+            <div style="font-weight:800;color:#111827;margin-bottom:10px">Was du bekommst</div>
+            <ul style="margin:0;padding-left:18px;color:#3f3f46;line-height:1.8">
+              <li>klaren 30-Tage Umsetzungsplan</li>
+              <li>Conversion Verbesserungen für mehr Anfragen</li>
+              <li>Struktur- und Seitenempfehlungen</li>
+              <li>SEO- und Content-Ideen</li>
+              <li>klare nächste Schritte statt allgemeiner Tipps</li>
+            </ul>
+          </div>
+
+          <div style="margin-top:18px">
+            <a href="${blueprintUrl}" style="display:inline-block;padding:14px 18px;background:#111827;color:#ffffff;text-decoration:none;border-radius:12px;font-weight:800">
+              Deinen individuellen Blueprint freischalten – 199€
             </a>
+          </div>
+
+          <div style="margin-top:12px;font-size:14px;color:#52525b">
+            Individuell für dich erstellt. Kein generischer AI-Report.
+          </div>
         </div>
 
-        <div style="color:#666;font-size:12px;margin-top:14px">${escapeHtml(disclaimer)}</div>
+        <div style="margin-top:20px;font-size:12px;color:#71717a;line-height:1.6">
+          ${escapeHtml(disclaimer)}
+        </div>
       </div>
     `;
 
     await resend.emails.send({
       from: process.env.EMAIL_FROM!,
       to: email,
-      subject: "Dein Website Detailreport",
+      subject: "Deine Website Analyse + konkrete nächste Schritte",
       html,
     });
 
