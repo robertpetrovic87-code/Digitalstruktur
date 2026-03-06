@@ -10,14 +10,16 @@ export async function POST(req: Request) {
     if (!reportId || typeof reportId !== "string") {
       return NextResponse.json({ error: "Missing reportId" }, { status: 400 });
     }
+
     const appUrl = (process.env.APP_URL ?? "").replace(/\/$/, "");
     if (!appUrl) {
-    return NextResponse.json({ error: "APP_URL is missing" }, { status: 500 });
+      return NextResponse.json({ error: "APP_URL is missing" }, { status: 500 });
     }
-    
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-       line_items: [
+      allow_promotion_codes: true,
+      line_items: [
         {
           price_data: {
             currency: "eur",
@@ -34,11 +36,14 @@ export async function POST(req: Request) {
       success_url: `${appUrl}/blueprint/success?session_id={CHECKOUT_SESSION_ID}&rid=${encodeURIComponent(reportId)}`,
       cancel_url: `${appUrl}/blueprint?rid=${encodeURIComponent(reportId)}&canceled=1`,
       metadata: { reportId },
-       });
+    });
 
     return NextResponse.json({ url: session.url });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Stripe checkout failed" }, { status: 500 });
+    console.error("Stripe checkout error:", err);
+    return NextResponse.json(
+      { error: "Stripe checkout failed" },
+      { status: 500 }
+    );
   }
 }
