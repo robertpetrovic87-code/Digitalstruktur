@@ -283,12 +283,20 @@ export async function POST(req: Request) {
     }
 
     const parsed = AuditResultSchema.safeParse(parsedJson);
-    if (!parsed.success) {
-      return Response.json(
-        { error: "AI Output unvollständig/ungültig. Bitte erneut versuchen." },
-        { status: 502 }
-      );
-    }
+
+if (!parsed.success) {
+  console.error("Zod validation error:", parsed.error.flatten());
+  console.error("Invalid AI output:", JSON.stringify(parsedJson, null, 2));
+
+  return Response.json(
+    {
+      error: "AI Output unvollständig/ungültig. Bitte erneut versuchen.",
+      details: parsed.error.flatten(),
+      invalidOutput: parsedJson,
+    },
+    { status: 502 }
+  );
+}
 
     const result: AuditResult = parsed.data;
 
