@@ -1,4 +1,8 @@
 // app/api/analyze/route.ts
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const maxDuration = 60;
+
 import { z } from "zod";
 import { createClient } from "@supabase/supabase-js";
 
@@ -17,28 +21,29 @@ const AuditResultSchema = z.object({
     conversion: z.number(),
     structure: z.number(),
   }),
-  strengths: z.array(z.string()).length(3),
-  blockers: z.array(z.string()).length(3),
+ strengths: z.array(z.string()).min(2).max(4),
+blockers: z.array(z.string()).min(2).max(4),
   quickWins: z.array(z.object({ title: z.string(), how: z.string() })).min(2).max(3),
   copyPack: z.object({
-    headlines: z.array(z.string()).length(3),
-    subheadline: z.string(),
-    ctas: z.array(z.string()).length(3),
+    headlines: z.array(z.string()).min(2).max(4),
+subheadline: z.string(),
+ctas: z.array(z.string()).min(2).max(4),
   }),
   seoQuickWins: z
-    .array(
-      z.object({
-        title: z.string(),
-        how: z.string(),
-        impact: z.enum(["high", "medium", "low"]),
-      })
-    )
-    .length(5),
+  .array(
+    z.object({
+      title: z.string(),
+      how: z.string(),
+      impact: z.enum(["high", "medium", "low"]),
+    })
+  )
+  .min(3)
+  .max(6),
   snippet: z.object({
     metaTitle: z.string(),
     metaDescription: z.string(),
     primaryKeyword: z.string(),
-    secondaryKeywords: z.array(z.string()).length(3),
+    secondaryKeywords: z.array(z.string()).min(2).max(5),
   }),
   detailedReport: z.object({
     clarity: z.string(),
@@ -323,7 +328,8 @@ if (!parsed.success) {
       result,
     });
   } catch (e: unknown) {
-    const message = e instanceof Error ? e.message : "Fehler";
-    return Response.json({ error: message }, { status: 400 });
-  }
+  const message =
+    e instanceof Error ? e.message : "Unbekannter Fehler bei der Analyse";
+  return Response.json({ error: message }, { status: 500 });
+}
 }

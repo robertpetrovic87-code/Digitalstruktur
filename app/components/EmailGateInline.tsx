@@ -67,7 +67,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="w-full rounded-[28px] bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-6 text-left text-white shadow-[0_18px_40px_rgba(59,130,246,0.28)] transition-all duration-200 hover:-translate-y-0.5 hover:from-blue-700 hover:to-indigo-700 hover:shadow-[0_22px_50px_rgba(59,130,246,0.34)]"
+          className="w-full rounded-[28px] bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-6 text-center text-white shadow-[0_18px_40px_rgba(59,130,246,0.28)] transition-all duration-200 hover:-translate-y-0.5 hover:from-blue-700 hover:to-indigo-700 hover:shadow-[0_22px_50px_rgba(59,130,246,0.34)]"
         >
           <div className="text-xl font-bold tracking-tight">
             Detailreport + Textvorschläge per E-Mail erhalten →
