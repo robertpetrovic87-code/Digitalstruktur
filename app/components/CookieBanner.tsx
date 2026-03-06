@@ -30,35 +30,40 @@ export default function CookieBanner() {
         left: "50%",
         transform: "translateX(-50%)",
         bottom: 24,
-        width: "min(1024px, calc(100% - 32px))",
+        width: "min(880px, calc(100% - 64px))",
         zIndex: 50,
       }}
     >
-      <div className="bg-white border shadow-xl rounded-2xl p-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="text-sm text-gray-700">
+      <div className="bg-white border border-zinc-200 shadow-2xl rounded-3xl px-8 py-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+
+          <div className="text-sm text-zinc-600 leading-relaxed">
             Wir verwenden Cookies, um unsere Website bereitzustellen und zu verbessern.
             Details findest du in unserer{" "}
-            <a href="/datenschutz" className="underline">
+            <a
+              href="/datenschutz"
+              className="underline font-medium text-zinc-800 hover:text-black"
+            >
               Datenschutzerklärung
             </a>.
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 shrink-0">
             <button
               onClick={acceptNecessary}
-              className="px-4 py-2 border rounded-lg text-sm hover:bg-gray-100"
+              className="px-5 py-2.5 border border-zinc-300 rounded-xl text-sm font-medium text-zinc-700 hover:bg-zinc-100 transition"
             >
               Nur notwendige
             </button>
 
             <button
               onClick={acceptAll}
-              className="px-4 py-2 bg-black text-white rounded-lg text-sm hover:bg-gray-800"
+              className="px-5 py-2.5 bg-black text-white rounded-xl text-sm font-semibold hover:bg-zinc-800 transition"
             >
               Alle akzeptieren
             </button>
           </div>
+
         </div>
       </div>
     </div>

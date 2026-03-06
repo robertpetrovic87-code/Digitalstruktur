@@ -67,7 +67,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="w-full rounded-[28px] bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-6 text-center text-white shadow-[0_18px_40px_rgba(59,130,246,0.28)] transition-all duration-200 hover:-translate-y-0.5 hover:from-blue-700 hover:to-indigo-700 hover:shadow-[0_22px_50px_rgba(59,130,246,0.34)]"
+          className="w-full rounded-[28px] bg-gradient-to-r from-blue-600 to-indigo-600 px-7 py-6 text-center text-white shadow-[0_18px_40px_rgba(59,130,246,0.28)] transition-all duration-200 hover:-translate-y-0.5 hover:from-blue-700 hover:to-indigo-700 hover:shadow-[0_22px_50px_rgba(59,130,246,0.34)]"
         >
           <div className="text-xl font-bold tracking-tight">
             Detailreport + Textvorschläge per E-Mail erhalten →
@@ -78,7 +78,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
         </button>
       ) : (
         <div className="w-full overflow-hidden rounded-[28px] border border-blue-100 bg-gradient-to-b from-blue-50 via-white to-white shadow-[0_18px_45px_rgba(2,6,23,0.08)]">
-          <div className="border-b border-blue-100/70 bg-white/70 px-5 py-5">
+          <div className="border-b border-blue-100/70 bg-white/70 px-6 py-5">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
@@ -125,7 +125,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
             </div>
           </div>
 
-          <div className="px-5 py-5">
+          <div className="px-6 py-6">
             {status !== "success" ? (
               <>
                 <div className="grid gap-4">
@@ -141,7 +141,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
                       placeholder="deine@email.de"
                       inputMode="email"
                       autoComplete="email"
-                      className="w-full rounded-2xl border border-zinc-300 bg-white px-5 py-4 text-lg text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                      className="w-full rounded-2xl border border-zinc-300 bg-white px-6 py-4 text-lg text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                     />
                   </div>
 
@@ -159,7 +159,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
                   </button>
                 </div>
 
-                <div className="mt-5 flex flex-wrap gap-2 text-xs text-zinc-500">
+                <div className="mt-6 flex flex-wrap gap-2 text-xs text-zinc-500">
                   <span className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 shadow-sm">
                     Kein Spam
                   </span>
