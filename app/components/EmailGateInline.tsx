@@ -78,7 +78,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
         </button>
       ) : (
         <div className="w-full overflow-hidden rounded-[28px] border border-blue-100 bg-gradient-to-b from-blue-50 via-white to-white shadow-[0_18px_45px_rgba(2,6,23,0.08)]">
-          <div className="border-b border-blue-100/70 bg-white/70 px-6 py-5">
+          <div className="border-b border-blue-100/70 bg-white/70 px-5 py-5">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
@@ -125,7 +125,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
             </div>
           </div>
 
-          <div className="px-6 py-6">
+          <div className="px-5 py-5">
             {status !== "success" ? (
               <>
                 <div className="grid gap-4">
