@@ -180,7 +180,7 @@ export default function Home() {
       <div className="py-6 sm:py-8 lg:py-10">
         <div className="border border-slate-200/70 bg-white/90 p-4 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-5 lg:p-6">
           <div className="bg-gradient-to-b from-white via-white to-slate-50/70 px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
-            <section className="py-2 sm:py-4">
+            <section className="py-2 pl-16 sm:py-4">
             <div className="mx-auto max-w-3xl"></div>
               <div className="mb-6 flex items-center gap-4">
                 <span className="rounded-full border border-indigo-200 bg-indigo-100 px-4 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-700">
@@ -191,9 +191,9 @@ export default function Home() {
                 </span>
               </div>
 
-              <div className="max-w-2xl text-left md:pl-2">
+              <div className="max-w-2xl pl-16 text-left">
                 <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
-                  AI Website TEST
+                  AI Website
                   <br />
                   Reality Check
                 </h1>
