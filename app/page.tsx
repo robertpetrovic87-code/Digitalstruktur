@@ -204,7 +204,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="mt-8 border border-slate-200 bg-white px-5 py-6 shadow-[0_12px_35px_rgba(2,6,23,0.06)] sm:px-6 sm:py-7">
+              <div className="mt-10 border border-slate-200 bg-white p-6 shadow-[0_15px_40px_rgba(2,6,23,0.08)] sm:p-7">
                 <div className="mx-auto grid max-w-2xl gap-5">
                   <label className="grid gap-2.5 text-left">
                     <span className="text-sm font-semibold text-slate-900">
@@ -227,7 +227,7 @@ export default function Home() {
                       value={goal}
                       onChange={(e) => setGoal(e.target.value as Goal)}
                       disabled={loading}
-                      className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-base text-slate-900 shadow-sm outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
+                      className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-base text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
                     >
                       <option value="leads">Mehr Anfragen</option>
                       <option value="sales">Mehr Verkäufe</option>
@@ -247,7 +247,7 @@ export default function Home() {
                     {loading ? "Analysiere…" : "Website jetzt analysieren"}
                   </button>
 
-                  <div className="text-center text-sm font-semibold text-slate-600">
+                  <div className="pt-2 text-center text-sm font-semibold text-slate-600">
                     Kostenlos • Keine Anmeldung • Ergebnis in Sekunden
                   </div>
 
@@ -288,8 +288,8 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-12 border border-slate-200 bg-slate-50 px-5 py-6 sm:px-6">
-                <div className="mx-auto max-w-2xl">
+              <div className="mt-16 px-5 sm:px-6">
+                <div className="mx-auto max-w-2xl border border-slate-200 bg-slate-50 p-6">
                   <h3 className="text-lg font-bold text-slate-900">
                     Du erhältst sofort:
                   </h3>
