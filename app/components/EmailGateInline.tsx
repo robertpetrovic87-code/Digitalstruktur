@@ -62,7 +62,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
   }
 
   return (
-    <section className="mt-8 w-full">
+    <section className="mt-4 w-full">
       {!open ? (
         <button
           type="button"
@@ -103,7 +103,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
                 )}
 
                 {!reportId && (
-                  <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                  <div className="mt-2 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
                     Bitte starte zuerst eine Analyse, damit wir deinen Report korrekt zuordnen können.
                   </div>
                 )}
@@ -159,7 +159,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
                   </button>
                 </div>
 
-                <div className="mt-6 flex flex-wrap gap-2 text-xs text-zinc-500">
+                <div className="mt-4 flex flex-wrap gap-2 text-xs text-zinc-500">
                   <span className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 shadow-sm">
                     Kein Spam
                   </span>
