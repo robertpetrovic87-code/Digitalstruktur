@@ -179,7 +179,8 @@ export default function Home() {
   <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc] py-8 sm:py-10 lg:py-12">
 
     {/* HERO + FORMULAR */}
-    <section className="mx-auto max-w-2xl">
+    <section className="mx-auto max-w-2xl"
+    style={{ marginLeft: "80px", outline: "4px solid green" }}>
       <div className="px-4 sm:px-5 md:px-6"></div>
 
       {/* Beta Label */}
@@ -193,7 +194,8 @@ export default function Home() {
       </div>
 
       {/* Headline */}
-      <div className="text-left">
+      <div className="text-left"
+      style={{ marginLeft: "80px", outline: "4px solid red" }}>
         <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
           AI Website
           <br />
@@ -210,7 +212,8 @@ export default function Home() {
       </div>
 
       {/* FORMULAR CARD */}
-      <div className="rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8">
+      <div className="rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8"
+      style={{ marginLeft: "80px", outline: "4px solid blue" }}>
 
         <div className="grid gap-4">
 
