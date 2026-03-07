@@ -75,6 +75,17 @@ function getScoreBand(score: number) {
   return "<40";
 }
 
+function getCategoryLabel(key: string) {
+  const labels: Record<string, string> = {
+    clarity: "Klarheit",
+    audienceFit: "Zielgruppen-Fit",
+    trust: "Vertrauen",
+    conversion: "Conversion",
+    structure: "Struktur",
+  };
+  return labels[key] ?? key;
+}
+
 export default function Home() {
   const [url, setUrl] = useState("");
   const [reportId, setReportId] = useState<string | null>(null);
@@ -165,263 +176,374 @@ export default function Home() {
   const disclaimer = safeString(result?.disclaimer, "");
 
   return (
-    <div className="mx-auto my-6 max-w-6xl rounded-[28px] bg-gradient-to-b from-slate-50 to-[#f6f8fc] px-4 py-5 font-sans sm:my-8 sm:px-5 sm:py-6">
-      <div className="mb-8 text-center sm:mb-10">
-  <div className="mb-4 flex items-center justify-center gap-3">
-    <span className="rounded-full border border-indigo-200 bg-indigo-100/70 px-3 py-1 text-xs font-bold text-indigo-700">
-      Beta
-    </span>
-    <span className="text-sm text-slate-500">
-      Schnell. Direkt. Umsetzbar.
-    </span>
-  </div>
-
-  <h1 className="mx-auto max-w-4xl text-[42px] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl lg:text-6xl">
-    AI Website Reality Check
-  </h1>
-
-  <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-600">
-    Erhalte eine schnelle und ehrliche Analyse deiner Website aus Conversion-
-    und Messaging-Sicht.
-    <br className="hidden sm:block" />
-    Fokus auf <strong>Klarheit, Vertrauen und Handlungsstärke</strong> — ohne
-    Tool-Overload und ohne SEO-Blabla.
-  </p>
-</div>
-
-<div className="mx-auto max-w-3xl rounded-[28px] border border-slate-200 bg-white px-5 py-6 shadow-[0_12px_40px_rgba(2,6,23,0.08)] sm:px-7 sm:py-7">
-  <div className="grid gap-5">
-    <label className="grid gap-2 text-left font-semibold text-slate-900">
-      <span>Website URL</span>
-      <input
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-        placeholder="https://deine-website.de"
-        disabled={loading}
-        className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-4 text-base text-slate-900 shadow-sm outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
-      />
-    </label>
-
-    <label className="grid gap-2 text-left font-semibold text-slate-900">
-      <span>Ziel</span>
-      <select
-        value={goal}
-        onChange={(e) => setGoal(e.target.value as Goal)}
-        disabled={loading}
-        className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-4 text-base text-slate-900 shadow-sm outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
-      >
-        <option value="leads">Mehr Anfragen</option>
-        <option value="sales">Mehr Verkäufe</option>
-        <option value="branding">Besseres Branding</option>
-      </select>
-    </label>
-
-    <button
-      onClick={onAnalyze}
-      disabled={loading || !canAnalyze}
-      className={`min-h-14 w-full rounded-2xl px-6 py-4 text-base font-extrabold text-white transition ${
-        loading || !canAnalyze
-          ? "cursor-not-allowed bg-slate-300"
-          : "bg-indigo-600 shadow-[0_14px_30px_rgba(79,70,229,0.26)] hover:bg-indigo-700"
-      }`}
-    >
-      {loading ? "Analysiere…" : "Analyse starten"}
-    </button>
-  </div>
-
-  <div className="mt-5 flex flex-wrap justify-center gap-2 text-sm text-slate-500">
-    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
-      kostenlos
-    </span>
-    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
-      keine Anmeldung nötig
-    </span>
-    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
-      Ergebnis in Sekunden
-    </span>
-  </div>
-
-  {loading && (
-    <div className="mt-5">
-      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
-        <div
-          style={{ animation: "loadingBar 1.1s ease-in-out infinite" }}
-          className="h-full w-[40%] rounded-full bg-gradient-to-r from-indigo-600 to-violet-600"
-        />
+    <main className="relative min-h-screen overflow-x-hidden bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc]">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-0 h-[380px] w-[380px] -translate-x-1/2 rounded-full bg-indigo-100/50 blur-3xl sm:h-[520px] sm:w-[520px]" />
+        <div className="absolute right-[-80px] top-[220px] h-[220px] w-[220px] rounded-full bg-violet-100/40 blur-3xl" />
+        <div className="absolute left-[-60px] top-[500px] h-[200px] w-[200px] rounded-full bg-slate-200/40 blur-3xl" />
       </div>
 
-      <p className="mt-3 text-center text-slate-700">
-        <strong>{loadingMessages[loadingStep]}</strong>
-        <span className="text-slate-500"> (ca. 10–20 Sekunden)</span>
-      </p>
-    </div>
-  )}
+      <div className="relative mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+        <div className="mx-auto max-w-6xl rounded-[32px] border border-white/70 bg-white/85 p-3 shadow-[0_30px_90px_rgba(2,6,23,0.08)] backdrop-blur-xl sm:p-4 lg:p-5">
+          <div className="rounded-[28px] border border-slate-200/70 bg-gradient-to-b from-white via-white to-slate-50/70 px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
+            <section className="mx-auto max-w-5xl">
+              <div className="mb-8 sm:mb-10 lg:mb-12">
+                <div className="mb-5 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+                  <span className="rounded-full border border-indigo-200 bg-indigo-100/80 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.12em] text-indigo-700">
+                    Beta
+                  </span>
+                  <span className="text-sm text-slate-500">
+                    Schnell. Direkt. Umsetzbar.
+                  </span>
+                </div>
 
-  {showDone && !loading && (
-    <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center font-bold text-emerald-800">
-      Analyse abgeschlossen ✅
-    </div>
-  )}
+                <div className="max-w-4xl text-center sm:text-left">
+                  <h1 className="text-[2.45rem] font-black leading-[0.94] tracking-[-0.06em] text-slate-900 sm:text-5xl lg:text-[4.2rem]">
+                    AI Website
+                    <span className="block text-slate-900">Reality Check</span>
+                  </h1>
 
-  {!canAnalyze && url.length > 0 && (
-    <p className="mt-4 text-center text-sm text-red-700">
-      Bitte gib eine gültige URL ein (mit https://).
-    </p>
-  )}
-
-  {error && (
-    <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-4 text-rose-800">
-      <strong className="mb-1 block">Konnte nicht analysieren</strong>
-      <span>{error}</span>
-    </div>
-  )}
-</div>
-      {result && (
-        <section className="mt-6 grid gap-4 sm:mt-8 sm:gap-5">
-          <div className="grid gap-5 rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_40px_rgba(2,6,23,0.06)] sm:p-6">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <h2 className="m-0 text-2xl font-bold text-slate-900 sm:text-3xl">
-                  Score: {overallScore}/100
-                </h2>
-                <p className="mt-3 max-w-2xl text-slate-600 leading-7">
-                  {summary || "Bitte Analyse erneut starten, falls die Zusammenfassung fehlt."}
-                </p>
+                  <p className="mt-5 max-w-3xl text-[1rem] leading-7 text-slate-600 sm:text-lg sm:leading-8">
+                    Erhalte eine schnelle und ehrliche Analyse deiner Website aus
+                    Conversion- und Messaging-Sicht. Fokus auf{" "}
+                    <strong>Klarheit, Vertrauen und Handlungsstärke</strong> —
+                    ohne Tool-Overload und ohne SEO-Blabla.
+                  </p>
+                </div>
               </div>
 
-              <div className="rounded-full bg-indigo-100 px-4 py-2 text-sm font-extrabold text-indigo-700">
-                Score-Bereich: {activeBand}
-              </div>
-            </div>
+              <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_340px] lg:items-start">
+                <div className="relative overflow-hidden rounded-[30px] border border-slate-200 bg-white px-4 py-5 shadow-[0_20px_60px_rgba(2,6,23,0.08)] sm:px-6 sm:py-6 lg:px-7 lg:py-7">
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-300/60 to-transparent" />
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-              <div className="grid gap-2">
-                {[
-                  { key: "80-100", label: "80–100", text: "Sehr stark – Feinschliff & Skalierung." },
-                  { key: "60-79", label: "60–79", text: "Gute Basis – klare Hebel für mehr Wirkung." },
-                  { key: "40-59", label: "40–59", text: "Potenzial – Kernbotschaft & Struktur nachschärfen." },
-                  { key: "<40", label: "<40", text: "Bremst stark – Angebot, CTA und Vertrauen erst klarziehen." },
-                ].map((r) => {
-                  const active = r.key === activeBand;
-                  return (
-                    <div
-                      key={r.key}
-                      className={`grid items-center gap-3 rounded-2xl px-4 py-3 text-sm sm:grid-cols-[72px_1fr] ${
-                        active
-                          ? "border border-indigo-300 bg-indigo-50 font-bold text-slate-900"
-                          : "border border-slate-200 bg-white text-slate-800"
+                  <div className="grid gap-5">
+                    <div className="mb-1">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                        Website prüfen
+                      </p>
+                      <h2 className="mt-2 text-xl font-bold tracking-[-0.02em] text-slate-900 sm:text-2xl">
+                        In Sekunden sehen, was auf deiner Seite wirkt — und was nicht
+                      </h2>
+                    </div>
+
+                    <label className="grid gap-2 text-left">
+                      <span className="text-sm font-semibold text-slate-900 sm:text-[15px]">
+                        Website URL
+                      </span>
+                      <input
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        placeholder="https://deine-website.de"
+                        disabled={loading}
+                        className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-base text-slate-900 shadow-[0_4px_16px_rgba(15,23,42,0.04)] outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 sm:px-5 sm:py-4"
+                      />
+                    </label>
+
+                    <label className="grid gap-2 text-left">
+                      <span className="text-sm font-semibold text-slate-900 sm:text-[15px]">
+                        Ziel
+                      </span>
+                      <select
+                        value={goal}
+                        onChange={(e) => setGoal(e.target.value as Goal)}
+                        disabled={loading}
+                        className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-base text-slate-900 shadow-[0_4px_16px_rgba(15,23,42,0.04)] outline-none transition focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 sm:px-5 sm:py-4"
+                      >
+                        <option value="leads">Mehr Anfragen</option>
+                        <option value="sales">Mehr Verkäufe</option>
+                        <option value="branding">Besseres Branding</option>
+                      </select>
+                    </label>
+
+                    <button
+                      onClick={onAnalyze}
+                      disabled={loading || !canAnalyze}
+                      className={`min-h-[58px] w-full rounded-2xl px-6 py-4 text-base font-extrabold text-white transition sm:min-h-[62px] ${
+                        loading || !canAnalyze
+                          ? "cursor-not-allowed bg-slate-300"
+                          : "bg-indigo-600 shadow-[0_18px_36px_rgba(79,70,229,0.28)] hover:-translate-y-[1px] hover:bg-indigo-700"
                       }`}
                     >
-                      <span>{r.label}</span>
-                      <span>{r.text}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+                      {loading ? "Analysiere…" : "Analyse starten"}
+                    </button>
+                  </div>
 
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
-              {Object.entries(categoryScoresObj).length === 0 ? (
-                <div className="text-sm text-red-700">
-                  Hinweis: Kategorie-Scores fehlen im AI-Output. Bitte Analyse erneut starten.
+                  <div className="mt-5 flex flex-wrap gap-2 text-sm text-slate-500">
+                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
+                      kostenlos
+                    </span>
+                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
+                      keine Anmeldung nötig
+                    </span>
+                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
+                      Ergebnis in Sekunden
+                    </span>
+                  </div>
+
+                  {loading && (
+                    <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200">
+                        <div
+                          style={{ animation: "loadingBar 1.1s ease-in-out infinite" }}
+                          className="h-full w-[40%] rounded-full bg-gradient-to-r from-indigo-600 to-violet-600"
+                        />
+                      </div>
+
+                      <p className="mt-3 text-sm leading-6 text-slate-700 sm:text-base">
+                        <strong>{loadingMessages[loadingStep]}</strong>
+                        <span className="text-slate-500"> (ca. 10–20 Sekunden)</span>
+                      </p>
+                    </div>
+                  )}
+
+                  {showDone && !loading && (
+                    <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center font-bold text-emerald-800">
+                      Analyse abgeschlossen ✅
+                    </div>
+                  )}
+
+                  {!canAnalyze && url.length > 0 && (
+                    <p className="mt-4 text-sm text-red-700">
+                      Bitte gib eine gültige URL ein (mit https://).
+                    </p>
+                  )}
+
+                  {error && (
+                    <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-4 text-rose-800">
+                      <strong className="mb-1 block">Konnte nicht analysieren</strong>
+                      <span>{error}</span>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                Object.entries(categoryScoresObj).map(([k, v]) => (
-                  <div
-                    key={k}
-                    className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
-                  >
-                    <div className="mb-1 text-xs capitalize text-slate-500">{k}</div>
-                    <div className="text-2xl font-extrabold text-slate-900">
-                      {safeNumber(v)}/20
+
+                <aside className="overflow-hidden rounded-[30px] border border-slate-200 bg-gradient-to-b from-slate-50 to-white shadow-[0_16px_50px_rgba(2,6,23,0.06)]">
+                  <div className="border-b border-slate-200 px-4 py-4 sm:px-5">
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                      Das bekommst du
+                    </p>
+                    <h3 className="mt-2 text-lg font-bold text-slate-900 sm:text-xl">
+                      Ein schneller Blick auf die größten Hebel deiner Website
+                    </h3>
+                  </div>
+
+                  <div className="grid gap-3 px-4 py-4 sm:px-5 sm:py-5">
+                    {[
+                      "Klarheit deiner Botschaft",
+                      "Vertrauen & erste Wirkung",
+                      "CTA und Conversion-Potenzial",
+                      "konkrete Quick Wins in 15 Minuten",
+                    ].map((item) => (
+                      <div
+                        key={item}
+                        className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm"
+                      >
+                        <div className="mt-1.5 h-2.5 w-2.5 min-w-2.5 rounded-full bg-indigo-600" />
+                        <p className="text-sm leading-6 text-slate-700">{item}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="px-4 pb-4 sm:px-5 sm:pb-5">
+                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-4">
+                      <p className="text-sm leading-6 text-indigo-900">
+                        Ideal für Unternehmen, Coaches, lokale Dienstleister und
+                        Angebotsseiten, die mehr Wirkung aus ihrer bestehenden Website
+                        holen wollen.
+                      </p>
                     </div>
                   </div>
-                ))
-              )}
-            </div>
-          </div>
+                </aside>
+              </div>
+            </section>
 
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_40px_rgba(2,6,23,0.06)] sm:p-6">
-              <h3 className="mb-4 mt-0 text-xl font-bold text-slate-900">
-                Was funktioniert
-              </h3>
+            {result && (
+              <section className="mt-8 grid gap-5 sm:mt-10 lg:mt-12">
+                <div className="overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-[0_18px_60px_rgba(2,6,23,0.07)]">
+                  <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 via-white to-slate-50 px-5 py-5 sm:px-6 sm:py-6 lg:px-7">
+                    <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+                      <div className="max-w-3xl">
+                        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                          Analyse-Ergebnis
+                        </p>
+                        <h2 className="text-3xl font-black tracking-[-0.04em] text-slate-900 sm:text-4xl lg:text-[2.8rem]">
+                          Score: {overallScore}/100
+                        </h2>
+                        <p className="mt-3 text-base leading-7 text-slate-600 sm:text-[17px]">
+                          {summary ||
+                            "Bitte Analyse erneut starten, falls die Zusammenfassung fehlt."}
+                        </p>
+                      </div>
 
-              {strengths.length ? (
-                <div className="grid gap-3">
-                  {strengths.map((s, i) => (
-                    <div
-                      key={i}
-                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-slate-700 leading-7"
-                    >
-                      {s}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-red-700">Keine Strengths im Output.</p>
-              )}
-            </div>
-
-            <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_40px_rgba(2,6,23,0.06)] sm:p-6">
-              <h3 className="mb-4 mt-0 text-xl font-bold text-slate-900">
-                Was bremst
-              </h3>
-
-              {blockers.length ? (
-                <div className="grid gap-3">
-                  {blockers.map((b, i) => (
-                    <div
-                      key={i}
-                      className="rounded-2xl border border-orange-200 bg-orange-50 p-4 text-orange-900 leading-7"
-                    >
-                      {b}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-red-700">Keine Blocker im Output.</p>
-              )}
-            </div>
-          </div>
-
-          <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_40px_rgba(2,6,23,0.06)] sm:p-6">
-            <h3 className="mb-2 mt-0 text-xl font-bold text-slate-900">
-              Quick Wins (15 Min)
-            </h3>
-
-            <p className="mb-0 text-slate-600 leading-7">
-              Kleine Änderungen, die du schnell umsetzen kannst und die oft direkt
-              spürbar etwas verbessern.
-            </p>
-
-            {quickWins.length ? (
-              <div className="mt-4 grid gap-3">
-                {quickWins.map((q, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4"
-                  >
-                    <div className="mt-2 h-2.5 w-2.5 min-w-2.5 rounded-full bg-slate-900" />
-                    <div className="text-slate-700 leading-7">
-                      <strong className="text-slate-900">{q.title}:</strong> {q.how}
+                      <div className="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-100 px-4 py-2 text-sm font-extrabold text-indigo-700">
+                        Score-Bereich: {activeBand}
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <p className="mt-4 text-red-700">Keine Quick Wins im Output.</p>
+
+                  <div className="px-5 py-5 sm:px-6 sm:py-6 lg:px-7">
+                    <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-3 sm:p-4">
+                      <div className="grid gap-2">
+                        {[
+                          {
+                            key: "80-100",
+                            label: "80–100",
+                            text: "Sehr stark – Feinschliff & Skalierung.",
+                          },
+                          {
+                            key: "60-79",
+                            label: "60–79",
+                            text: "Gute Basis – klare Hebel für mehr Wirkung.",
+                          },
+                          {
+                            key: "40-59",
+                            label: "40–59",
+                            text: "Potenzial – Kernbotschaft & Struktur nachschärfen.",
+                          },
+                          {
+                            key: "<40",
+                            label: "<40",
+                            text: "Bremst stark – Angebot, CTA und Vertrauen erst klarziehen.",
+                          },
+                        ].map((r) => {
+                          const active = r.key === activeBand;
+                          return (
+                            <div
+                              key={r.key}
+                              className={`grid gap-2 rounded-2xl px-4 py-3 text-sm sm:grid-cols-[82px_1fr] sm:items-center ${
+                                active
+                                  ? "border border-indigo-300 bg-indigo-50 font-bold text-slate-900 shadow-sm"
+                                  : "border border-slate-200 bg-white text-slate-800"
+                              }`}
+                            >
+                              <span>{r.label}</span>
+                              <span>{r.text}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
+                      {Object.entries(categoryScoresObj).length === 0 ? (
+                        <div className="text-sm text-red-700">
+                          Hinweis: Kategorie-Scores fehlen im AI-Output. Bitte Analyse erneut starten.
+                        </div>
+                      ) : (
+                        Object.entries(categoryScoresObj).map(([k, v]) => (
+                          <div
+                            key={k}
+                            className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4 shadow-sm"
+                          >
+                            <div className="text-xs font-medium text-slate-500">
+                              {getCategoryLabel(k)}
+                            </div>
+                            <div className="mt-2 text-2xl font-extrabold text-slate-900">
+                              {safeNumber(v)}/20
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+                  <div className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-[0_14px_45px_rgba(2,6,23,0.06)] sm:p-6 lg:p-7">
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-2xl bg-slate-100" />
+                      <h3 className="text-xl font-bold text-slate-900">
+                        Was funktioniert
+                      </h3>
+                    </div>
+
+                    {strengths.length ? (
+                      <div className="grid gap-3">
+                        {strengths.map((s, i) => (
+                          <div
+                            key={i}
+                            className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-700 sm:text-[15px]"
+                          >
+                            {s}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-red-700">Keine Strengths im Output.</p>
+                    )}
+                  </div>
+
+                  <div className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-[0_14px_45px_rgba(2,6,23,0.06)] sm:p-6 lg:p-7">
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-2xl bg-orange-100" />
+                      <h3 className="text-xl font-bold text-slate-900">
+                        Was bremst
+                      </h3>
+                    </div>
+
+                    {blockers.length ? (
+                      <div className="grid gap-3">
+                        {blockers.map((b, i) => (
+                          <div
+                            key={i}
+                            className="rounded-2xl border border-orange-200 bg-orange-50 p-4 text-sm leading-7 text-orange-900 sm:text-[15px]"
+                          >
+                            {b}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-red-700">Keine Blocker im Output.</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-[0_18px_60px_rgba(2,6,23,0.07)] sm:p-6 lg:p-7">
+                  <div className="max-w-3xl">
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                      Sofort umsetzbar
+                    </p>
+                    <h3 className="mt-2 text-2xl font-bold tracking-[-0.03em] text-slate-900">
+                      Quick Wins (15 Min)
+                    </h3>
+
+                    <p className="mt-3 text-slate-600 leading-7">
+                      Kleine Änderungen, die du schnell umsetzen kannst und die oft
+                      direkt spürbar etwas verbessern.
+                    </p>
+                  </div>
+
+                  {quickWins.length ? (
+                    <div className="mt-5 grid gap-3">
+                      {quickWins.map((q, i) => (
+                        <div
+                          key={i}
+                          className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-4 shadow-sm"
+                        >
+                          <div className="mt-2 h-2.5 w-2.5 min-w-2.5 rounded-full bg-slate-900" />
+                          <div className="text-sm leading-7 text-slate-700 sm:text-[15px]">
+                            <strong className="text-slate-900">{q.title}:</strong> {q.how}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="mt-4 text-red-700">Keine Quick Wins im Output.</p>
+                  )}
+
+                  <div className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/70 p-3 sm:p-4">
+                    <EmailGateInline websiteUrl={url} reportId={reportId} />
+                  </div>
+
+                  <p className="mt-5 text-xs leading-6 text-slate-500">
+                    {disclaimer ||
+                      "Hinweis: AI-Ausgabe kann unvollständig sein. Bitte erneut testen, falls Felder fehlen."}
+                  </p>
+                </div>
+              </section>
             )}
-
-            <EmailGateInline websiteUrl={url} reportId={reportId} />
-
-            <p className="mt-4 text-xs leading-6 text-slate-500">
-              {disclaimer ||
-                "Hinweis: AI-Ausgabe kann unvollständig sein. Bitte erneut testen, falls Felder fehlen."}
-            </p>
           </div>
-        </section>
-      )}
+        </div>
+      </div>
 
       <style jsx global>{`
         @keyframes loadingBar {
@@ -436,6 +558,6 @@ export default function Home() {
           }
         }
       `}</style>
-    </div>
+    </main>
   );
 }
