@@ -180,8 +180,8 @@ export default function Home() {
       <div className="py-6 sm:py-8 lg:py-10">
         <div className="border border-slate-200/70 bg-white/85 p-4 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-5 lg:p-6">
           <div className="bg-gradient-to-b from-white via-white to-slate-50/70 px-5 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
-            <section className="py-4 sm:py-6">
-              <div className="mb-6 flex items-center justify-center gap-3">
+            <section className="py-6 sm:py-8‚">
+              <div className="mb-6 flex items-left justify-left gap-3">
                 <span className="rounded-full border border-indigo-200 bg-indigo-100 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-700">
                   Beta
                 </span>
@@ -190,12 +190,12 @@ export default function Home() {
                 </span>
               </div>
 
-              <div className="mx-auto max-w-2xl text-center">
+              <div className="mx-auto max-w-2xl text-left">
                 <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
                   AI Website Reality Check
                 </h1>
 
-                <p className="mx-auto mt-4 max-w-xl text-base leading-8 text-slate-600">
+                <p className="max-w-xl text-base leading-8 text-slate-600">
                   Analysiere deine Website in wenigen Sekunden und entdecke, was
                   Besucher überzeugt – und was sie bremst. Fokus auf{" "}
                   <strong className="text-slate-900">
@@ -288,7 +288,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-16 px-5 sm:px-6">
+              <div className="mt-16 px-6 sm:px-8">
                 <div className="mx-auto max-w-2xl border border-slate-200 bg-slate-50 p-6">
                   <h3 className="text-lg font-bold text-slate-900">
                     Du erhältst sofort:
