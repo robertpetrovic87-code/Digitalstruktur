@@ -177,131 +177,144 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc]">
-      <div className="mx-auto max-w-5xl px-5 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-        <div className="mx-auto max-w-5xl border border-slate-200/70 bg-white/85 p-3 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-4 lg:p-5">
-          <div className="border border-slate-200/70 bg-gradient-to-b from-white via-white to-slate-50/70 px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
-            <section className="mx-auto max-w-4xl px-5 py-8 sm:px-6 lg:px-8">
-  <div className="mb-6 flex items-center gap-3">
-    <span className="rounded-full border border-indigo-200 bg-indigo-100 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-700">
-      Beta
-    </span>
-    <span className="text-sm text-slate-500">Schnell. Direkt. Umsetzbar.</span>
-  </div>
+      <div className="py-6 sm:py-8 lg:py-10">
+        <div className="border border-slate-200/70 bg-white/85 p-4 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-5 lg:p-6">
+          <div className="bg-gradient-to-b from-white via-white to-slate-50/70 px-5 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
+            <section className="py-4 sm:py-6">
+              <div className="mb-6 flex items-center justify-center gap-3">
+                <span className="rounded-full border border-indigo-200 bg-indigo-100 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-700">
+                  Beta
+                </span>
+                <span className="text-sm text-slate-500">
+                  Schnell. Direkt. Umsetzbar.
+                </span>
+              </div>
 
-  <div className="max-w-2xl">
-    <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
-      AI Website Reality Check
-    </h1>
+              <div className="mx-auto max-w-2xl text-center">
+                <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
+                  AI Website Reality Check
+                </h1>
 
-    <p className="mt-4 max-w-xl text-base leading-8 text-slate-600">
-      Analysiere deine Website in wenigen Sekunden und entdecke, was Besucher überzeugt – und was sie bremst.
-      Fokus auf <strong className="text-slate-900">Klarheit, Vertrauen und Conversion.</strong>
-    </p>
-  </div>
+                <p className="mx-auto mt-4 max-w-xl text-base leading-8 text-slate-600">
+                  Analysiere deine Website in wenigen Sekunden und entdecke, was
+                  Besucher überzeugt – und was sie bremst. Fokus auf{" "}
+                  <strong className="text-slate-900">
+                    Klarheit, Vertrauen und Conversion.
+                  </strong>
+                </p>
+              </div>
 
-  <div className="mt-8 border border-slate-200 bg-white px-5 py-5 shadow-[0_12px_35px_rgba(2,6,23,0.06)] sm:px-6 sm:py-6">
-    <div className="grid gap-5">
-      <label className="grid gap-2 text-left">
-        <span className="text-sm font-semibold text-slate-900">Website URL</span>
-        <input
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://deine-website.de"
-          disabled={loading}
-          className="h-12 w-full border border-slate-200 bg-white px-4 text-base text-slate-900 outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
-        />
-      </label>
+              <div className="mt-8 border border-slate-200 bg-white px-5 py-6 shadow-[0_12px_35px_rgba(2,6,23,0.06)] sm:px-6 sm:py-7">
+                <div className="mx-auto grid max-w-2xl gap-5">
+                  <label className="grid gap-2.5 text-left">
+                    <span className="text-sm font-semibold text-slate-900">
+                      Website URL
+                    </span>
+                    <input
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
+                      placeholder="https://deine-website.de"
+                      disabled={loading}
+                      className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-base text-slate-900 shadow-sm outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
+                    />
+                  </label>
 
-      <label className="grid gap-2 text-left">
-        <span className="text-sm font-semibold text-slate-900">Ziel</span>
-        <select
-          value={goal}
-          onChange={(e) => setGoal(e.target.value as Goal)}
-          disabled={loading}
-          className="h-12 w-full border border-slate-200 bg-white px-4 text-base text-slate-900 outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
-        >
-          <option value="leads">Mehr Anfragen</option>
-          <option value="sales">Mehr Verkäufe</option>
-          <option value="branding">Besseres Branding</option>
-        </select>
-      </label>
+                  <label className="grid gap-2.5 text-left">
+                    <span className="text-sm font-semibold text-slate-900">
+                      Ziel
+                    </span>
+                    <select
+                      value={goal}
+                      onChange={(e) => setGoal(e.target.value as Goal)}
+                      disabled={loading}
+                      className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-base text-slate-900 shadow-sm outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
+                    >
+                      <option value="leads">Mehr Anfragen</option>
+                      <option value="sales">Mehr Verkäufe</option>
+                      <option value="branding">Besseres Branding</option>
+                    </select>
+                  </label>
 
-      <button
-        onClick={onAnalyze}
-        disabled={loading || !canAnalyze}
-        className={`mt-1 h-14 w-full rounded-2xl text-base font-bold text-white transition ${
-          loading || !canAnalyze
-            ? "cursor-not-allowed bg-slate-300"
-            : "bg-indigo-600 shadow-[0_12px_30px_rgba(79,70,229,0.28)] hover:bg-indigo-700"
-        }`}
-      >
-        {loading ? "Analysiere…" : "Website jetzt analysieren"}
-      </button>
+                  <button
+                    onClick={onAnalyze}
+                    disabled={loading || !canAnalyze}
+                    className={`mt-1 h-14 w-full rounded-2xl text-base font-bold text-white transition ${
+                      loading || !canAnalyze
+                        ? "cursor-not-allowed bg-slate-300"
+                        : "bg-indigo-600 shadow-[0_12px_30px_rgba(79,70,229,0.28)] hover:bg-indigo-700"
+                    }`}
+                  >
+                    {loading ? "Analysiere…" : "Website jetzt analysieren"}
+                  </button>
 
-      <div className="text-center text-sm font-semibold text-slate-600">
-        Kostenlos • Keine Anmeldung • Ergebnis in Sekunden
-      </div>
+                  <div className="text-center text-sm font-semibold text-slate-600">
+                    Kostenlos • Keine Anmeldung • Ergebnis in Sekunden
+                  </div>
 
-      {loading && (
-        <div className="border border-slate-200 bg-slate-50 p-4">
-          <div className="h-2.5 w-full overflow-hidden bg-slate-200">
-            <div
-              style={{ animation: "loadingBar 1.1s ease-in-out infinite" }}
-              className="h-full w-[40%] bg-gradient-to-r from-indigo-600 to-violet-600"
-            />
-          </div>
+                  {loading && (
+                    <div className="border border-slate-200 bg-slate-50 p-4">
+                      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200">
+                        <div
+                          style={{ animation: "loadingBar 1.1s ease-in-out infinite" }}
+                          className="h-full w-[40%] rounded-full bg-gradient-to-r from-indigo-600 to-violet-600"
+                        />
+                      </div>
 
-          <p className="mt-3 text-sm text-slate-700">
-            <strong>{loadingMessages[loadingStep]}</strong>
-            <span className="text-slate-500"> (ca. 10–20 Sekunden)</span>
-          </p>
-        </div>
-      )}
+                      <p className="mt-3 text-sm text-slate-700">
+                        <strong>{loadingMessages[loadingStep]}</strong>
+                        <span className="text-slate-500"> (ca. 10–20 Sekunden)</span>
+                      </p>
+                    </div>
+                  )}
 
-      {showDone && !loading && (
-        <div className="border border-emerald-200 bg-emerald-50 px-4 py-3 text-center font-bold text-emerald-800">
-          Analyse abgeschlossen ✅
-        </div>
-      )}
+                  {showDone && !loading && (
+                    <div className="border border-emerald-200 bg-emerald-50 px-4 py-3 text-center font-bold text-emerald-800">
+                      Analyse abgeschlossen ✅
+                    </div>
+                  )}
 
-      {!canAnalyze && url.length > 0 && (
-        <p className="text-sm text-red-700">
-          Bitte gib eine gültige URL ein (mit https://).
-        </p>
-      )}
+                  {!canAnalyze && url.length > 0 && (
+                    <p className="text-sm text-red-700">
+                      Bitte gib eine gültige URL ein (mit https://).
+                    </p>
+                  )}
 
-      {error && (
-        <div className="border border-rose-200 bg-rose-50 px-4 py-4 text-rose-800">
-          <strong className="mb-1 block">Konnte nicht analysieren</strong>
-          <span>{error}</span>
-        </div>
-      )}
-    </div>
-  </div>
+                  {error && (
+                    <div className="border border-rose-200 bg-rose-50 px-4 py-4 text-rose-800">
+                      <strong className="mb-1 block">Konnte nicht analysieren</strong>
+                      <span>{error}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
 
-  <div className="mt-6 border border-slate-200 bg-slate-50 px-5 py-5">
-    <h3 className="text-lg font-bold text-slate-900">Du erhältst sofort:</h3>
+              <div className="mt-12 border border-slate-200 bg-slate-50 px-5 py-6 sm:px-6">
+                <div className="mx-auto max-w-2xl">
+                  <h3 className="text-lg font-bold text-slate-900">
+                    Du erhältst sofort:
+                  </h3>
 
-    <ul className="mt-4 space-y-3 text-slate-700">
-      <li className="flex items-start gap-3">
-        <span className="mt-2 h-2 w-2 min-w-2 rounded-full bg-indigo-600" />
-        <span>Klarheit deiner Botschaft</span>
-      </li>
-      <li className="flex items-start gap-3">
-        <span className="mt-2 h-2 w-2 min-w-2 rounded-full bg-indigo-600" />
-        <span>Vertrauen & erste Wirkung</span>
-      </li>
-      <li className="flex items-start gap-3">
-        <span className="mt-2 h-2 w-2 min-w-2 rounded-full bg-indigo-600" />
-        <span>CTA und Conversion-Potenzial</span>
-      </li>
-      <li className="flex items-start gap-3">
-        <span className="mt-2 h-2 w-2 min-w-2 rounded-full bg-indigo-600" />
-        <span>Konkrete Quick Wins in 15 Minuten</span>
-            </li>
-            </ul>
-          </div>
-          </section>
+                  <ul className="mt-4 space-y-3 text-slate-700">
+                    <li className="flex items-start gap-3">
+                      <span className="mt-2 h-2 w-2 min-w-2 rounded-full bg-indigo-600" />
+                      <span>Klarheit deiner Botschaft</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="mt-2 h-2 w-2 min-w-2 rounded-full bg-indigo-600" />
+                      <span>Vertrauen & erste Wirkung</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="mt-2 h-2 w-2 min-w-2 rounded-full bg-indigo-600" />
+                      <span>CTA und Conversion-Potenzial</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <span className="mt-2 h-2 w-2 min-w-2 rounded-full bg-indigo-600" />
+                      <span>Konkrete Quick Wins in 15 Minuten</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
 
             {result && (
               <section className="mt-8 grid gap-5 sm:mt-10">
