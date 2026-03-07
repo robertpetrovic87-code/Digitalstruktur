@@ -206,7 +206,7 @@ export default function Home() {
               </div>
 
               <div className="grid gap-6">
-                <div className="border border-slate-200 bg-white px-4 py-5 shadow-[0_10px_30px_rgba(2,6,23,0.06)] sm:px-6 sm:py-6 lg:px-7 lg:py-7">
+                <div className="mt-8 border border-slate-200 bg-white px-6 py-6 shadow-[0_10px_30px_rgba(2,6,23,0.08)]">
                   <div className="grid gap-5">
                     <label className="grid gap-2 text-left">
                     <span className="text-sm font-semibold text-slate-900 sm:text-[15px]">
@@ -240,10 +240,10 @@ export default function Home() {
                     <button
                       onClick={onAnalyze}
                       disabled={loading || !canAnalyze}
-                      className={`mt-3 min-h-[56px] w-full rounded-2xl px-6 py-4 text-base font-extrabold text-white transition ${
+                      className={`mt-4 min-h-[56px] w-full rounded-xl px-6 py-4 text-base font-semibold text-white transition-all${
                         loading || !canAnalyze
                           ? "cursor-not-allowed bg-slate-300"
-                          : "bg-indigo-600 shadow-[0_14px_30px_rgba(79,70,229,0.24)] hover:bg-indigo-700"
+                          : "bg-indigo-600 shadow-lg hover:bg-indigo-700 hover:shadow-xl"
                       }`}
                     >
                       {loading ? "Analysiere…" : "Website jetzt analysieren"}
