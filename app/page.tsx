@@ -193,7 +193,7 @@ export default function Home() {
 
               <div className="max-w-2xl text-left md:pl-2">
                 <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
-                  AI Website
+                  AI Website TEST
                   <br />
                   Reality Check
                 </h1>
