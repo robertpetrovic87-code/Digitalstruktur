@@ -177,7 +177,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc]">
-      <div className="mx-auto max-w-4xl bg-gradient-to-b from-white via-white to-slate-50/70 px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
+      <div className="w-full mx-auto max-w-4xl bg-gradient-to-b from-white via-white to-slate-50/70 px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
         <div className="border border-slate-200/70 bg-blue-200 p-4 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-5 lg:p-6">
           <div className="bg-green-200 px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
             <section className="bg-yellow-200 py-2 sm:py-4">
