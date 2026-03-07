@@ -73,7 +73,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
             Detailreport + Textvorschläge per E-Mail erhalten →
           </div>
           <div className="mt-2 text-sm text-blue-100">
-            Kostenloser Deep-Dive · in ca. 2 Minuten gelesen · Double Opt-in
+            Kostenloser Deep-Dive · ca. 2 Minuten · kein Spam
           </div>
         </button>
       ) : (

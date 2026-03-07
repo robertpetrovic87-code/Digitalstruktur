@@ -334,7 +334,7 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-100 px-4 py-2 text-sm font-extrabold text-indigo-700">
+                <div className="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-100 px-5 py-2.5 text-sm font-extrabold text-indigo-700">
                   Score-Bereich: {activeBand}
                 </div>
               </div>
@@ -473,11 +473,11 @@ export default function Home() {
             </div>
 
             {quickWins.length ? (
-              <div className="mt-5 grid gap-3">
+              <div className="mt-7 grid gap-5">
                 {quickWins.map((q, i) => (
                   <div
                     key={i}
-                    className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4"
+                    className="flex items-start gap-5 rounded-xl border border-slate-200 bg-slate-50 p-4"
                   >
                     <div className="mt-2 h-2.5 w-2.5 min-w-2.5 rounded-full bg-slate-900" />
                     <div className="text-sm leading-7 text-slate-700 sm:text-[15px]">
