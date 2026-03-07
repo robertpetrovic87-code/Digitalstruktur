@@ -83,6 +83,14 @@ Der Blueprint zeigt dir konkret,
 
 {/* CTA 1 */}
 
+<div className="mt-10 rounded-2xl border border-zinc-200 bg-zinc-50 p-5 text-sm leading-7 text-zinc-600 shadow-sm">
+  Viele Agenturen verlangen für eine Website-Analyse oder einen strategischen
+  Maßnahmenplan schnell <strong className="text-zinc-900">800€ bis 2000€</strong>.
+  <br />
+  Dieser Blueprint konzentriert sich auf die wichtigsten Hebel deiner Website und
+  kostet einmalig <strong className="text-zinc-900">199€</strong>.
+</div>
+
 <button
 onClick={handleCheckout}
 disabled={loading}
@@ -95,6 +103,17 @@ className="mt-10 w-full rounded-2xl bg-indigo-600 px-6 py-4 text-base font-semib
 Einmalige Erstellung • Lieferung innerhalb 24h
 </div>
 
+<div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+  <div className="text-sm font-semibold text-zinc-900">
+    Was nach dem Kauf passiert
+  </div>
+
+  <ul className="mt-3 space-y-2 text-sm leading-6 text-zinc-600">
+    <li>1. Deine Zahlung wird bestätigt</li>
+    <li>2. Dein Blueprint wird individuell erstellt</li>
+    <li>3. Du erhältst ihn innerhalb von 24 Stunden per E-Mail</li>
+  </ul>
+</div>
 {/* VALUE */}
 
 <div className="mt-14 grid gap-5">
