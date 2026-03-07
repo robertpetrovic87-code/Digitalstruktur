@@ -176,67 +176,74 @@ export default function Home() {
   const disclaimer = safeString(result?.disclaimer, "");
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc]">
-      <div className="w-full mx-auto max-w-4xl bg-gradient-to-b from-white via-white to-slate-50/70 px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
-        <div className="border border-slate-200/70 bg-blue-200 p-4 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-5 lg:p-6">
-          <div className="bg-green-200 px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
-            <section className="bg-yellow-200 py-2 sm:py-4">
-            <div className="mx-auto max-w-3xl"></div>
-              <div className="mb-6 flex items-center gap-4">
-                <span className="rounded-full border border-indigo-200 bg-indigo-100 px-4 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-700">
-                  Beta
-                </span>
-                <span className="text-sm text-slate-500">
-                  Schnell. Direkt. Umsetzbar.
-                </span>
-              </div>
+  <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc] py-8 sm:py-10 lg:py-12">
 
-              <div className="mx-auto max-w-[48rem] text-left">
-                <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
-                  AI Website
-                  <br />
-                  Reality Check
-                </h1>
+    {/* HERO + FORMULAR */}
+    <section className="mx-auto max-w-3xl">
 
-                <p className="max-w-2xl text-base leading-6 text-slate-600 mb-12">
-                  Analysiere deine Website in wenigen Sekunden und entdecke, was
-                  Besucher überzeugt – und was sie bremst. Fokus auf{" "}
-                  <strong className="text-slate-900">
-                    Klarheit, Vertrauen und Conversion.
-                  </strong>
-                </p>
-              </div>
+      {/* Beta Label */}
+      <div className="mb-6 flex items-center gap-4">
+        <span className="rounded-full border border-indigo-200 bg-indigo-100 px-4 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-700">
+          Beta
+        </span>
+        <span className="text-sm text-slate-500">
+          Schnell. Direkt. Umsetzbar.
+        </span>
+      </div>
 
-              <div className="mx-auto mt-14 max-w-[48rem] rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8">
-                <div className="mx-auto grid max-w-[42rem] gap-4">
-                  <label className="grid gap-1.5 text-left">
-                    <span className="text-sm font-semibold text-slate-900">
-                      Website URL
-                    </span>
-                    <input
-                      value={url}
-                      onChange={(e) => setUrl(e.target.value)}
-                      placeholder="https://deine-website.de"
-                      disabled={loading}
-                      className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-base text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                    />
-                  </label>
+      {/* Headline */}
+      <div className="text-left">
+        <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
+          AI Website
+          <br />
+          Reality Check
+        </h1>
 
-                  <label className="grid gap-1.5 text-left">
-                    <span className="text-sm font-semibold text-slate-900">
-                      Ziel
-                    </span>
-                    <select
-                      value={goal}
-                      onChange={(e) => setGoal(e.target.value as Goal)}
-                      disabled={loading}
-                      className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-base text-slate-900 shadow-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                    >
-                      <option value="leads">Mehr Anfragen</option>
-                      <option value="sales">Mehr Verkäufe</option>
-                      <option value="branding">Besseres Branding</option>
-                    </select>
-                  </label>
+        <p className="mt-4 max-w-xl text-base leading-7 text-slate-600 mb-12">
+          Analysiere deine Website in wenigen Sekunden und entdecke,
+          was Besucher überzeugt – und was sie bremst. Fokus auf{" "}
+          <strong className="text-slate-900">
+            Klarheit, Vertrauen und Conversion.
+          </strong>
+        </p>
+      </div>
+
+      {/* FORMULAR CARD */}
+      <div className="rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8">
+
+        <div className="grid gap-4">
+
+          <label className="grid gap-1.5 text-left">
+            <span className="text-sm font-semibold text-slate-900">
+              Website URL
+            </span>
+
+            <input
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              placeholder="https://deine-website.de"
+              disabled={loading}
+              className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-base text-slate-900 shadow-sm outline-none placeholder:text-slate-400 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+            />
+          </label>
+
+          <label className="grid gap-1.5 text-left">
+            <span className="text-sm font-semibold text-slate-900">
+              Ziel
+            </span>
+
+            <select
+              value={goal}
+              onChange={(e) => setGoal(e.target.value as Goal)}
+              disabled={loading}
+              className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-base text-slate-900 shadow-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
+            >
+              <option value="leads">Mehr Anfragen</option>
+              <option value="sales">Mehr Verkäufe</option>
+              <option value="branding">Besseres Branding</option>
+            </select>
+          </label>
+          
 
                   <button
                     onClick={onAnalyze}
@@ -504,9 +511,7 @@ export default function Home() {
                 </div>
               </section>
             )}
-          </div>
-        </div>
-      </div>
+      
 
       <style jsx global>{`
         @keyframes loadingBar {
@@ -521,6 +526,6 @@ export default function Home() {
           }
         }
       `}</style>
-    </main>
+    </div>
   );
 }
