@@ -176,20 +176,14 @@ export default function Home() {
   const disclaimer = safeString(result?.disclaimer, "");
 
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc]">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-0 h-[380px] w-[380px] -translate-x-1/2 rounded-full bg-indigo-100/50 blur-3xl sm:h-[520px] sm:w-[520px]" />
-        <div className="absolute right-[-80px] top-[220px] h-[220px] w-[220px] rounded-full bg-violet-100/40 blur-3xl" />
-        <div className="absolute left-[-60px] top-[500px] h-[200px] w-[200px] rounded-full bg-slate-200/40 blur-3xl" />
-      </div>
-
-      <div className="relative mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-        <div className="mx-auto max-w-6xl rounded-[32px] border border-white/70 bg-white/85 p-3 shadow-[0_30px_90px_rgba(2,6,23,0.08)] backdrop-blur-xl sm:p-4 lg:p-5">
-          <div className="rounded-[28px] border border-slate-200/70 bg-gradient-to-b from-white via-white to-slate-50/70 px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc]">
+      <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+        <div className="mx-auto max-w-6xl border border-slate-200/70 bg-white/85 p-3 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-4 lg:p-5">
+          <div className="border border-slate-200/70 bg-gradient-to-b from-white via-white to-slate-50/70 px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
             <section className="mx-auto max-w-5xl">
-              <div className="mb-8 sm:mb-10 lg:mb-12">
-                <div className="mb-5 flex flex-wrap items-center justify-center gap-3 sm:justify-start">
-                  <span className="rounded-full border border-indigo-200 bg-indigo-100/80 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.12em] text-indigo-700">
+              <div className="mb-8 sm:mb-10">
+                <div className="mb-4 flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+                  <span className="border border-indigo-200 bg-indigo-100/80 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.12em] text-indigo-700">
                     Beta
                   </span>
                   <span className="text-sm text-slate-500">
@@ -197,13 +191,13 @@ export default function Home() {
                   </span>
                 </div>
 
-                <div className="max-w-4xl text-center sm:text-left">
-                  <h1 className="text-[2.45rem] font-black leading-[0.94] tracking-[-0.06em] text-slate-900 sm:text-5xl lg:text-[4.2rem]">
+                <div className="max-w-3xl text-left">
+                  <h1 className="text-[1.95rem] font-black leading-[0.98] tracking-[-0.05em] text-slate-900 sm:text-5xl lg:text-[4rem]">
                     AI Website
-                    <span className="block text-slate-900">Reality Check</span>
+                    <span className="block">Reality Check</span>
                   </h1>
 
-                  <p className="mt-5 max-w-3xl text-[1rem] leading-7 text-slate-600 sm:text-lg sm:leading-8">
+                  <p className="mt-4 max-w-2xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg sm:leading-8">
                     Erhalte eine schnelle und ehrliche Analyse deiner Website aus
                     Conversion- und Messaging-Sicht. Fokus auf{" "}
                     <strong>Klarheit, Vertrauen und Handlungsstärke</strong> —
@@ -212,17 +206,15 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_340px] lg:items-start">
-                <div className="relative overflow-hidden rounded-[30px] border border-slate-200 bg-white px-4 py-5 shadow-[0_20px_60px_rgba(2,6,23,0.08)] sm:px-6 sm:py-6 lg:px-7 lg:py-7">
-                  <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-300/60 to-transparent" />
-
+              <div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_320px] lg:items-start">
+                <div className="border border-slate-200 bg-white px-4 py-5 shadow-[0_10px_30px_rgba(2,6,23,0.06)] sm:px-6 sm:py-6 lg:px-7 lg:py-7">
                   <div className="grid gap-5">
-                    <div className="mb-1">
-                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                    <div className="border-b border-slate-100 pb-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                         Website prüfen
                       </p>
-                      <h2 className="mt-2 text-xl font-bold tracking-[-0.02em] text-slate-900 sm:text-2xl">
-                        In Sekunden sehen, was auf deiner Seite wirkt — und was nicht
+                      <h2 className="mt-2 max-w-2xl text-[1.8rem] font-bold leading-[1.08] tracking-[-0.03em] text-slate-900 sm:text-[2rem]">
+                        Was auf deiner Website wirkt — und was nicht
                       </h2>
                     </div>
 
@@ -235,7 +227,7 @@ export default function Home() {
                         onChange={(e) => setUrl(e.target.value)}
                         placeholder="https://deine-website.de"
                         disabled={loading}
-                        className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-base text-slate-900 shadow-[0_4px_16px_rgba(15,23,42,0.04)] outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 sm:px-5 sm:py-4"
+                        className="w-full border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
                       />
                     </label>
 
@@ -247,7 +239,7 @@ export default function Home() {
                         value={goal}
                         onChange={(e) => setGoal(e.target.value as Goal)}
                         disabled={loading}
-                        className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-base text-slate-900 shadow-[0_4px_16px_rgba(15,23,42,0.04)] outline-none transition focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 sm:px-5 sm:py-4"
+                        className="w-full border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 shadow-sm outline-none transition focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
                       >
                         <option value="leads">Mehr Anfragen</option>
                         <option value="sales">Mehr Verkäufe</option>
@@ -258,34 +250,34 @@ export default function Home() {
                     <button
                       onClick={onAnalyze}
                       disabled={loading || !canAnalyze}
-                      className={`min-h-[58px] w-full rounded-2xl px-6 py-4 text-base font-extrabold text-white transition sm:min-h-[62px] ${
+                      className={`min-h-[56px] w-full rounded-2xl px-6 py-4 text-base font-extrabold text-white transition ${
                         loading || !canAnalyze
                           ? "cursor-not-allowed bg-slate-300"
-                          : "bg-indigo-600 shadow-[0_18px_36px_rgba(79,70,229,0.28)] hover:-translate-y-[1px] hover:bg-indigo-700"
+                          : "bg-indigo-600 shadow-[0_14px_30px_rgba(79,70,229,0.24)] hover:bg-indigo-700"
                       }`}
                     >
                       {loading ? "Analysiere…" : "Analyse starten"}
                     </button>
                   </div>
 
-                  <div className="mt-5 flex flex-wrap gap-2 text-sm text-slate-500">
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
+                  <div className="mt-5 hidden flex-wrap gap-2 text-sm text-slate-500 sm:flex">
+                    <span className="border border-slate-200 bg-slate-50 px-3 py-1.5">
                       kostenlos
                     </span>
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
+                    <span className="border border-slate-200 bg-slate-50 px-3 py-1.5">
                       keine Anmeldung nötig
                     </span>
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
+                    <span className="border border-slate-200 bg-slate-50 px-3 py-1.5">
                       Ergebnis in Sekunden
                     </span>
                   </div>
 
                   {loading && (
-                    <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200">
+                    <div className="mt-6 border border-slate-200 bg-slate-50 p-4">
+                      <div className="h-2.5 w-full overflow-hidden bg-slate-200">
                         <div
                           style={{ animation: "loadingBar 1.1s ease-in-out infinite" }}
-                          className="h-full w-[40%] rounded-full bg-gradient-to-r from-indigo-600 to-violet-600"
+                          className="h-full w-[40%] bg-gradient-to-r from-indigo-600 to-violet-600"
                         />
                       </div>
 
@@ -297,7 +289,7 @@ export default function Home() {
                   )}
 
                   {showDone && !loading && (
-                    <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center font-bold text-emerald-800">
+                    <div className="mt-5 border border-emerald-200 bg-emerald-50 px-4 py-3 text-center font-bold text-emerald-800">
                       Analyse abgeschlossen ✅
                     </div>
                   )}
@@ -309,19 +301,19 @@ export default function Home() {
                   )}
 
                   {error && (
-                    <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-4 text-rose-800">
+                    <div className="mt-4 border border-rose-200 bg-rose-50 px-4 py-4 text-rose-800">
                       <strong className="mb-1 block">Konnte nicht analysieren</strong>
                       <span>{error}</span>
                     </div>
                   )}
                 </div>
 
-                <aside className="overflow-hidden rounded-[30px] border border-slate-200 bg-gradient-to-b from-slate-50 to-white shadow-[0_16px_50px_rgba(2,6,23,0.06)]">
+                <aside className="border border-slate-200 bg-gradient-to-b from-slate-50 to-white shadow-[0_10px_30px_rgba(2,6,23,0.05)]">
                   <div className="border-b border-slate-200 px-4 py-4 sm:px-5">
-                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                       Das bekommst du
                     </p>
-                    <h3 className="mt-2 text-lg font-bold text-slate-900 sm:text-xl">
+                    <h3 className="mt-2 text-[1.2rem] font-bold leading-snug text-slate-900 sm:text-xl">
                       Ein schneller Blick auf die größten Hebel deiner Website
                     </h3>
                   </div>
@@ -335,7 +327,7 @@ export default function Home() {
                     ].map((item) => (
                       <div
                         key={item}
-                        className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm"
+                        className="flex items-start gap-3 border border-slate-200 bg-white px-4 py-3 shadow-sm"
                       >
                         <div className="mt-1.5 h-2.5 w-2.5 min-w-2.5 rounded-full bg-indigo-600" />
                         <p className="text-sm leading-6 text-slate-700">{item}</p>
@@ -343,29 +335,27 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <div className="px-4 pb-4 sm:px-5 sm:pb-5">
-                    <div className="rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-4">
-                      <p className="text-sm leading-6 text-indigo-900">
-                        Ideal für Unternehmen, Coaches, lokale Dienstleister und
-                        Angebotsseiten, die mehr Wirkung aus ihrer bestehenden Website
-                        holen wollen.
-                      </p>
-                    </div>
+                  <div className="border-t border-slate-200 px-4 py-4 sm:px-5">
+                    <p className="text-sm leading-6 text-slate-600">
+                      Ideal für Unternehmen, Coaches, lokale Dienstleister und
+                      Angebotsseiten, die mehr Wirkung aus ihrer bestehenden Website
+                      holen wollen.
+                    </p>
                   </div>
                 </aside>
               </div>
             </section>
 
             {result && (
-              <section className="mt-8 grid gap-5 sm:mt-10 lg:mt-12">
-                <div className="overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-[0_18px_60px_rgba(2,6,23,0.07)]">
+              <section className="mt-8 grid gap-5 sm:mt-10">
+                <div className="border border-slate-200 bg-white shadow-[0_12px_40px_rgba(2,6,23,0.06)]">
                   <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 via-white to-slate-50 px-5 py-5 sm:px-6 sm:py-6 lg:px-7">
                     <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                       <div className="max-w-3xl">
                         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
                           Analyse-Ergebnis
                         </p>
-                        <h2 className="text-3xl font-black tracking-[-0.04em] text-slate-900 sm:text-4xl lg:text-[2.8rem]">
+                        <h2 className="text-3xl font-black tracking-[-0.04em] text-slate-900 sm:text-4xl">
                           Score: {overallScore}/100
                         </h2>
                         <p className="mt-3 text-base leading-7 text-slate-600 sm:text-[17px]">
@@ -374,14 +364,14 @@ export default function Home() {
                         </p>
                       </div>
 
-                      <div className="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-100 px-4 py-2 text-sm font-extrabold text-indigo-700">
+                      <div className="inline-flex items-center border border-indigo-200 bg-indigo-100 px-4 py-2 text-sm font-extrabold text-indigo-700">
                         Score-Bereich: {activeBand}
                       </div>
                     </div>
                   </div>
 
                   <div className="px-5 py-5 sm:px-6 sm:py-6 lg:px-7">
-                    <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-3 sm:p-4">
+                    <div className="border border-slate-200 bg-slate-50 p-3 sm:p-4">
                       <div className="grid gap-2">
                         {[
                           {
@@ -409,9 +399,9 @@ export default function Home() {
                           return (
                             <div
                               key={r.key}
-                              className={`grid gap-2 rounded-2xl px-4 py-3 text-sm sm:grid-cols-[82px_1fr] sm:items-center ${
+                              className={`grid gap-2 px-4 py-3 text-sm sm:grid-cols-[82px_1fr] sm:items-center ${
                                 active
-                                  ? "border border-indigo-300 bg-indigo-50 font-bold text-slate-900 shadow-sm"
+                                  ? "border border-indigo-300 bg-indigo-50 font-bold text-slate-900"
                                   : "border border-slate-200 bg-white text-slate-800"
                               }`}
                             >
@@ -432,7 +422,7 @@ export default function Home() {
                         Object.entries(categoryScoresObj).map(([k, v]) => (
                           <div
                             key={k}
-                            className="rounded-2xl border border-slate-200 bg-gradient-to-b from-white to-slate-50 p-4 shadow-sm"
+                            className="border border-slate-200 bg-slate-50 p-4"
                           >
                             <div className="text-xs font-medium text-slate-500">
                               {getCategoryLabel(k)}
@@ -448,9 +438,9 @@ export default function Home() {
                 </div>
 
                 <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
-                  <div className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-[0_14px_45px_rgba(2,6,23,0.06)] sm:p-6 lg:p-7">
+                  <div className="border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(2,6,23,0.05)] sm:p-6 lg:p-7">
                     <div className="mb-4 flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-2xl bg-slate-100" />
+                      <div className="h-9 w-9 bg-slate-100" />
                       <h3 className="text-xl font-bold text-slate-900">
                         Was funktioniert
                       </h3>
@@ -461,7 +451,7 @@ export default function Home() {
                         {strengths.map((s, i) => (
                           <div
                             key={i}
-                            className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-700 sm:text-[15px]"
+                            className="border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-700 sm:text-[15px]"
                           >
                             {s}
                           </div>
@@ -472,9 +462,9 @@ export default function Home() {
                     )}
                   </div>
 
-                  <div className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-[0_14px_45px_rgba(2,6,23,0.06)] sm:p-6 lg:p-7">
+                  <div className="border border-slate-200 bg-white p-5 shadow-[0_10px_30px_rgba(2,6,23,0.05)] sm:p-6 lg:p-7">
                     <div className="mb-4 flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-2xl bg-orange-100" />
+                      <div className="h-9 w-9 bg-orange-100" />
                       <h3 className="text-xl font-bold text-slate-900">
                         Was bremst
                       </h3>
@@ -485,7 +475,7 @@ export default function Home() {
                         {blockers.map((b, i) => (
                           <div
                             key={i}
-                            className="rounded-2xl border border-orange-200 bg-orange-50 p-4 text-sm leading-7 text-orange-900 sm:text-[15px]"
+                            className="border border-orange-200 bg-orange-50 p-4 text-sm leading-7 text-orange-900 sm:text-[15px]"
                           >
                             {b}
                           </div>
@@ -497,7 +487,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="rounded-[30px] border border-slate-200 bg-white p-5 shadow-[0_18px_60px_rgba(2,6,23,0.07)] sm:p-6 lg:p-7">
+                <div className="border border-slate-200 bg-white p-5 shadow-[0_12px_40px_rgba(2,6,23,0.06)] sm:p-6 lg:p-7">
                   <div className="max-w-3xl">
                     <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
                       Sofort umsetzbar
@@ -517,7 +507,7 @@ export default function Home() {
                       {quickWins.map((q, i) => (
                         <div
                           key={i}
-                          className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-4 shadow-sm"
+                          className="flex items-start gap-3 border border-slate-200 bg-slate-50 p-4"
                         >
                           <div className="mt-2 h-2.5 w-2.5 min-w-2.5 rounded-full bg-slate-900" />
                           <div className="text-sm leading-7 text-slate-700 sm:text-[15px]">
@@ -530,7 +520,7 @@ export default function Home() {
                     <p className="mt-4 text-red-700">Keine Quick Wins im Output.</p>
                   )}
 
-                  <div className="mt-6 rounded-[24px] border border-slate-200 bg-slate-50/70 p-3 sm:p-4">
+                  <div className="mt-6 border border-slate-200 bg-slate-50/70 p-3 sm:p-4">
                     <EmailGateInline websiteUrl={url} reportId={reportId} />
                   </div>
 
