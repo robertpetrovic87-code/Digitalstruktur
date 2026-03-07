@@ -181,6 +181,7 @@ export default function Home() {
         <div className="border border-slate-200/70 bg-white/90 p-4 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-5 lg:p-6">
           <div className="bg-gradient-to-b from-white via-white to-slate-50/70 px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10">
             <section className="py-2 sm:py-4">
+            <div className="mx-auto max-w-3xl"></div>
               <div className="mb-6 flex items-center gap-4">
                 <span className="rounded-full border border-indigo-200 bg-indigo-100 px-4 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-700">
                   Beta
@@ -190,14 +191,14 @@ export default function Home() {
                 </span>
               </div>
 
-              <div className="max-w-2xl text-left">
+              <div className="max-w-2xl text-left md:pl-2">
                 <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
                   AI Website
                   <br />
                   Reality Check
                 </h1>
 
-                <p className="max-w-xl text-base leading-6 text-slate-600 mb-10">
+                <p className="max-w-xl text-base leading-6 text-slate-600 mb-12">
                   Analysiere deine Website in wenigen Sekunden und entdecke, was
                   Besucher überzeugt – und was sie bremst. Fokus auf{" "}
                   <strong className="text-slate-900">
@@ -206,8 +207,8 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="mt-14 rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8">
-                <div className="mx-auto grid max-w-2xl gap-3">
+              <div className="mt-14 rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8 md:px-8">
+                <div className="mx-auto grid max-w-[42rem] gap-4">
                   <label className="grid gap-1.5 text-left">
                     <span className="text-sm font-semibold text-slate-900">
                       Website URL
@@ -290,13 +291,13 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-16 px-6 sm:px-8">
-                <div className="mx-auto max-w-2xl rounded-2xl bg-slate-50 px-7 py-6 shadow-sm sm:px-8">
+                <div className="mt-16">
+                <div className="rounded-2xl bg-slate-50 px-7 py-6 shadow-sm sm:px-8 md:px-9">
                   <h3 className="text-lg font-bold text-slate-900">
                     Du erhältst sofort:
                   </h3>
 
-                  <ul className="mt-4 space-y-3 pl-2 text-slate-700">
+                  <ul className="mt-4 space-y-3 pl-3 text-slate-700">
                     <li className="flex items-start gap-3">
                       <span className="mt-2 h-2 w-2 min-w-2 rounded-full bg-indigo-600" />
                       <span>Klarheit deiner Botschaft</span>
