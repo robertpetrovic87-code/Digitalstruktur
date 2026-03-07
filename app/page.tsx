@@ -179,7 +179,7 @@ export default function Home() {
   <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc] py-8 sm:py-10 lg:py-12">
 
     {/* HERO + FORMULAR */}
-    <section className="mx-auto max-w-3xl">
+    <section className="mx-auto max-w-2xl">
       <div className="px-4 sm:px-5 md:px-6"></div>
 
       {/* Beta Label */}
@@ -325,6 +325,7 @@ export default function Home() {
                   </ul>
                 </div>
               </div>
+              
               
             </section>
 
