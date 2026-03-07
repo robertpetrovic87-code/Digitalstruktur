@@ -195,14 +195,14 @@ export default function Home() {
 
       {/* Headline */}
       <div className="text-left"
-      style={{ marginLeft: "80px", outline: "4px solid red" }}>
+      style={{ marginLeft: "96px", outline: "4px solid red" }}>
         <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
           AI Website
           <br />
           Reality Check
         </h1>
 
-        <p className="mt-4 max-w-xl text-base leading-7 text-slate-600 mb-12">
+        <p className="mt-4 max-w-xl text-base leading-7 text-slate-600 mb-16">
           Analysiere deine Website in wenigen Sekunden und entdecke,
           was Besucher überzeugt – und was sie bremst. Fokus auf{" "}
           <strong className="text-slate-900">

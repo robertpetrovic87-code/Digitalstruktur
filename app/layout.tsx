@@ -30,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen flex flex-col`}
       >
         <main className="flex-1 flex justify-center">
-          <div className="w-full max-w-4xl px-5 sm:px-8 lg:px-10">
+          <div className="w-full max-w-3xl px-5 sm:px-8 lg:px-10">
             {children}
           </div>
         </main>
