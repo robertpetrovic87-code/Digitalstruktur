@@ -180,6 +180,7 @@ export default function Home() {
 
     {/* HERO + FORMULAR */}
     <section className="mx-auto max-w-3xl">
+      <div className="px-4 sm:px-5 md:px-6"></div>
 
       {/* Beta Label */}
       <div className="mb-6 flex items-center gap-4">
@@ -324,6 +325,7 @@ export default function Home() {
                   </ul>
                 </div>
               </div>
+              
             </section>
 
             {result && (
