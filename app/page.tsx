@@ -166,117 +166,116 @@ export default function Home() {
 
   return (
     <div className="mx-auto my-6 max-w-6xl rounded-[28px] bg-gradient-to-b from-slate-50 to-[#f6f8fc] px-4 py-5 font-sans sm:my-8 sm:px-5 sm:py-6">
-      <div className="mb-6 sm:mb-8">
-        <div className="mb-3 inline-flex items-center gap-2">
-          <span className="rounded-full border border-indigo-200 bg-indigo-100/70 px-3 py-1 text-xs font-bold text-indigo-700">
-            Beta
-          </span>
-          <span className="text-xs text-slate-500 sm:text-sm">
-            Schnell. Direkt. Umsetzbar.
-          </span>
-        </div>
+      <div className="mb-8 text-center sm:mb-10">
+  <div className="mb-4 flex items-center justify-center gap-3">
+    <span className="rounded-full border border-indigo-200 bg-indigo-100/70 px-3 py-1 text-xs font-bold text-indigo-700">
+      Beta
+    </span>
+    <span className="text-sm text-slate-500">
+      Schnell. Direkt. Umsetzbar.
+    </span>
+  </div>
 
-        <h1 className="m-0 max-w-3xl text-[42px] leading-[0.98] tracking-[-0.04em] text-slate-900 sm:text-5xl">
-          AI Website Reality Check
-        </h1>
+  <h1 className="mx-auto max-w-4xl text-[42px] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl lg:text-6xl">
+    AI Website Reality Check
+  </h1>
 
-        <p className="mt-4 max-w-3xl text-[18px] leading-8 text-slate-600 sm:text-lg">
-          Erhalte eine schnelle und ehrliche Analyse deiner Website aus
-          Conversion- und Messaging-Sicht.
-          <br />
-          Fokus auf <strong>Klarheit, Vertrauen und Handlungsstärke</strong> —
-          ohne Tool-Overload und ohne SEO-Blabla.
-        </p>
+  <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-slate-600">
+    Erhalte eine schnelle und ehrliche Analyse deiner Website aus Conversion-
+    und Messaging-Sicht.
+    <br className="hidden sm:block" />
+    Fokus auf <strong>Klarheit, Vertrauen und Handlungsstärke</strong> — ohne
+    Tool-Overload und ohne SEO-Blabla.
+  </p>
+</div>
+
+<div className="mx-auto max-w-3xl rounded-[28px] border border-slate-200 bg-white px-5 py-6 shadow-[0_12px_40px_rgba(2,6,23,0.08)] sm:px-7 sm:py-7">
+  <div className="grid gap-5">
+    <label className="grid gap-2 text-left font-semibold text-slate-900">
+      <span>Website URL</span>
+      <input
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        placeholder="https://deine-website.de"
+        disabled={loading}
+        className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-4 text-base text-slate-900 shadow-sm outline-none placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
+      />
+    </label>
+
+    <label className="grid gap-2 text-left font-semibold text-slate-900">
+      <span>Ziel</span>
+      <select
+        value={goal}
+        onChange={(e) => setGoal(e.target.value as Goal)}
+        disabled={loading}
+        className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-4 text-base text-slate-900 shadow-sm outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100"
+      >
+        <option value="leads">Mehr Anfragen</option>
+        <option value="sales">Mehr Verkäufe</option>
+        <option value="branding">Besseres Branding</option>
+      </select>
+    </label>
+
+    <button
+      onClick={onAnalyze}
+      disabled={loading || !canAnalyze}
+      className={`min-h-14 w-full rounded-2xl px-6 py-4 text-base font-extrabold text-white transition ${
+        loading || !canAnalyze
+          ? "cursor-not-allowed bg-slate-300"
+          : "bg-indigo-600 shadow-[0_14px_30px_rgba(79,70,229,0.26)] hover:bg-indigo-700"
+      }`}
+    >
+      {loading ? "Analysiere…" : "Analyse starten"}
+    </button>
+  </div>
+
+  <div className="mt-5 flex flex-wrap justify-center gap-2 text-sm text-slate-500">
+    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
+      kostenlos
+    </span>
+    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
+      keine Anmeldung nötig
+    </span>
+    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5">
+      Ergebnis in Sekunden
+    </span>
+  </div>
+
+  {loading && (
+    <div className="mt-5">
+      <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
+        <div
+          style={{ animation: "loadingBar 1.1s ease-in-out infinite" }}
+          className="h-full w-[40%] rounded-full bg-gradient-to-r from-indigo-600 to-violet-600"
+        />
       </div>
 
-      <div className="grid gap-4 rounded-[24px] border border-slate-200 bg-gradient-to-b from-white to-slate-50 px-4 py-5 shadow-[0_12px_40px_rgba(2,6,23,0.08)] sm:px-6 sm:py-6">
-        <div className="grid gap-4 md:grid-cols-[1.4fr_0.8fr_auto] md:items-end">
-          <label className="grid gap-2 font-semibold text-slate-900">
-            <span>Website URL</span>
-            <input
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://deine-website.de"
-              disabled={loading}
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-base text-slate-900 shadow-sm outline-none placeholder:text-slate-400"
-            />
-          </label>
+      <p className="mt-3 text-center text-slate-700">
+        <strong>{loadingMessages[loadingStep]}</strong>
+        <span className="text-slate-500"> (ca. 10–20 Sekunden)</span>
+      </p>
+    </div>
+  )}
 
-          <label className="grid gap-2 font-semibold text-slate-900">
-            <span>Ziel</span>
-            <select
-              value={goal}
-              onChange={(e) => setGoal(e.target.value as Goal)}
-              disabled={loading}
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-base text-slate-900 shadow-sm outline-none"
-            >
-              <option value="leads">Mehr Anfragen</option>
-              <option value="sales">Mehr Verkäufe</option>
-              <option value="branding">Besseres Branding</option>
-            </select>
-          </label>
+  {showDone && !loading && (
+    <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-center font-bold text-emerald-800">
+      Analyse abgeschlossen ✅
+    </div>
+  )}
 
-          <button
-            onClick={onAnalyze}
-            disabled={loading || !canAnalyze}
-            className={`min-h-14 w-full rounded-2xl px-5 py-4 text-base font-extrabold text-white transition md:w-auto md:whitespace-nowrap ${
-              loading || !canAnalyze
-                ? "cursor-not-allowed bg-slate-300"
-                : "bg-indigo-600 shadow-[0_14px_30px_rgba(79,70,229,0.26)] hover:bg-indigo-700"
-            }`}
-          >
-            {loading ? "Analysiere…" : "Analyse starten"}
-          </button>
-        </div>
+  {!canAnalyze && url.length > 0 && (
+    <p className="mt-4 text-center text-sm text-red-700">
+      Bitte gib eine gültige URL ein (mit https://).
+    </p>
+  )}
 
-        <div className="flex flex-wrap gap-2 text-sm text-slate-500">
-          <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5">
-            kostenlos
-          </span>
-          <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5">
-            keine Anmeldung nötig
-          </span>
-          <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5">
-            Ergebnis in Sekunden
-          </span>
-        </div>
-
-        {loading && (
-          <div className="mt-1">
-            <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
-              <div
-                style={{ animation: "loadingBar 1.1s ease-in-out infinite" }}
-                className="h-full w-[40%] rounded-full bg-gradient-to-r from-indigo-600 to-violet-600"
-              />
-            </div>
-
-            <p className="mt-3 text-slate-700">
-              <strong>{loadingMessages[loadingStep]}</strong>
-              <span className="text-slate-500"> (ca. 10–20 Sekunden)</span>
-            </p>
-          </div>
-        )}
-
-        {showDone && !loading && (
-          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 font-bold text-emerald-800">
-            Analyse abgeschlossen ✅
-          </div>
-        )}
-
-        {!canAnalyze && url.length > 0 && (
-          <p className="m-0 text-sm text-red-700">
-            Bitte gib eine gültige URL ein (mit https://).
-          </p>
-        )}
-
-        {error && (
-          <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-4 text-rose-800">
-            <strong className="mb-1 block">Konnte nicht analysieren</strong>
-            <span>{error}</span>
-          </div>
-        )}
-      </div>
-
+  {error && (
+    <div className="mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-4 text-rose-800">
+      <strong className="mb-1 block">Konnte nicht analysieren</strong>
+      <span>{error}</span>
+    </div>
+  )}
+</div>
       {result && (
         <section className="mt-6 grid gap-4 sm:mt-8 sm:gap-5">
           <div className="grid gap-5 rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_40px_rgba(2,6,23,0.06)] sm:p-6">

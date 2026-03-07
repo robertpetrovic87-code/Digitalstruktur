@@ -4,12 +4,14 @@ import { useState } from "react";
 
 type Consent = "all" | "necessary" | null;
 
+function getInitialConsent(): Consent {
+  if (typeof window === "undefined") return null;
+  const stored = localStorage.getItem("cookie-consent");
+  return stored === "all" || stored === "necessary" ? stored : null;
+}
+
 export default function CookieBanner() {
-  const [consent, setConsent] = useState<Consent>(() => {
-    if (typeof window === "undefined") return null;
-    const stored = localStorage.getItem("cookie-consent");
-    return stored === "all" || stored === "necessary" ? stored : null;
-  });
+  const [consent, setConsent] = useState<Consent>(getInitialConsent);
 
   const acceptAll = () => {
     localStorage.setItem("cookie-consent", "all");
@@ -24,46 +26,37 @@ export default function CookieBanner() {
   if (consent !== null) return null;
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        left: "50%",
-        transform: "translateX(-50%)",
-        bottom: 24,
-        width: "min(880px, calc(100% - 64px))",
-        zIndex: 50,
-      }}
-    >
-      <div className="bg-white border border-zinc-200 shadow-2xl rounded-3xl px-8 py-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-
-          <div className="text-sm text-zinc-600 leading-relaxed">
+    <div className="pointer-events-none fixed inset-x-0 bottom-4 z-[100] flex justify-center px-4">
+      <div className="pointer-events-auto w-full max-w-4xl rounded-[24px] border border-slate-200 bg-white/95 px-5 py-5 shadow-[0_18px_50px_rgba(2,6,23,0.16)] backdrop-blur sm:px-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="text-sm leading-7 text-slate-600">
             Wir verwenden Cookies, um unsere Website bereitzustellen und zu verbessern.
             Details findest du in unserer{" "}
             <a
               href="/datenschutz"
-              className="underline font-medium text-zinc-800 hover:text-black"
+              className="font-medium text-slate-900 underline hover:text-black"
             >
               Datenschutzerklärung
             </a>.
           </div>
 
-          <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 shrink-0">
+          <div className="flex flex-col gap-2 sm:flex-row sm:gap-3">
             <button
+              type="button"
               onClick={acceptNecessary}
-              className="px-5 py-2.5 border border-zinc-300 rounded-xl text-sm font-medium text-zinc-700 hover:bg-zinc-100 transition"
+              className="rounded-xl border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
             >
               Nur notwendige
             </button>
 
             <button
+              type="button"
               onClick={acceptAll}
-              className="px-5 py-2.5 bg-black text-white rounded-xl text-sm font-semibold hover:bg-zinc-800 transition"
+              className="rounded-xl bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-zinc-800"
             >
               Alle akzeptieren
             </button>
           </div>
-
         </div>
       </div>
     </div>
