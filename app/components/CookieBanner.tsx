@@ -1,29 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 type Consent = "all" | "necessary" | null;
 
-function getInitialConsent(): Consent {
+function subscribe() {
+  return () => {};
+}
+
+function getConsent(): Consent {
   if (typeof window === "undefined") return null;
-  const stored = localStorage.getItem("cookie-consent");
-  return stored === "all" || stored === "necessary" ? stored : null;
+
+  try {
+    const stored = localStorage.getItem("cookie-consent");
+    return stored === "all" || stored === "necessary" ? stored : null;
+  } catch {
+    return null;
+  }
 }
 
 export default function CookieBanner() {
-  const [consent, setConsent] = useState<Consent>(getInitialConsent);
+  const storedConsent = useSyncExternalStore(subscribe, getConsent, () => null);
+  const [hidden, setHidden] = useState(false);
 
   const acceptAll = () => {
-    localStorage.setItem("cookie-consent", "all");
-    setConsent("all");
+    try {
+      localStorage.setItem("cookie-consent", "all");
+    } catch {}
+    setHidden(true);
   };
 
   const acceptNecessary = () => {
-    localStorage.setItem("cookie-consent", "necessary");
-    setConsent("necessary");
+    try {
+      localStorage.setItem("cookie-consent", "necessary");
+    } catch {}
+    setHidden(true);
   };
 
-  if (consent !== null) return null;
+  if (hidden || storedConsent !== null) return null;
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-4 z-[100] flex justify-center px-4">
