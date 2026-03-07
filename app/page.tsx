@@ -191,14 +191,14 @@ export default function Home() {
                 </span>
               </div>
 
-              <div className="max-w-2xl pl-16 text-left">
+              <div className="mx-auto max-w-[48rem] text-left">
                 <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
                   AI Website
                   <br />
                   Reality Check
                 </h1>
 
-                <p className="max-w-xl text-base leading-6 text-slate-600 mb-12">
+                <p className="max-w-2xl text-base leading-6 text-slate-600 mb-12">
                   Analysiere deine Website in wenigen Sekunden und entdecke, was
                   Besucher überzeugt – und was sie bremst. Fokus auf{" "}
                   <strong className="text-slate-900">
@@ -207,7 +207,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="mt-14 rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8 md:px-8">
+              <div className="mx-auto mt-14 max-w-[48rem] rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8">
                 <div className="mx-auto grid max-w-[42rem] gap-4">
                   <label className="grid gap-1.5 text-left">
                     <span className="text-sm font-semibold text-slate-900">
@@ -292,7 +292,7 @@ export default function Home() {
               </div>
 
                 <div className="mt-16">
-                <div className="rounded-2xl bg-slate-50 px-7 py-6 shadow-sm sm:px-8 md:px-9">
+                <div className="mx-auto max-w-[48rem] rounded-2xl bg-slate-50 px-7 py-6 shadow-sm sm:px-8 md:px-9">
                   <h3 className="text-lg font-bold text-slate-900">
                     Du erhältst sofort:
                   </h3>
