@@ -177,8 +177,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc]">
-      <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
-        <div className="mx-auto max-w-6xl border border-slate-200/70 bg-white/85 p-3 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-4 lg:p-5">
+      <div className="mx-auto max-w-5xl px-5 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
+        <div className="mx-auto max-w-5xl border border-slate-200/70 bg-white/85 p-3 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-4 lg:p-5">
           <div className="border border-slate-200/70 bg-gradient-to-b from-white via-white to-slate-50/70 px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
             <section className="mx-auto max-w-5xl">
               <div className="mb-8 sm:mb-10">
@@ -191,13 +191,13 @@ export default function Home() {
                   </span>
                 </div>
 
-                <div className="max-w-3xl text-left">
+                <div className="max-w-2xl text-left">
                   <h1 className="text-[1.95rem] font-black leading-[0.98] tracking-[-0.05em] text-slate-900 sm:text-5xl lg:text-[4rem]">
                     AI Website
                     <span className="block">Reality Check</span>
                   </h1>
 
-                  <p className="mt-4 max-w-2xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg sm:leading-8">
+                  <p className="mt-4 max-w-xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg sm:leading-8">
                     Erhalte eine schnelle und ehrliche Analyse deiner Website aus
                     Conversion- und Messaging-Sicht. Fokus auf{" "}
                     <strong>Klarheit, Vertrauen und Handlungsstärke</strong> —
@@ -335,13 +335,7 @@ export default function Home() {
                     ))}
                   </div>
 
-                  <div className="border-t border-slate-200 px-4 py-4 sm:px-5">
-                    <p className="text-sm leading-6 text-slate-600">
-                      Ideal für Unternehmen, Coaches, lokale Dienstleister und
-                      Angebotsseiten, die mehr Wirkung aus ihrer bestehenden Website
-                      holen wollen.
-                    </p>
-                  </div>
+                  
                 </aside>
               </div>
             </section>
