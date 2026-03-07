@@ -188,7 +188,7 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="pt-8 text-left">
+          <div className="text-left" style={{ paddingTop: 32 }}>
             <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
               AI Website
               <br />
@@ -204,7 +204,8 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8">
+          <div className="rounded-2xl bg-slate-50 px-7 py-6 shadow-sm sm:px-8 md:px-9"
+            style={{ marginTop: 32 }}>
             <div className="grid gap-4">
               <label className="grid gap-1.5 text-left">
                 <span className="text-sm font-semibold text-slate-900">
