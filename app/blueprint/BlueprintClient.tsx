@@ -52,162 +52,201 @@ export default function BlueprintClient() {
   }
 
   return (
-  <div className="min-h-screen bg-gradient-to-b from-white via-zinc-50 to-white">
-    <div className="mx-auto max-w-3xl px-5 py-12">
+<div className="min-h-screen bg-gradient-to-b from-white via-zinc-50 to-white">
+<div className="mx-auto max-w-3xl px-6 py-14">
 
-      {/* HEADER */}
-      <div className="text-center">
+{/* PROBLEM HOOK */}
 
-        <div className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700 shadow-sm">
-          Individueller Website Blueprint
-        </div>
+<div className="text-center">
 
-        <h1 className="mt-6 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Dein klarer 30-Tage Plan
-          <br />
-          für mehr Anfragen über deine Website
-        </h1>
+<div className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-4 py-1 text-xs font-semibold text-zinc-700 shadow-sm">
+Website Blueprint
+</div>
 
-        <p className="mt-4 text-base leading-7 text-zinc-600">
-          Kein generischer AI-Report, sondern ein konkreter Umsetzungsplan,
-          der dir zeigt welche Änderungen auf deiner Website die größte Wirkung haben.
-        </p>
+<h1 className="mt-6 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+Die meisten Websites verlieren Anfragen
+<br />
+wegen kleiner Fehler
+</h1>
 
-        {/* CTA 1 */}
-        <button
-          onClick={handleCheckout}
-          disabled={loading}
-          className="mt-8 w-full rounded-2xl bg-zinc-900 px-6 py-4 text-base font-semibold text-white transition-all duration-200 cursor-pointer hover:bg-black hover:shadow-xl hover:-translate-y-[2px] active:scale-[0.98] disabled:opacity-60"
-        >
-          {loading ? "Weiterleitung zu Stripe..." : "Blueprint freischalten – 199€"}
-        </button>
+<p className="mt-5 text-base leading-7 text-zinc-600">
+Unklare Botschaft, schwache CTAs oder fehlendes Vertrauen sorgen dafür,
+dass Besucher deine Seite verlassen ohne anzufragen.
+</p>
 
-        <div className="mt-2 text-sm text-zinc-500">
-          Sichere Zahlung mit Stripe
-        </div>
+<p className="mt-4 text-base leading-7 text-zinc-600">
+Der Blueprint zeigt dir konkret,
+<b className="text-zinc-900"> was du zuerst verbessern solltest</b>.
+</p>
 
-      </div>
+</div>
 
-      {/* VALUE CARDS */}
-      <div className="mt-12 grid gap-4">
+{/* CTA 1 */}
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <div className="font-semibold text-zinc-900">
-            Individuell für dich erstellt
-          </div>
-          <p className="mt-2 text-sm text-zinc-600">
-            Dein Blueprint basiert auf deiner Website Analyse und zeigt dir
-            genau welche Änderungen am meisten Wirkung haben.
-          </p>
-        </div>
+<button
+onClick={handleCheckout}
+disabled={loading}
+className="mt-10 w-full rounded-2xl bg-indigo-600 px-6 py-4 text-base font-semibold text-white transition-all duration-200 cursor-pointer hover:bg-indigo-700 hover:shadow-xl hover:-translate-y-[2px] active:scale-[0.98]"
+>
+{loading ? "Weiterleitung..." : "Meinen Blueprint erstellen"}
+</button>
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <div className="font-semibold text-zinc-900">
-            Lieferung in 24 Stunden
-          </div>
-          <p className="mt-2 text-sm text-zinc-600">
-            Du erhältst deinen Blueprint per E-Mail mit klaren Prioritäten
-            und konkreten Umsetzungsschritten.
-          </p>
-        </div>
+<div className="mt-3 text-center text-sm text-zinc-500">
+Einmalige Erstellung • Lieferung innerhalb 24h
+</div>
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <div className="font-semibold text-zinc-900">
-            Fokus auf Wirkung
-          </div>
-          <p className="mt-2 text-sm text-zinc-600">
-            Statt Theorie bekommst du einen Plan, der dir zeigt
-            was du zuerst ändern solltest.
-          </p>
-        </div>
+{/* VALUE */}
 
-      </div>
+<div className="mt-14 grid gap-5">
 
-      {/* WHAT YOU GET */}
-      <div className="mt-12 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+<div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+<div className="font-semibold text-zinc-900">
+Individuell für deine Website
+</div>
 
-        <h3 className="text-lg font-semibold text-zinc-900">
-          Was du bekommst
-        </h3>
+<p className="mt-2 text-sm text-zinc-600">
+Der Blueprint basiert auf deiner Analyse und zeigt dir genau,
+welche Änderungen auf deiner Website die größte Wirkung haben.
+</p>
+</div>
 
-        <ul className="mt-4 space-y-3 text-sm text-zinc-700">
-          <li>✓ 30-Tage Umsetzungsplan mit klaren Prioritäten</li>
-          <li>✓ Conversion-Verbesserungen für mehr Anfragen</li>
-          <li>✓ Struktur-Optimierungen für bessere Nutzerführung</li>
-          <li>✓ SEO- und Content-Ideen</li>
-          <li>✓ AI Prompts für bessere Website Texte</li>
-        </ul>
+<div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+<div className="font-semibold text-zinc-900">
+Konkrete nächste Schritte
+</div>
 
-      </div>
+<p className="mt-2 text-sm text-zinc-600">
+Statt Theorie bekommst du klare Prioritäten:
+was du zuerst ändern solltest und was später kommt.
+</p>
+</div>
 
-      {/* CTA 2 */}
-      <button
-        onClick={handleCheckout}
-        disabled={loading}
-        className="mt-10 w-full rounded-2xl bg-zinc-900 px-6 py-4 text-base font-semibold text-white transition hover:bg-black disabled:opacity-60"
-      >
-        {loading ? "Weiterleitung zu Stripe..." : "Blueprint freischalten – 199€"}
-      </button>
+<div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+<div className="font-semibold text-zinc-900">
+Fokus auf Wirkung
+</div>
 
-      {/* PREVIEW */}
-      <div className="mt-12 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+<p className="mt-2 text-sm text-zinc-600">
+Der Blueprint konzentriert sich auf Änderungen,
+die direkt mehr Anfragen bringen können.
+</p>
+</div>
 
-        <h3 className="text-lg font-semibold text-zinc-900">
-          Beispiel: So kann dein Blueprint aussehen
-        </h3>
+</div>
 
-        <div className="mt-6 space-y-5 text-sm text-zinc-700">
+{/* WHAT YOU GET */}
 
-          <div>
-            <div className="font-semibold text-zinc-900">Woche 1</div>
-            <ul className="mt-2 space-y-1">
-              <li>• Hero klarer auf Nutzen ausrichten</li>
-              <li>• wichtigste CTA prominenter platzieren</li>
-              <li>• Navigation vereinfachen</li>
-            </ul>
-          </div>
+<div className="mt-16 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
 
-          <div>
-            <div className="font-semibold text-zinc-900">Woche 2</div>
-            <ul className="mt-2 space-y-1">
-              <li>• Vertrauen sichtbarer machen</li>
-              <li>• Angebot klarer kommunizieren</li>
-              <li>• Formulare vereinfachen</li>
-            </ul>
-          </div>
+<h3 className="text-lg font-semibold text-zinc-900">
+Was du bekommst
+</h3>
 
-          <div>
-            <div className="font-semibold text-zinc-900">Woche 3</div>
-            <ul className="mt-2 space-y-1">
-              <li>• Content Struktur verbessern</li>
-              <li>• SEO Seiten definieren</li>
-              <li>• interne Verlinkung aufbauen</li>
-            </ul>
-          </div>
+<div className="mt-5 space-y-4 text-sm text-zinc-700">
 
-        </div>
+<div className="flex items-start gap-3">
+<div className="mt-1 h-2.5 w-2.5 rounded-full bg-indigo-600"/>
+<p>30-Tage Umsetzungsplan mit klaren Prioritäten</p>
+</div>
 
-      </div>
+<div className="flex items-start gap-3">
+<div className="mt-1 h-2.5 w-2.5 rounded-full bg-indigo-600"/>
+<p>Conversion-Verbesserungen für mehr Anfragen</p>
+</div>
 
-      {/* CTA 3 */}
-      <button
-        onClick={handleCheckout}
-        disabled={loading}
-        className="mt-10 w-full rounded-2xl bg-zinc-900 px-6 py-4 text-base font-semibold text-white transition hover:bg-black disabled:opacity-60"
-      >
-        {loading ? "Weiterleitung zu Stripe..." : "Blueprint freischalten – 199€"}
-      </button>
+<div className="flex items-start gap-3">
+<div className="mt-1 h-2.5 w-2.5 rounded-full bg-indigo-600"/>
+<p>Struktur-Optimierungen für bessere Nutzerführung</p>
+</div>
 
-      {/* TRUST */}
-      <div className="mt-10 text-center text-sm text-zinc-500">
-        Sichere Zahlung • Lieferung innerhalb 24h • individueller Plan
-      </div>
+<div className="flex items-start gap-3">
+<div className="mt-1 h-2.5 w-2.5 rounded-full bg-indigo-600"/>
+<p>SEO- und Content-Ideen</p>
+</div>
 
-      <div className="mt-6 text-center text-xs text-zinc-400 break-all">
-        Report ID: {rid || "nicht gefunden"}
-      </div>
+<div className="flex items-start gap-3">
+<div className="mt-1 h-2.5 w-2.5 rounded-full bg-indigo-600"/>
+<p>AI Prompts für bessere Website Texte</p>
+</div>
 
-    </div>
-  </div>
-);
+</div>
+
+</div>
+
+{/* CTA 2 */}
+
+<button
+onClick={handleCheckout}
+disabled={loading}
+className="mt-12 w-full rounded-2xl bg-indigo-600 px-6 py-4 text-base font-semibold text-white transition-all duration-200 cursor-pointer hover:bg-indigo-700 hover:shadow-xl hover:-translate-y-[2px]"
+>
+{loading ? "Weiterleitung..." : "Blueprint jetzt erhalten"}
+</button>
+
+<div className="mt-3 text-center text-sm text-zinc-500">
+Sichere Zahlung mit Stripe
+</div>
+
+{/* PREVIEW */}
+
+<div className="mt-16 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+
+<h3 className="text-lg font-semibold text-zinc-900">
+Beispiel Blueprint
+</h3>
+
+<div className="mt-6 space-y-5 text-sm text-zinc-700">
+
+<div>
+<div className="font-semibold text-zinc-900">Woche 1</div>
+<ul className="mt-2 space-y-1">
+<li>Hero klarer auf Nutzen ausrichten</li>
+<li>wichtige CTA prominenter platzieren</li>
+<li>Navigation vereinfachen</li>
+</ul>
+</div>
+
+<div>
+<div className="font-semibold text-zinc-900">Woche 2</div>
+<ul className="mt-2 space-y-1">
+<li>Vertrauen sichtbarer machen</li>
+<li>Angebot klarer kommunizieren</li>
+<li>Formulare vereinfachen</li>
+</ul>
+</div>
+
+<div>
+<div className="font-semibold text-zinc-900">Woche 3</div>
+<ul className="mt-2 space-y-1">
+<li>Content Struktur verbessern</li>
+<li>SEO Seiten definieren</li>
+<li>interne Verlinkung optimieren</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+
+{/* FINAL CTA */}
+
+<button
+onClick={handleCheckout}
+disabled={loading}
+className="mt-12 w-full rounded-2xl bg-indigo-600 px-6 py-4 text-base font-semibold text-white transition-all duration-200 cursor-pointer hover:bg-indigo-700 hover:shadow-xl hover:-translate-y-[2px]"
+>
+{loading ? "Weiterleitung..." : "Meinen Blueprint erstellen"}
+</button>
+
+<div className="mt-4 text-center text-sm text-zinc-500">
+Einmalige Zahlung • Lieferung in 24 Stunden
+</div>
+
+<div className="mt-8 text-center text-xs text-zinc-400 break-all">
+Report ID: {rid || "nicht gefunden"}
+</div>
+
+</div>
+</div>
+)
 }
