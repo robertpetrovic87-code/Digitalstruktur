@@ -77,7 +77,7 @@ export default function BlueprintClient() {
         <button
           onClick={handleCheckout}
           disabled={loading}
-          className="mt-8 w-full rounded-2xl bg-zinc-900 px-6 py-4 text-base font-semibold text-white transition hover:bg-black disabled:opacity-60"
+          className="mt-8 w-full rounded-2xl bg-zinc-900 px-6 py-4 text-base font-semibold text-white transition-all duration-200 cursor-pointer hover:bg-black hover:shadow-xl hover:-translate-y-[2px] active:scale-[0.98] disabled:opacity-60"
         >
           {loading ? "Weiterleitung zu Stripe..." : "Blueprint freischalten – 199€"}
         </button>
