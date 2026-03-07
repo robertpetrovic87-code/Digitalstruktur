@@ -209,19 +209,19 @@ export default function Home() {
               <div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_320px] lg:items-start">
                 <div className="border border-slate-200 bg-white px-4 py-5 shadow-[0_10px_30px_rgba(2,6,23,0.06)] sm:px-6 sm:py-6 lg:px-7 lg:py-7">
                   <div className="grid gap-5">
-                    <div className="border-b border-slate-100 pb-4">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                        Website prüfen
-                      </p>
-                      <h2 className="mt-2 max-w-2xl text-[1.8rem] font-bold leading-[1.08] tracking-[-0.03em] text-slate-900 sm:text-[2rem]">
-                        Was auf deiner Website wirkt — und was nicht
-                      </h2>
+                    <div className="border-b border-slate-100 pb-3">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+    Website prüfen
+                    </p>
+                    </div>
+                    <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Website analysieren
                     </div>
 
                     <label className="grid gap-2 text-left">
-                      <span className="text-sm font-semibold text-slate-900 sm:text-[15px]">
-                        Website URL
-                      </span>
+                    <span className="text-sm font-semibold text-slate-900 sm:text-[15px]">
+                       Website URL eingeben
+                    </span>
                       <input
                         value={url}
                         onChange={(e) => setUrl(e.target.value)}
@@ -250,26 +250,18 @@ export default function Home() {
                     <button
                       onClick={onAnalyze}
                       disabled={loading || !canAnalyze}
-                      className={`min-h-[56px] w-full rounded-2xl px-6 py-4 text-base font-extrabold text-white transition ${
+                      className={`mt-3 min-h-[56px] w-full rounded-2xl px-6 py-4 text-base font-extrabold text-white transition ${
                         loading || !canAnalyze
                           ? "cursor-not-allowed bg-slate-300"
                           : "bg-indigo-600 shadow-[0_14px_30px_rgba(79,70,229,0.24)] hover:bg-indigo-700"
                       }`}
                     >
-                      {loading ? "Analysiere…" : "Analyse starten"}
+                      {loading ? "Analysiere…" : "Website jetzt analysieren"}
                     </button>
                   </div>
 
-                  <div className="mt-5 hidden flex-wrap gap-2 text-sm text-slate-500 sm:flex">
-                    <span className="border border-slate-200 bg-slate-50 px-3 py-1.5">
-                      kostenlos
-                    </span>
-                    <span className="border border-slate-200 bg-slate-50 px-3 py-1.5">
-                      keine Anmeldung nötig
-                    </span>
-                    <span className="border border-slate-200 bg-slate-50 px-3 py-1.5">
-                      Ergebnis in Sekunden
-                    </span>
+                  <div className="mt-3 text-center text-sm font-semibold text-slate-600">
+                   Kostenlos • Keine Anmeldung • Ergebnis in Sekunden
                   </div>
 
                   {loading && (
