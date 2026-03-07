@@ -48,7 +48,7 @@ export default function CookieBanner() {
             </a>.
           </div>
 
-          <div className="flex gap-3 shrink-0">
+          <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 shrink-0">
             <button
               onClick={acceptNecessary}
               className="px-5 py-2.5 border border-zinc-300 rounded-xl text-sm font-medium text-zinc-700 hover:bg-zinc-100 transition"

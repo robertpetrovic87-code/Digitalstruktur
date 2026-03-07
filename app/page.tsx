@@ -3,23 +3,6 @@
 import React, { useMemo, useState } from "react";
 import EmailGateInline from "./components/EmailGateInline";
 
-const UI = {
-  bg: "#f6f8fc",
-  card: "#ffffff",
-  border: "#e5e7eb",
-  text: "#0f172a",
-  muted: "#64748b",
-  primary: "#4f46e5",
-  primaryDark: "#4338ca",
-  successBg: "#ecfdf5",
-  successBorder: "#a7f3d0",
-  successText: "#065f46",
-  dangerBg: "#fff1f2",
-  dangerBorder: "#fecdd3",
-  dangerText: "#9f1239",
-  shadow: "0 12px 40px rgba(2, 6, 23, 0.08)",
-};
-
 type Goal = "leads" | "sales" | "branding";
 
 type AuditResult = {
@@ -60,27 +43,6 @@ function isAnalyzeSuccess(data: unknown): data is AnalyzeSuccess {
   );
 }
 
-function getScoreBand(score: number) {
-  if (score >= 80) return "80-100";
-  if (score >= 60) return "60-79";
-  if (score >= 40) return "40-59";
-  return "<40";
-}
-
-function bandRowStyle(active: boolean): React.CSSProperties {
-  return {
-    display: "grid",
-    gridTemplateColumns: "72px 1fr",
-    alignItems: "center",
-    padding: "12px 14px",
-    borderRadius: 14,
-    background: active ? "#eef2ff" : "#f8fafc",
-    border: active ? "1px solid #a5b4fc" : "1px solid #e5e7eb",
-    fontWeight: active ? 700 : 500,
-    color: "#0f172a",
-  };
-}
-
 function safeNumber(n: unknown, fallback = 0): number {
   return typeof n === "number" && Number.isFinite(n) ? n : fallback;
 }
@@ -106,14 +68,11 @@ function safeQuickWins(a: unknown): { title: string; how: string }[] {
   return out;
 }
 
-function cardStyle(): React.CSSProperties {
-  return {
-    padding: 22,
-    borderRadius: 22,
-    background: "#ffffff",
-    border: "1px solid #e5e7eb",
-    boxShadow: "0 12px 40px rgba(2,6,23,0.06)",
-  };
+function getScoreBand(score: number) {
+  if (score >= 80) return "80-100";
+  if (score >= 60) return "60-79";
+  if (score >= 40) return "40-59";
+  return "<40";
 }
 
 export default function Home() {
@@ -206,59 +165,22 @@ export default function Home() {
   const disclaimer = safeString(result?.disclaimer, "");
 
   return (
-    <div
-      style={{
-        maxWidth: 1100,
-        margin: "32px auto",
-        padding: 18,
-        fontFamily: "system-ui, sans-serif",
-        background: "linear-gradient(to bottom, #f8fafc, #f6f8fc)",
-        borderRadius: 28,
-      }}
-    >
-      {/* Hero */}
-      <div style={{ marginBottom: 22 }}>
-        <div style={{ display: "inline-flex", gap: 8, alignItems: "center", marginBottom: 12 }}>
-          <span
-            style={{
-              fontSize: 12,
-              padding: "6px 10px",
-              borderRadius: 999,
-              background: "rgba(79,70,229,0.12)",
-              color: "#4338ca",
-              border: "1px solid rgba(79,70,229,0.18)",
-              fontWeight: 700,
-            }}
-          >
+    <div className="mx-auto my-6 max-w-6xl rounded-[28px] bg-gradient-to-b from-slate-50 to-[#f6f8fc] px-4 py-5 font-sans sm:my-8 sm:px-5 sm:py-6">
+      <div className="mb-6 sm:mb-8">
+        <div className="mb-3 inline-flex items-center gap-2">
+          <span className="rounded-full border border-indigo-200 bg-indigo-100/70 px-3 py-1 text-xs font-bold text-indigo-700">
             Beta
           </span>
-          <span style={{ fontSize: 12, color: "#64748b" }}>
+          <span className="text-xs text-slate-500 sm:text-sm">
             Schnell. Direkt. Umsetzbar.
           </span>
         </div>
 
-        <h1
-          style={{
-            fontSize: 40,
-            lineHeight: 1.1,
-            margin: 0,
-            color: "#0f172a",
-            letterSpacing: -1,
-          }}
-        >
+        <h1 className="m-0 max-w-3xl text-[42px] leading-[0.98] tracking-[-0.04em] text-slate-900 sm:text-5xl">
           AI Website Reality Check
         </h1>
 
-        <p
-          style={{
-            color: "#475569",
-            marginTop: 14,
-            lineHeight: 1.7,
-            marginBottom: 0,
-            fontSize: 17,
-            maxWidth: 760,
-          }}
-        >
+        <p className="mt-4 max-w-3xl text-[18px] leading-8 text-slate-600 sm:text-lg">
           Erhalte eine schnelle und ehrliche Analyse deiner Website aus
           Conversion- und Messaging-Sicht.
           <br />
@@ -267,62 +189,26 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Input Card */}
-      <div
-        style={{
-          ...cardStyle(),
-          display: "grid",
-          gap: 16,
-          padding: 24,
-          background: "linear-gradient(180deg, #ffffff 0%, #fafbff 100%)",
-        }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gap: 14,
-            gridTemplateColumns: "1.4fr 0.8fr auto",
-            alignItems: "end",
-          }}
-        >
-          <label style={{ display: "grid", gap: 8, fontWeight: 600, color: "#0f172a" }}>
+      <div className="grid gap-4 rounded-[24px] border border-slate-200 bg-gradient-to-b from-white to-slate-50 px-4 py-5 shadow-[0_12px_40px_rgba(2,6,23,0.08)] sm:px-6 sm:py-6">
+        <div className="grid gap-4 md:grid-cols-[1.4fr_0.8fr_auto] md:items-end">
+          <label className="grid gap-2 font-semibold text-slate-900">
             <span>Website URL</span>
             <input
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://deine-website.de"
               disabled={loading}
-              style={{
-                width: "100%",
-                padding: "16px 18px",
-                borderRadius: 18,
-                border: "1px solid #dbe3ee",
-                background: "#ffffff",
-                color: "#111827",
-                outline: "none",
-                fontSize: 16,
-                boxShadow: "0 8px 24px rgba(2, 6, 23, 0.04)",
-              }}
+              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-base text-slate-900 shadow-sm outline-none placeholder:text-slate-400"
             />
           </label>
 
-          <label style={{ display: "grid", gap: 8, fontWeight: 600, color: "#0f172a" }}>
+          <label className="grid gap-2 font-semibold text-slate-900">
             <span>Ziel</span>
             <select
               value={goal}
               onChange={(e) => setGoal(e.target.value as Goal)}
               disabled={loading}
-              style={{
-                width: "100%",
-                padding: "16px 14px",
-                borderRadius: 18,
-                border: "1px solid #dbe3ee",
-                background: loading ? "#f1f5f9" : "#ffffff",
-                color: "#0f172a",
-                outline: "none",
-                fontSize: 16,
-                boxShadow: "0 8px 24px rgba(2, 6, 23, 0.04)",
-              }}
+              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-4 text-base text-slate-900 shadow-sm outline-none"
             >
               <option value="leads">Mehr Anfragen</option>
               <option value="sales">Mehr Verkäufe</option>
@@ -333,181 +219,84 @@ export default function Home() {
           <button
             onClick={onAnalyze}
             disabled={loading || !canAnalyze}
-            style={{
-              padding: "16px 22px",
-              minHeight: 56,
-              borderRadius: 18,
-              border: "1px solid transparent",
-              background: loading || !canAnalyze ? "#cbd5e1" : UI.primary,
-              color: "white",
-              cursor: loading || !canAnalyze ? "not-allowed" : "pointer",
-              fontWeight: 800,
-              fontSize: 16,
-              boxShadow: loading || !canAnalyze ? "none" : "0 14px 30px rgba(79,70,229,0.26)",
-              transition: "all .18s ease",
-              whiteSpace: "nowrap",
-            }}
+            className={`min-h-14 w-full rounded-2xl px-5 py-4 text-base font-extrabold text-white transition md:w-auto md:whitespace-nowrap ${
+              loading || !canAnalyze
+                ? "cursor-not-allowed bg-slate-300"
+                : "bg-indigo-600 shadow-[0_14px_30px_rgba(79,70,229,0.26)] hover:bg-indigo-700"
+            }`}
           >
             {loading ? "Analysiere…" : "Analyse starten"}
           </button>
         </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, color: "#64748b", fontSize: 13 }}>
-          <span
-            style={{
-              padding: "6px 10px",
-              borderRadius: 999,
-              background: "#ffffff",
-              border: "1px solid #e5e7eb",
-            }}
-          >
+        <div className="flex flex-wrap gap-2 text-sm text-slate-500">
+          <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5">
             kostenlos
           </span>
-          <span
-            style={{
-              padding: "6px 10px",
-              borderRadius: 999,
-              background: "#ffffff",
-              border: "1px solid #e5e7eb",
-            }}
-          >
+          <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5">
             keine Anmeldung nötig
           </span>
-          <span
-            style={{
-              padding: "6px 10px",
-              borderRadius: 999,
-              background: "#ffffff",
-              border: "1px solid #e5e7eb",
-            }}
-          >
+          <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5">
             Ergebnis in Sekunden
           </span>
         </div>
 
         {loading && (
-          <div style={{ marginTop: 4 }}>
-            <div
-              style={{
-                height: 10,
-                width: "100%",
-                background: "#eef2f7",
-                borderRadius: 999,
-                overflow: "hidden",
-              }}
-            >
+          <div className="mt-1">
+            <div className="h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
               <div
-                style={{
-                  height: "100%",
-                  width: "40%",
-                  background: "linear-gradient(90deg, #4f46e5, #7c3aed)",
-                  borderRadius: 999,
-                  animation: "loadingBar 1.1s ease-in-out infinite",
-                }}
+                style={{ animation: "loadingBar 1.1s ease-in-out infinite" }}
+                className="h-full w-[40%] rounded-full bg-gradient-to-r from-indigo-600 to-violet-600"
               />
             </div>
 
-            <p style={{ marginTop: 12, color: "#334155" }}>
+            <p className="mt-3 text-slate-700">
               <strong>{loadingMessages[loadingStep]}</strong>
-              <span style={{ color: "#64748b" }}> (ca. 10–20 Sekunden)</span>
+              <span className="text-slate-500"> (ca. 10–20 Sekunden)</span>
             </p>
           </div>
         )}
 
         {showDone && !loading && (
-          <div
-            style={{
-              marginTop: 4,
-              padding: 12,
-              borderRadius: 14,
-              background: "#eefbf3",
-              border: "1px solid #b7e4c7",
-              color: "#14532d",
-              fontWeight: 700,
-            }}
-          >
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 font-bold text-emerald-800">
             Analyse abgeschlossen ✅
           </div>
         )}
 
         {!canAnalyze && url.length > 0 && (
-          <p style={{ color: "#b00", margin: 0 }}>
+          <p className="m-0 text-sm text-red-700">
             Bitte gib eine gültige URL ein (mit https://).
           </p>
         )}
 
         {error && (
-          <div
-            style={{
-              marginTop: 4,
-              padding: 14,
-              borderRadius: 14,
-              border: "1px solid #f1c0c7",
-              background: "#fff5f7",
-              color: "#7a1f2b",
-            }}
-          >
-            <strong style={{ display: "block", marginBottom: 6 }}>
-              Konnte nicht analysieren
-            </strong>
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-4 text-rose-800">
+            <strong className="mb-1 block">Konnte nicht analysieren</strong>
             <span>{error}</span>
           </div>
         )}
       </div>
 
-      {/* Results */}
       {result && (
-        <section style={{ marginTop: 24, display: "grid", gap: 18 }}>
-          {/* Score Card */}
-          <div
-            style={{
-              ...cardStyle(),
-              display: "grid",
-              gap: 18,
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                gap: 16,
-                flexWrap: "wrap",
-              }}
-            >
+        <section className="mt-6 grid gap-4 sm:mt-8 sm:gap-5">
+          <div className="grid gap-5 rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_40px_rgba(2,6,23,0.06)] sm:p-6">
+            <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <h2 style={{ margin: 0, fontSize: 28, color: "#0f172a" }}>
+                <h2 className="m-0 text-2xl font-bold text-slate-900 sm:text-3xl">
                   Score: {overallScore}/100
                 </h2>
-                <p style={{ marginTop: 10, marginBottom: 0, color: "#475569", lineHeight: 1.6 }}>
+                <p className="mt-3 max-w-2xl text-slate-600 leading-7">
                   {summary || "Bitte Analyse erneut starten, falls die Zusammenfassung fehlt."}
                 </p>
               </div>
 
-              <div
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: 999,
-                  background: "#eef2ff",
-                  color: "#4338ca",
-                  fontWeight: 800,
-                  fontSize: 14,
-                  whiteSpace: "nowrap",
-                }}
-              >
+              <div className="rounded-full bg-indigo-100 px-4 py-2 text-sm font-extrabold text-indigo-700">
                 Score-Bereich: {activeBand}
               </div>
             </div>
 
-            <div
-              style={{
-                padding: 14,
-                borderRadius: 16,
-                background: "#fafafa",
-                border: "1px solid #ececec",
-              }}
-            >
-              <div style={{ display: "grid", gap: 8 }}>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div className="grid gap-2">
                 {[
                   { key: "80-100", label: "80–100", text: "Sehr stark – Feinschliff & Skalierung." },
                   { key: "60-79", label: "60–79", text: "Gute Basis – klare Hebel für mehr Wirkung." },
@@ -516,48 +305,35 @@ export default function Home() {
                 ].map((r) => {
                   const active = r.key === activeBand;
                   return (
-                    <div key={r.key} style={bandRowStyle(active)}>
-                      <span style={{ minWidth: 64 }}>{r.label}</span>
-                      <span style={{ opacity: active ? 1 : 0.92 }}>{r.text}</span>
+                    <div
+                      key={r.key}
+                      className={`grid items-center gap-3 rounded-2xl px-4 py-3 text-sm sm:grid-cols-[72px_1fr] ${
+                        active
+                          ? "border border-indigo-300 bg-indigo-50 font-bold text-slate-900"
+                          : "border border-slate-200 bg-white text-slate-800"
+                      }`}
+                    >
+                      <span>{r.label}</span>
+                      <span>{r.text}</span>
                     </div>
                   );
                 })}
               </div>
             </div>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
-                gap: 10,
-              }}
-            >
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
               {Object.entries(categoryScoresObj).length === 0 ? (
-                <div style={{ fontSize: 12, color: "#b00" }}>
+                <div className="text-sm text-red-700">
                   Hinweis: Kategorie-Scores fehlen im AI-Output. Bitte Analyse erneut starten.
                 </div>
               ) : (
                 Object.entries(categoryScoresObj).map(([k, v]) => (
                   <div
                     key={k}
-                    style={{
-                      padding: 14,
-                      borderRadius: 16,
-                      border: "1px solid #eceff3",
-                      background: "#f8fafc",
-                    }}
+                    className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
                   >
-                    <div
-                      style={{
-                        fontSize: 12,
-                        color: "#64748b",
-                        textTransform: "capitalize",
-                        marginBottom: 6,
-                      }}
-                    >
-                      {k}
-                    </div>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: "#0f172a" }}>
+                    <div className="mb-1 text-xs capitalize text-slate-500">{k}</div>
+                    <div className="text-2xl font-extrabold text-slate-900">
                       {safeNumber(v)}/20
                     </div>
                   </div>
@@ -566,120 +342,81 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Strengths / Blockers */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 16,
-            }}
-          >
-            <div style={cardStyle()}>
-              <h3 style={{ marginTop: 0, marginBottom: 14, color: "#0f172a" }}>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_40px_rgba(2,6,23,0.06)] sm:p-6">
+              <h3 className="mb-4 mt-0 text-xl font-bold text-slate-900">
                 Was funktioniert
               </h3>
 
               {strengths.length ? (
-                <div style={{ display: "grid", gap: 10 }}>
+                <div className="grid gap-3">
                   {strengths.map((s, i) => (
                     <div
                       key={i}
-                      style={{
-                        padding: 14,
-                        borderRadius: 14,
-                        background: "#f8fafc",
-                        border: "1px solid #e5e7eb",
-                        color: "#334155",
-                        lineHeight: 1.6,
-                      }}
+                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-slate-700 leading-7"
                     >
                       {s}
                     </div>
                   ))}
                 </div>
               ) : (
-                <p style={{ color: "#b00" }}>Keine Strengths im Output.</p>
+                <p className="text-red-700">Keine Strengths im Output.</p>
               )}
             </div>
 
-            <div style={cardStyle()}>
-              <h3 style={{ marginTop: 0, marginBottom: 14, color: "#0f172a" }}>
+            <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_40px_rgba(2,6,23,0.06)] sm:p-6">
+              <h3 className="mb-4 mt-0 text-xl font-bold text-slate-900">
                 Was bremst
               </h3>
 
               {blockers.length ? (
-                <div style={{ display: "grid", gap: 10 }}>
+                <div className="grid gap-3">
                   {blockers.map((b, i) => (
                     <div
                       key={i}
-                      style={{
-                        padding: 14,
-                        borderRadius: 14,
-                        background: "#fff7ed",
-                        border: "1px solid #fed7aa",
-                        color: "#7c2d12",
-                        lineHeight: 1.6,
-                      }}
+                      className="rounded-2xl border border-orange-200 bg-orange-50 p-4 text-orange-900 leading-7"
                     >
                       {b}
                     </div>
                   ))}
                 </div>
               ) : (
-                <p style={{ color: "#b00" }}>Keine Blocker im Output.</p>
+                <p className="text-red-700">Keine Blocker im Output.</p>
               )}
             </div>
           </div>
 
-          {/* Quick Wins */}
-          <div style={cardStyle()}>
-            <h3 style={{ marginTop: 0, marginBottom: 10, color: "#0f172a" }}>
+          <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_12px_40px_rgba(2,6,23,0.06)] sm:p-6">
+            <h3 className="mb-2 mt-0 text-xl font-bold text-slate-900">
               Quick Wins (15 Min)
             </h3>
 
-            <p style={{ marginTop: 0, color: "#64748b", lineHeight: 1.6 }}>
+            <p className="mb-0 text-slate-600 leading-7">
               Kleine Änderungen, die du schnell umsetzen kannst und die oft direkt
               spürbar etwas verbessern.
             </p>
 
             {quickWins.length ? (
-              <div style={{ display: "grid", gap: 12, marginTop: 16 }}>
+              <div className="mt-4 grid gap-3">
                 {quickWins.map((q, i) => (
                   <div
                     key={i}
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: 12,
-                      padding: 16,
-                      borderRadius: 16,
-                      background: "#f8fafc",
-                      border: "1px solid #e5e7eb",
-                    }}
+                    className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4"
                   >
-                    <div
-                      style={{
-                        width: 10,
-                        height: 10,
-                        minWidth: 10,
-                        borderRadius: 999,
-                        background: "#111827",
-                        marginTop: 7,
-                      }}
-                    />
-                    <div style={{ color: "#334155", lineHeight: 1.7 }}>
-                      <strong style={{ color: "#0f172a" }}>{q.title}:</strong> {q.how}
+                    <div className="mt-2 h-2.5 w-2.5 min-w-2.5 rounded-full bg-slate-900" />
+                    <div className="text-slate-700 leading-7">
+                      <strong className="text-slate-900">{q.title}:</strong> {q.how}
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p style={{ color: "#b00" }}>Keine Quick Wins im Output.</p>
+              <p className="mt-4 text-red-700">Keine Quick Wins im Output.</p>
             )}
 
             <EmailGateInline websiteUrl={url} reportId={reportId} />
 
-            <p style={{ fontSize: 12, color: "#666", marginTop: 14 }}>
+            <p className="mt-4 text-xs leading-6 text-slate-500">
               {disclaimer ||
                 "Hinweis: AI-Ausgabe kann unvollständig sein. Bitte erneut testen, falls Felder fehlen."}
             </p>
@@ -697,26 +434,6 @@ export default function Home() {
           }
           100% {
             transform: translateX(180%);
-          }
-        }
-
-        @media (max-width: 900px) {
-          div[style*="grid-template-columns: 1.4fr 0.8fr auto"] {
-            grid-template-columns: 1fr !important;
-          }
-
-          div[style*="grid-template-columns: repeat(5, minmax(0, 1fr))"] {
-            grid-template-columns: 1fr 1fr !important;
-          }
-
-          div[style*="grid-template-columns: 1fr 1fr"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-
-        @media (max-width: 640px) {
-          div[style*="grid-template-columns: repeat(5, minmax(0, 1fr))"] {
-            grid-template-columns: 1fr !important;
           }
         }
       `}</style>

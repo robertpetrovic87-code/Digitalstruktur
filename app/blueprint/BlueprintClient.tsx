@@ -53,7 +53,7 @@ export default function BlueprintClient() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-zinc-50/60 to-white font-sans">
-      <div className="mx-auto max-w-6xl px-6 py-12 md:px-8 md:py-16">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-5 md:px-8 md:py-16">
         <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
           {/* Left column */}
           <div>
@@ -61,30 +61,30 @@ export default function BlueprintClient() {
               Individueller Website Blueprint
             </div>
 
-            <h1 className="mt-5 max-w-3xl text-4xl font-bold tracking-tight text-zinc-900 md:text-5xl">
+            <h1 className="mt-5 max-w-3xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl md:text-5xl">
               Dein klarer 30-Tage Plan für eine Website, die mehr Anfragen bringt
             </h1>
 
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">
+            <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
               Erhalte einen konkreten Umsetzungsplan, der dir zeigt, welche
               Änderungen auf deiner Website die größte Wirkung haben —
               individuell für dich erstellt, statt generisch automatisch erzeugt.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3 text-sm text-zinc-600">
-              <div className="rounded-full border border-zinc-200 bg-white px-3 py-2 shadow-sm">
+              <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
                 Individuell für dich erstellt
               </div>
-              <div className="rounded-full border border-zinc-200 bg-white px-3 py-2 shadow-sm">
+              <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
                 In 24 Stunden per E-Mail
               </div>
-              <div className="rounded-full border border-zinc-200 bg-white px-3 py-2 shadow-sm">
+              <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
                 Klare nächste Schritte statt Theorie
               </div>
             </div>
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+              <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
                 <div className="text-sm font-semibold text-zinc-900">
                   Was du bekommst
                 </div>
@@ -97,7 +97,7 @@ export default function BlueprintClient() {
                 </ul>
               </div>
 
-              <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+              <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
                 <div className="text-sm font-semibold text-zinc-900">
                   Besonders hilfreich, wenn du
                 </div>
@@ -111,7 +111,7 @@ export default function BlueprintClient() {
               </div>
             </div>
 
-            <div className="mt-8 rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
+            <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
               <div className="text-sm font-semibold text-zinc-900">
                 Warum dieser Blueprint wertvoll ist
               </div>
@@ -136,7 +136,7 @@ export default function BlueprintClient() {
                 </p>
               </div>
 
-              <div className="grid gap-4 p-6 md:grid-cols-3">
+              <div className="grid gap-4 p-4 sm:p-6 md:grid-cols-3">
                 <div className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
                   <div className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
                     Woche 1
@@ -233,7 +233,7 @@ export default function BlueprintClient() {
           {/* Right column */}
           <div className="lg:sticky lg:top-8">
             <div className="overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-              <div className="border-b border-zinc-100 bg-gradient-to-br from-zinc-900 to-zinc-800 p-6 text-white">
+              <div className="border-b border-zinc-100 bg-gradient-to-br from-zinc-900 to-zinc-800 p-5 sm:p-6 text-white">
                 <div className="text-sm font-medium text-zinc-300">
                   Einmalige Freischaltung
                 </div>

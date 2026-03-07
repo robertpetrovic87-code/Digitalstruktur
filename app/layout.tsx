@@ -37,7 +37,7 @@ export default function RootLayout({
         
         <CookieBanner />
 
-        <footer className="border-t mt-16 py-6 text-sm text-gray-600">
+        <footer className="border-t mt-16 py-8 pb-24 text-sm text-gray-600 sm:pb-8">
          <div className="max-w-4xl mx-auto px-4">
           <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
           <Link href="/impressum" className="hover:underline">
