@@ -242,7 +242,7 @@ export default function Home() {
                 className={`mt-2 h-14 w-full rounded-2xl text-base font-bold text-white transition duration-200 ${
                   loading || !canAnalyze
                     ? "cursor-not-allowed bg-slate-300"
-                    : "bg-indigo-600 shadow-[0_16px_35px_rgba(79,70,229,0.35)] hover:scale-[1.01] hover:bg-indigo-700"
+                    : "bg-indigo-700 shadow-[0_16px_35px_rgba(79,70,229,0.35)] hover:scale-[1.01] hover:bg-indigo-800"
                 }`}
               >
                 {loading ? "Analysiere…" : "Website jetzt analysieren"}
