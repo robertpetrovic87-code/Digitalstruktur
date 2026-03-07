@@ -176,7 +176,7 @@ export default function Home() {
   const disclaimer = safeString(result?.disclaimer, "");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc] py-8 sm:py-10 lg:py-12">
+    <div className="bg-gradient-to-b from-slate-50 via-white to-[#f6f8fc] py-8 sm:py-10 lg:py-12">
       <section className="mx-auto max-w-3xl">
         <div className="space-y-8">
           <div className="inline-flex items-center gap-4 rounded-xl bg-slate-50 px-4 py-2 shadow-sm">
@@ -188,7 +188,7 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="text-left">
+          <div className="pt-8 text-left">
             <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
               AI Website
               <br />
@@ -204,7 +204,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8">
+          <div className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8">
             <div className="grid gap-4">
               <label className="grid gap-1.5 text-left">
                 <span className="text-sm font-semibold text-slate-900">
