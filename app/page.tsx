@@ -192,32 +192,22 @@ export default function Home() {
                 </div>
 
                 <div className="max-w-2xl text-left">
-                  <h1 className="text-[1.95rem] font-black leading-[0.98] tracking-[-0.05em] text-slate-900 sm:text-5xl lg:text-[4rem]">
-                    AI Website
-                    <span className="block">Reality Check</span>
-                  </h1>
+                  <h1 className="text-[1.85rem] font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                    AI Website Reality Check
+                    </h1>
+                    <div className="mt-4 h-px w-16 bg-slate-200"></div>
 
-                  <p className="mt-4 max-w-xl text-[0.98rem] leading-7 text-slate-600 sm:text-lg sm:leading-8">
-                    Erhalte eine schnelle und ehrliche Analyse deiner Website aus
-                    Conversion- und Messaging-Sicht. Fokus auf{" "}
-                    <strong>Klarheit, Vertrauen und Handlungsstärke</strong> —
-                    ohne Tool-Overload und ohne SEO-Blabla.
-                  </p>
+                  <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-600">
+                  Analysiere deine Website in wenigen Sekunden und entdecke,
+                   was Besucher überzeugt – und was sie bremst. Fokus auf
+                  <strong> Klarheit, Vertrauen und Conversion.</strong>
+                  </p>               
                 </div>
               </div>
 
               <div className="grid gap-6">
                 <div className="border border-slate-200 bg-white px-4 py-5 shadow-[0_10px_30px_rgba(2,6,23,0.06)] sm:px-6 sm:py-6 lg:px-7 lg:py-7">
                   <div className="grid gap-5">
-                    <div className="border-b border-slate-100 pb-3">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-    Website prüfen
-                    </p>
-                    </div>
-                    <div className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Website analysieren
-                    </div>
-
                     <label className="grid gap-2 text-left">
                     <span className="text-sm font-semibold text-slate-900 sm:text-[15px]">
                        Website URL eingeben
@@ -302,9 +292,7 @@ export default function Home() {
 
                 <aside className="mt-6 border border-slate-200 bg-gradient-to-b from-slate-50 to-white px-6 py-6">
                   <div className="border-b border-slate-200 px-4 py-4 sm:px-5">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                      Das bekommst du
-                    </p>
+                   
                     <h3 className="mt-2 text-[1.2rem] font-bold leading-snug text-slate-900 sm:text-xl">
                       Ein schneller Blick auf die größten Hebel deiner Website
                     </h3>
