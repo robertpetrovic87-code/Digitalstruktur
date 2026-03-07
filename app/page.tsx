@@ -181,8 +181,8 @@ export default function Home() {
         <div className="border border-slate-200/70 bg-white/85 p-4 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-5 lg:p-6">
           <div className="bg-gradient-to-b from-white via-white to-slate-50/70 px-5 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
             <section className="py-6 sm:py-8‚">
-              <div className="mb-6 flex items-left justify-left gap-3">
-                <span className="rounded-full border border-indigo-200 bg-indigo-100 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-700">
+              <div className="mb-6 flex items-center gap-4">
+                <span className="rounded-full border border-indigo-200 bg-indigo-100 px-4.5 py-1 text-[11px] font-bold uppercase tracking-wide text-indigo-700">
                   Beta
                 </span>
                 <span className="text-sm text-slate-500">
@@ -192,7 +192,8 @@ export default function Home() {
 
               <div className="mx-auto max-w-2xl text-left">
                 <h1 className="text-[2.2rem] font-bold leading-[1.02] tracking-[-0.04em] text-slate-900 sm:text-5xl">
-                  AI Website Reality Check
+                  AI Website 
+                  <br />Reality Check
                 </h1>
 
                 <p className="max-w-xl text-base leading-relaxed text-slate-600">
@@ -204,7 +205,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="mt-10 border border-slate-200 bg-white p-6 shadow-[0_15px_40px_rgba(2,6,23,0.08)] sm:p-7">
+              <div className="mt-12 border border-slate-200 bg-white px-6 py-7 shadow-[0_18px_45px_rgba(2,6,23,0.08)] sm:px-7 sm:py-8">
                 <div className="mx-auto grid max-w-2xl gap-3">
                   <label className="grid gap-2.5 text-left">
                     <span className="text-sm font-semibold text-slate-900">
@@ -238,10 +239,10 @@ export default function Home() {
                   <button
                     onClick={onAnalyze}
                     disabled={loading || !canAnalyze}
-                    className={`mt-1 h-14 w-full rounded-2xl text-base font-bold text-white transition ${
+                    className={`mt-2 h-14 w-full rounded-2xl text-base font-bold text-white transition duration-200 ${
                       loading || !canAnalyze
                         ? "cursor-not-allowed bg-slate-300"
-                        : "bg-indigo-600 shadow-[0_12px_30px_rgba(79,70,229,0.28)] hover:bg-indigo-700"
+                        : "bg-indigo-600 shadow-[0_16px_35px_rgba(79,70,229,0.35)] hover:bg-indigo-700 hover:scale-[1.01]"
                     }`}
                   >
                     {loading ? "Analysiere…" : "Website jetzt analysieren"}
@@ -289,7 +290,7 @@ export default function Home() {
               </div>
 
               <div className="mt-16 px-6 sm:px-8">
-                <div className="mx-auto max-w-2xl border border-slate-200 bg-slate-50 p-6">
+                <div className="mx-auto max-w-2xl bg-slate-50 p-6 shadow-sm">
                   <h3 className="text-lg font-bold text-slate-900">
                     Du erhältst sofort:
                   </h3>
