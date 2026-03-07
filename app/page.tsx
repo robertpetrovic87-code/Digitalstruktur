@@ -302,7 +302,7 @@ export default function Home() {
                 </div>
               </div>
 
-                <div className="mt-16">
+                <div className="mt-16 l-[80px]">
                 <div className="mx-auto max-w-[48rem] rounded-2xl bg-slate-50 px-7 py-6 shadow-sm sm:px-8 md:px-9">
                   <h3 className="text-lg font-bold text-slate-900">
                     Du erhältst sofort:
