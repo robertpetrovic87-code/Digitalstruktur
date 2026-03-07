@@ -180,7 +180,7 @@ export default function Home() {
       <div className="mx-auto max-w-5xl px-5 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         <div className="mx-auto max-w-5xl border border-slate-200/70 bg-white/85 p-3 shadow-[0_20px_60px_rgba(2,6,23,0.06)] sm:p-4 lg:p-5">
           <div className="border border-slate-200/70 bg-gradient-to-b from-white via-white to-slate-50/70 px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
-            <section className="mx-auto max-w-5xl">
+            <section className="mx-auto max-w-5xl px-6 lg:px-8">
               <div className="mb-8 sm:mb-10">
                 <div className="mb-4 flex flex-wrap items-center justify-center gap-2 sm:justify-start">
                   <span className="border border-indigo-200 bg-indigo-100/80 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.12em] text-indigo-700">
@@ -206,7 +206,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="grid gap-5 lg:grid-cols-[minmax(0,1.15fr)_320px] lg:items-start">
+              <div className="grid gap-6">
                 <div className="border border-slate-200 bg-white px-4 py-5 shadow-[0_10px_30px_rgba(2,6,23,0.06)] sm:px-6 sm:py-6 lg:px-7 lg:py-7">
                   <div className="grid gap-5">
                     <div className="border-b border-slate-100 pb-3">
@@ -300,7 +300,7 @@ export default function Home() {
                   )}
                 </div>
 
-                <aside className="border border-slate-200 bg-gradient-to-b from-slate-50 to-white shadow-[0_10px_30px_rgba(2,6,23,0.05)]">
+                <aside className="mt-6 border border-slate-200 bg-gradient-to-b from-slate-50 to-white px-6 py-6">
                   <div className="border-b border-slate-200 px-4 py-4 sm:px-5">
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                       Das bekommst du
