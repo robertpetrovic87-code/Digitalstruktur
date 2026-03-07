@@ -195,7 +195,7 @@ export default function Home() {
                   AI Website Reality Check
                 </h1>
 
-                <p className="max-w-xl text-base leading-8 text-slate-600">
+                <p className="max-w-xl text-base leading-relaxed text-slate-600">
                   Analysiere deine Website in wenigen Sekunden und entdecke, was
                   Besucher überzeugt – und was sie bremst. Fokus auf{" "}
                   <strong className="text-slate-900">
@@ -205,7 +205,7 @@ export default function Home() {
               </div>
 
               <div className="mt-10 border border-slate-200 bg-white p-6 shadow-[0_15px_40px_rgba(2,6,23,0.08)] sm:p-7">
-                <div className="mx-auto grid max-w-2xl gap-5">
+                <div className="mx-auto grid max-w-2xl gap-3">
                   <label className="grid gap-2.5 text-left">
                     <span className="text-sm font-semibold text-slate-900">
                       Website URL
