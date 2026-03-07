@@ -62,7 +62,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
   }
 
   return (
-    <section className="mt-4 w-full">
+    <section className="mt-3 w-full">
       {!open ? (
         <button
           type="button"
@@ -85,7 +85,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
                   Kostenloser Detailreport
                 </div>
 
-                <h3 className="mt-3 text-2xl font-bold tracking-tight text-zinc-900">
+                <h3 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900">
                   Erhalte konkrete Verbesserungsvorschläge für deine Website
                 </h3>
 
@@ -96,7 +96,7 @@ export default function EmailGateInline({ websiteUrl, reportId }: Props) {
                 </p>
 
                 {!!websiteUrl && (
-                  <p className="mt-3 text-sm text-zinc-500">
+                  <p className="mt-4 text-sm text-zinc-500">
                     Analyse für:{" "}
                     <span className="font-medium text-zinc-700">{websiteUrl}</span>
                   </p>

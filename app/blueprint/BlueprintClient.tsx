@@ -52,39 +52,41 @@ export default function BlueprintClient() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-zinc-50/60 to-white font-sans">
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-5 md:px-8 md:py-16">
-        <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-          {/* Left column */}
-          <div>
+    <div className="min-h-screen bg-gradient-to-b from-white via-zinc-50/50 to-white">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:px-8 md:py-14">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_380px] lg:items-start">
+          {/* LEFT */}
+          <div className="space-y-8">
             <div className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700 shadow-sm">
               Individueller Website Blueprint
             </div>
 
-            <h1 className="mt-5 max-w-3xl text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl md:text-5xl">
-              Dein klarer 30-Tage Plan für eine Website, die mehr Anfragen bringt
-            </h1>
+            <div className="max-w-3xl">
+              <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl lg:text-6xl">
+                Dein klarer 30-Tage Plan für eine Website, die mehr Anfragen bringt
+              </h1>
 
-            <p className="mt-4 max-w-2xl text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
-              Erhalte einen konkreten Umsetzungsplan, der dir zeigt, welche
-              Änderungen auf deiner Website die größte Wirkung haben —
-              individuell für dich erstellt, statt generisch automatisch erzeugt.
-            </p>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-zinc-600">
+                Erhalte einen konkreten Umsetzungsplan, der dir zeigt, welche
+                Änderungen auf deiner Website die größte Wirkung haben —
+                individuell für dich erstellt, statt generisch automatisch erzeugt.
+              </p>
 
-            <div className="mt-6 flex flex-wrap gap-3 text-sm text-zinc-600">
-              <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
-                Individuell für dich erstellt
-              </div>
-              <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
-                In 24 Stunden per E-Mail
-              </div>
-              <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
-                Klare nächste Schritte statt Theorie
+              <div className="mt-6 flex flex-wrap gap-2">
+                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-600 shadow-sm">
+                  Individuell für dich erstellt
+                </span>
+                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-600 shadow-sm">
+                  In 24 Stunden per E-Mail
+                </span>
+                <span className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-600 shadow-sm">
+                  Klare nächste Schritte statt Theorie
+                </span>
               </div>
             </div>
 
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
                 <div className="text-sm font-semibold text-zinc-900">
                   Was du bekommst
                 </div>
@@ -97,7 +99,7 @@ export default function BlueprintClient() {
                 </ul>
               </div>
 
-              <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
+              <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
                 <div className="text-sm font-semibold text-zinc-900">
                   Besonders hilfreich, wenn du
                 </div>
@@ -111,11 +113,11 @@ export default function BlueprintClient() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-zinc-200 bg-white p-5 sm:p-6 shadow-sm">
+            <div className="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm">
               <div className="text-sm font-semibold text-zinc-900">
                 Warum dieser Blueprint wertvoll ist
               </div>
-              <p className="mt-3 text-sm leading-7 text-zinc-600">
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-zinc-600">
                 Viele Websites verlieren Anfragen nicht wegen eines einzigen großen
                 Fehlers, sondern wegen vieler kleiner Reibungspunkte: unklare
                 Struktur, schwache CTAs, zu wenig Vertrauen, unpräzise Texte oder
@@ -124,8 +126,7 @@ export default function BlueprintClient() {
               </p>
             </div>
 
-            {/* Preview Section */}
-            <div className="mt-8 overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm">
+            <div className="overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm">
               <div className="border-b border-zinc-100 bg-zinc-50 px-6 py-4">
                 <div className="text-sm font-semibold text-zinc-900">
                   Vorschau: So kann dein Blueprint aussehen
@@ -184,8 +185,7 @@ export default function BlueprintClient() {
               </div>
             </div>
 
-            {/* ROI / Value framing */}
-            <div className="mt-8 rounded-3xl border border-zinc-200 bg-gradient-to-br from-zinc-900 to-zinc-800 p-6 text-white shadow-sm">
+            <div className="rounded-3xl bg-gradient-to-br from-zinc-900 to-zinc-800 p-6 text-white shadow-sm">
               <div className="text-sm font-semibold text-zinc-300">
                 Warum sich das lohnen kann
               </div>
@@ -196,8 +196,7 @@ export default function BlueprintClient() {
               </p>
             </div>
 
-            {/* Honest trust / no fake testimonials */}
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-3">
               <div className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm">
                 <div className="text-sm font-semibold text-zinc-900">
                   Kein Standard-Output
@@ -230,10 +229,10 @@ export default function BlueprintClient() {
             </div>
           </div>
 
-          {/* Right column */}
-          <div className="lg:sticky lg:top-8">
+          {/* RIGHT */}
+          <aside className="lg:sticky lg:top-8">
             <div className="overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-              <div className="border-b border-zinc-100 bg-gradient-to-br from-zinc-900 to-zinc-800 p-5 sm:p-6 text-white">
+              <div className="bg-gradient-to-br from-zinc-900 to-zinc-800 p-6 text-white">
                 <div className="text-sm font-medium text-zinc-300">
                   Einmalige Freischaltung
                 </div>
@@ -244,79 +243,68 @@ export default function BlueprintClient() {
               </div>
 
               <div className="p-6">
-                <div className="rounded-2xl bg-zinc-50 p-4">
-                  <div className="text-sm font-semibold text-zinc-900">
-                    Enthalten in deinem Blueprint
-                  </div>
-
-                  <div className="mt-4 space-y-3 text-sm text-zinc-700">
-                    <div className="flex items-start gap-3">
-                      <div className="mt-0.5 h-2.5 w-2.5 rounded-full bg-zinc-900" />
-                      <p>Klare Prioritäten: Was zuerst ändern, was später.</p>
+                <div className="space-y-4">
+                  <div className="rounded-2xl bg-zinc-50 p-4">
+                    <div className="text-sm font-semibold text-zinc-900">
+                      Enthalten in deinem Blueprint
                     </div>
-                    <div className="flex items-start gap-3">
-                      <div className="mt-0.5 h-2.5 w-2.5 rounded-full bg-zinc-900" />
-                      <p>Konkrete Verbesserungen für Struktur, Texte und CTAs.</p>
+
+                    <div className="mt-4 space-y-3 text-sm text-zinc-700">
+                      <div className="flex items-start gap-3">
+                        <div className="mt-1 h-2.5 w-2.5 rounded-full bg-zinc-900" />
+                        <p>Klare Prioritäten: Was zuerst ändern, was später.</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-1 h-2.5 w-2.5 rounded-full bg-zinc-900" />
+                        <p>Konkrete Verbesserungen für Struktur, Texte und CTAs.</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-1 h-2.5 w-2.5 rounded-full bg-zinc-900" />
+                        <p>SEO- und Content-Ideen mit echter Umsetzungslogik.</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-1 h-2.5 w-2.5 rounded-full bg-zinc-900" />
+                        <p>Ein Plan, den du direkt anwenden kannst.</p>
+                      </div>
                     </div>
-                    <div className="flex items-start gap-3">
-                      <div className="mt-0.5 h-2.5 w-2.5 rounded-full bg-zinc-900" />
-                      <p>SEO- und Content-Ideen mit echter Umsetzungslogik.</p>
+                  </div>
+
+                  {canceled && (
+                    <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+                      Deine Zahlung wurde abgebrochen. Du kannst den Checkout jederzeit erneut starten.
                     </div>
-                    <div className="flex items-start gap-3">
-                      <div className="mt-0.5 h-2.5 w-2.5 rounded-full bg-zinc-900" />
-                      <p>Ein Plan, den du direkt anwenden kannst.</p>
+                  )}
+
+                  {!!error && (
+                    <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                      {error}
                     </div>
+                  )}
+
+                  <button
+                    onClick={handleCheckout}
+                    disabled={loading}
+                    className="inline-flex w-full items-center justify-center rounded-2xl bg-zinc-900 px-5 py-4 text-sm font-semibold text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {loading ? "Weiterleitung zu Stripe..." : "Blueprint freischalten – 199€"}
+                  </button>
+
+                  <div className="text-center text-sm text-zinc-500">
+                    Sichere Zahlung mit Stripe
                   </div>
-                </div>
 
-                <div className="mt-5 rounded-2xl border border-zinc-200 bg-white p-4">
-                  <div className="text-sm font-semibold text-zinc-900">
-                    Das schätzen viele an einem klaren Plan
+                  <div className="flex flex-wrap justify-center gap-2 text-xs text-zinc-500">
+                    <span className="rounded-full bg-zinc-100 px-3 py-1">
+                      individuell erstellt
+                    </span>
+                    <span className="rounded-full bg-zinc-100 px-3 py-1">
+                      Lieferung in 24h
+                    </span>
+                    <span className="rounded-full bg-zinc-100 px-3 py-1">
+                      klare Umsetzungsschritte
+                    </span>
                   </div>
-                  <ul className="mt-3 space-y-2 text-sm text-zinc-600">
-                    <li>• weniger Unsicherheit bei den nächsten Schritten</li>
-                    <li>• klare Prioritäten statt To-do-Chaos</li>
-                    <li>• schnelleres Umsetzen mit mehr Fokus</li>
-                  </ul>
-                </div>
 
-                {canceled && (
-                  <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-                    Deine Zahlung wurde abgebrochen. Du kannst den Checkout jederzeit erneut starten.
-                  </div>
-                )}
-
-                {!!error && (
-                  <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
-                    {error}
-                  </div>
-                )}
-
-                <button
-                  onClick={handleCheckout}
-                  disabled={loading}
-                  className="mt-6 inline-flex w-full items-center justify-center rounded-2xl bg-zinc-900 px-5 py-4 text-sm font-semibold text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {loading ? "Weiterleitung zu Stripe..." : "Blueprint freischalten – 199€"}
-                </button>
-
-                <div className="mt-4 text-center text-sm text-zinc-500">
-                  Sichere Zahlung mit Stripe
-                </div>
-
-                <div className="mt-4 flex flex-wrap justify-center gap-2 text-xs text-zinc-500">
-                  <span className="rounded-full bg-zinc-100 px-3 py-1">
-                    individuell erstellt
-                  </span>
-                  <span className="rounded-full bg-zinc-100 px-3 py-1">
-                    Lieferung in 24h
-                  </span>
-                  <span className="rounded-full bg-zinc-100 px-3 py-1">
-                    klare Umsetzungsschritte
-                  </span>
-                </div>
-
-                <div className="mt-6 grid gap-3">
                   <div className="rounded-2xl border border-zinc-200 p-4">
                     <div className="text-sm font-semibold text-zinc-900">
                       Was nach dem Kauf passiert
@@ -342,14 +330,14 @@ export default function BlueprintClient() {
                       </a>
                     </p>
                   </div>
-                </div>
 
-                <div className="mt-6 text-xs text-zinc-400 break-all">
-                  Report ID: {rid || "nicht gefunden"}
+                  <div className="text-xs text-zinc-400 break-all">
+                    Report ID: {rid || "nicht gefunden"}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </div>
