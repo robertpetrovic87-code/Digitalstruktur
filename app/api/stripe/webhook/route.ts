@@ -157,55 +157,57 @@ export async function POST(req: Request) {
     console.error("Sales notification email failed:", mailError);
   }
 
-  // 2) Kunden-Bestätigung nach Kauf
-  if (customerEmail) {
-    try {
-      await resend.emails.send({
-        from: mustEnv("EMAIL_FROM"),
-        to: customerEmail,
-        subject: "Dein AI Website Blueprint wird erstellt",
-        html: `
-          <div style="font-family:Arial,sans-serif;line-height:1.6;max-width:640px;margin:0 auto;padding:20px">
-            <h2 style="margin:0 0 14px 0">Danke für deinen Kauf 🙌</h2>
+ // 2) Kunden-Bestätigung nach Kauf
+if (customerEmail) {
+  try {
+    await resend.emails.send({
+      from: mustEnv("EMAIL_FROM"),
+      to: customerEmail,
+      subject: "Dein AI Website Blueprint wird erstellt",
+      html: `
+        <div style="font-family:Arial,sans-serif;line-height:1.6;max-width:640px;margin:0 auto;padding:20px">
+          <h2 style="margin:0 0 14px 0">Danke für deinen Kauf 🙌</h2>
 
-            <p style="margin:0 0 12px 0;color:#111;">
-              dein <b>AI Website Blueprint</b> wurde erfolgreich freigeschaltet.
-            </p>
+          <p style="margin:0 0 12px 0;color:#111;">
+            dein <b>AI Website Blueprint</b> wurde erfolgreich bestellt.
+          </p>
 
-            <div style="border:1px solid #e5e7eb;border-radius:12px;padding:16px;background:#ffffff;margin:16px 0;">
-              <p style="margin:0 0 10px 0;"><b>Website:</b> ${escapeHtml(website)}</p>
-              <p style="margin:0 0 10px 0;"><b>Ziel:</b> ${escapeHtml(goal)}</p>
-              <p style="margin:0;"><b>Preis:</b> ${escapeHtml(formattedAmount)}</p>
-            </div>
-
-            <p style="margin:0 0 12px 0;color:#111;">
-              Wir erstellen deinen individuellen Blueprint aktuell manuell, damit du einen klaren und wirklich brauchbaren Umsetzungsplan bekommst.
-            </p>
-
-            <p style="margin:0 0 12px 0;color:#111;">
-              Du erhältst innerhalb von <b>24 Stunden</b> einen Download-Link per E-Mail.
-            </p>
-
-            <div style="margin:18px 0;">
-              <a
-                href="https://www.digitalstruktur.com/blueprint?rid=${encodeURIComponent(updated.id)}"
-                style="display:inline-block;padding:12px 16px;background:#111827;color:#ffffff;text-decoration:none;border-radius:10px;font-weight:700"
-              >
-                Blueprint-Status öffnen →
-              </a>
-            </div>
-
-            <p style="margin:16px 0 0 0;color:#555;font-size:14px;">
-              Fragen? Antworte einfach auf diese E-Mail oder schreibe an
-              <a href="mailto:reports@digitalstruktur.com"> reports@digitalstruktur.com</a>.
-            </p>
+          <div style="border:1px solid #e5e7eb;border-radius:12px;padding:16px;background:#ffffff;margin:16px 0;">
+            <p style="margin:0 0 10px 0;"><b>Website:</b> ${escapeHtml(website)}</p>
+            <p style="margin:0 0 10px 0;"><b>Ziel:</b> ${escapeHtml(goal)}</p>
+            <p style="margin:0;"><b>Preis:</b> ${escapeHtml(formattedAmount)}</p>
           </div>
-        `,
-      });
-    } catch (customerMailError) {
-      console.error("Customer confirmation email failed:", customerMailError);
-    }
+
+          <p style="margin:0 0 12px 0;color:#111;">
+            Wir erstellen deinen individuellen <b>30 Tage AI Website Blueprint</b> aktuell manuell,
+            damit du einen klaren und wirklich brauchbaren Umsetzungsplan bekommst.
+          </p>
+
+          <p style="margin:0 0 12px 0;color:#111;">
+            Du erhältst innerhalb von <b>24 Stunden</b> eine E-Mail mit:
+          </p>
+
+          <ul style="margin:10px 0 16px 18px;color:#111;">
+            <li>deinem fertigen <b>AI Website Blueprint (PDF)</b></li>
+            <li>der <b>Rechnung</b> zu deiner Bestellung</li>
+          </ul>
+
+          <p style="margin:0;color:#111;">
+            Du musst aktuell nichts weiter tun.
+          </p>
+
+          <p style="margin:16px 0 0 0;color:#555;font-size:14px;">
+            Wenn du Fragen hast oder innerhalb von 24 Stunden keine E-Mail erhältst,
+            schreibe uns einfach an
+            <a href="mailto:support@digitalstruktur.com"> support@digitalstruktur.com</a>.
+          </p>
+        </div>
+      `,
+    });
+  } catch (customerMailError) {
+    console.error("Customer confirmation email failed:", customerMailError);
   }
+}
 
   return NextResponse.json({ ok: true });
 }
