@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import CookieBanner from "./components/CookieBanner";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
         </main>
 
         <CookieBanner />
+        <Analytics />
 
         <footer className="mt-16 border-t py-8 pb-24 text-sm text-gray-600 sm:pb-8">
           <div className="mx-auto max-w-4xl px-5 sm:px-8 lg:px-10">
