@@ -34,7 +34,12 @@ ctas: z.array(z.string()).min(2).max(4),
     z.object({
       title: z.string(),
       how: z.string(),
-      impact: z.enum(["high", "medium", "low"]),
+      impact: z.string().transform((v) => {
+        const lower = v.toLowerCase();
+        if (lower === "high" || lower === "hoch") return "high";
+        if (lower === "low" || lower === "niedrig" || lower === "gering") return "low";
+        return "medium";
+      }),
     })
   )
   .min(3)
