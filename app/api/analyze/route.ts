@@ -119,13 +119,29 @@ function extractHeadings(html: string, tag: "h1" | "h2"): string[] {
 }
 
 async function fetchWebsiteData(url: string) {
-  const res = await fetch(url, {
-    redirect: "follow",
-    headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; WebsiteAnalyzerBot/1.0)",
-      Accept: "text/html,application/xhtml+xml",
-    },
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      redirect: "follow",
+      signal: AbortSignal.timeout(15000),
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "de-AT,de;q=0.9,en;q=0.8",
+      },
+    });
+  } catch (e: unknown) {
+    const cause = e instanceof Error ? (e.cause as Error | undefined) : undefined;
+    const detail = cause?.message ?? (e instanceof Error ? e.message : "Unbekannt");
+    if (detail.includes("timeout") || detail.includes("ETIMEDOUT")) {
+      throw new Error("Website antwortet nicht (Timeout nach 15s). Bitte prüfe ob die URL erreichbar ist.");
+    }
+    if (detail.includes("CERT") || detail.includes("SSL") || detail.includes("certificate")) {
+      throw new Error("SSL-Zertifikat der Website ist ungültig oder abgelaufen.");
+    }
+    throw new Error(`Website nicht erreichbar: ${detail}`);
+  }
 
   if (!res.ok) {
     if (res.status === 403) {
